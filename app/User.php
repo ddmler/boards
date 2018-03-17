@@ -27,7 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function boards() {
-      return $this->hasMany("App\Board");
+    public function boards()
+    {
+        return $this->hasMany("App\Board");
     }
 }
