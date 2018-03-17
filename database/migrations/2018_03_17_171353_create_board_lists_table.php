@@ -15,7 +15,11 @@ class CreateBoardListsTable extends Migration
     {
         Schema::create('board_lists', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->integer('board_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');
         });
     }
 
