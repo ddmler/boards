@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\Http\Requests\RegisterFormRequest;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -14,8 +17,25 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
+    /**
+     * Register a new User.
+     *
+     */
+    public function register(RegisterFormRequest $request)
+    {
+        $user = new User;
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return response([
+            'status' => 'success',
+            'data' => $user
+           ], 200);
+     }
 
     /**
      * Get a JWT via given credentials.

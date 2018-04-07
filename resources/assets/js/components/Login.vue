@@ -34,7 +34,7 @@
               password: app.password
             },
             success: function () {},
-            error: function () {},
+            error: function () { this.error = true; },
             rememberMe: true,
             redirect: '/dashboard',
             fetchUser: true,
