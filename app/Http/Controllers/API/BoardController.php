@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Board;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
 {
@@ -15,7 +16,8 @@ class BoardController extends Controller
      */
     public function index()
     {
-        //
+        $boards = Board::with('boardLists.cards')->where('user_id', Auth::id())->get();
+        return response()->json($boards);
     }
 
     /**

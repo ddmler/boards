@@ -11,6 +11,6 @@ class BoardListsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\BoardList::class, 8)->create();
     }
 }

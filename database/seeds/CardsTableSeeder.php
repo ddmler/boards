@@ -11,6 +11,6 @@ class CardsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Card::class, 32)->create();
     }
 }
