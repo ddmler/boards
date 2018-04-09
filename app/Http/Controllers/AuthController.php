@@ -35,7 +35,7 @@ class AuthController extends Controller
             'status' => 'success',
             'data' => $user
            ], 200);
-     }
+    }
 
     /**
      * Get a JWT via given credentials.
