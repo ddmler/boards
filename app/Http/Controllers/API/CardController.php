@@ -15,7 +15,7 @@ class CardController extends Controller
      */
     public function index()
     {
-        return response()->json(['test' => 'test']);
+        //
     }
 
     /**
@@ -26,7 +26,12 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $card = new Card;
+        $card->name = $request->name;
+        $card->boardList()->associate($request->boardList);
+        $card->save();
+
+        return response()->json("OK");
     }
 
     /**
@@ -37,7 +42,7 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        //
+        return response()->json($card);
     }
 
     /**
@@ -49,7 +54,10 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
-        //
+        $card->name = $request->name;
+        $card->save();
+
+        return response()->json("OK");
     }
 
     /**
@@ -60,6 +68,7 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
-        //
+        $card->delete();
+        return response()->json("OK");
     }
 }

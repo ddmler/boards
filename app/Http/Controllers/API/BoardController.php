@@ -28,7 +28,12 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $board = new Board;
+        $board->name = $request->name;
+        $board->user()->associate(Auth::id());
+        $board->save();
+
+        return response()->json("OK");
     }
 
     /**
@@ -39,7 +44,7 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        //
+        return response()->json($board->load('boardLists.cards'));
     }
 
     /**
@@ -51,7 +56,10 @@ class BoardController extends Controller
      */
     public function update(Request $request, Board $board)
     {
-        //
+        $board->name = $request->name;
+        $board->save();
+
+        return response()->json("OK");
     }
 
     /**
@@ -62,6 +70,7 @@ class BoardController extends Controller
      */
     public function destroy(Board $board)
     {
-        //
+        $board->delete();
+        return response()->json("OK");
     }
 }

@@ -26,7 +26,12 @@ class BoardListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $boardList = new BoardList;
+        $boardList->name = $request->name;
+        $boardList->board()->associate($request->board);
+        $boardList->save();
+
+        return response()->json("OK");
     }
 
     /**
@@ -49,7 +54,10 @@ class BoardListController extends Controller
      */
     public function update(Request $request, BoardList $boardList)
     {
-        //
+        $boardList->name = $request->name;
+        $boardList->save();
+
+        return response()->json("OK");
     }
 
     /**
@@ -60,6 +68,7 @@ class BoardListController extends Controller
      */
     public function destroy(BoardList $boardList)
     {
-        //
+        $boardList->delete();
+        return response()->json("OK");
     }
 }
