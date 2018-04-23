@@ -1,3 +1,3 @@
 <template>
-    <h1>Laravel 5 Vue SPA Authentication test</h1>
+    <h1>Laravel Boards</h1>
 </template>

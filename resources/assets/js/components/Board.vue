@@ -8,9 +8,10 @@
             {{ error }}
         </div>
 
-        <ul v-if="boards">
-            <li v-for="{ id, name } in boards">
-                <strong>Name:</strong> <router-link :to="{ name: 'board_view', params: { id : id }}">{{ name }}</router-link>
+        <ul v-if="board">
+            {{ board.name }}
+            <li v-for="{ name } in board.board_lists">
+                <strong>Name:</strong> {{ name }}
             </li>
         </ul>
     </div>
@@ -21,22 +22,25 @@ export default {
     data() {
         return {
             loading: false,
-            boards: null,
+            board: null,
             error: null,
         };
     },
     created() {
         this.fetchData();
     },
+    watch: {
+        '$route': 'fetchData'
+    },
     methods: {
     fetchData() {
         this.error = this.users = null;
         this.loading = true;
         axios
-            .get('/boards')
+            .get('/boards/' + this.$route.params.id)
             .then(response => {
                 this.loading = false;
-                this.boards = response.data;
+                this.board = response.data;
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;

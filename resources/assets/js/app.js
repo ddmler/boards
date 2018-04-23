@@ -4,12 +4,16 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './App.vue';
 import Dashboard from './components/Dashboard.vue';
+import Board from './components/Board.vue';
 import Home from './components/Home.vue';
 import Register from './components/Register.vue';
 import Login from './components/Login.vue';
+
+
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 axios.defaults.baseURL = 'http://localhost/api';
+
 const router = new VueRouter({
     routes: [{
         path: '/',
@@ -36,8 +40,17 @@ const router = new VueRouter({
         meta: {
             auth: true
         }
+    },{
+        path: '/board/:id',
+        name: 'board_view',
+        component: Board,
+        meta: {
+            auth: true
+        }
     }]
 });
+
+
 Vue.router = router
 Vue.use(require('@websanova/vue-auth'), {
    auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
