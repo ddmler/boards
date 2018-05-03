@@ -9,16 +9,25 @@
         </div>
 
         <ul v-if="board">
-            {{ board.name }}
-            <li v-for="{ name } in board.board_lists">
-                <strong>Name:</strong> {{ name }}
+            Board: {{ board.name }}
+
+            <!-- Create new List -->
+
+            <li v-for="list in board.board_lists">
+                <list :list="list"></list>
             </li>
         </ul>
     </div>
 </template>
 <script>
 import axios from 'axios';
+import List from './List.vue';
+
 export default {
+    name: 'Board',
+    components: {
+        List
+    },
     data() {
         return {
             loading: false,
