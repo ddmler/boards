@@ -9,9 +9,17 @@
             <card :card="card"></card>
         </li>
     </ul>
+
+    <div class="new-card">
+        <form v-on:submit.prevent>
+            <input type="text" placeholder="New Card name" v-model="name">
+            <button v-on:click="createNew">Create</button>
+        </form>
+    </div>
 </div>
 </template>
 <script>
+import axios from 'axios';
 import Card from './Card.vue';
 
 export default {
@@ -19,8 +27,30 @@ export default {
     components: {
         Card
     },
+    data() {
+        return {
+            loading: false,
+            error: null,
+            name: "",
+        };
+    },
     props: {
         list: { type: Object, required: true }
+    },
+    methods: {
+    createNew() {
+        this.error = null;
+        this.loading = true;
+        axios
+            .post('/cards', { list_id: this.list.id, name: this.name })
+            .then(response => {
+                this.loading = false;
+                this.list.cards.push(response.data);
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
     }
+}
 }
 </script>

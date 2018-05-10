@@ -1248,7 +1248,9 @@ module.exports = Cancel;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Card_vue__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Card_vue__ = __webpack_require__(49);
 //
 //
 //
@@ -1262,16 +1264,47 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'List',
     components: {
-        Card: __WEBPACK_IMPORTED_MODULE_0__Card_vue__["a" /* default */]
+        Card: __WEBPACK_IMPORTED_MODULE_1__Card_vue__["a" /* default */]
     },
+    data: function data() {
+        return {
+            loading: false,
+            error: null,
+            name: ""
+        };
+    },
+
     props: {
         list: { type: Object, required: true }
+    },
+    methods: {
+        createNew: function createNew() {
+            var _this = this;
+
+            this.error = null;
+            this.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/cards', { list_id: this.list.id, name: this.name }).then(function (response) {
+                _this.loading = false;
+                _this.list.cards.push(response.data);
+            }).catch(function (error) {
+                _this.loading = false;
+                _this.error = error.response.data.message || error.message;
+            });
+        }
     }
 });
 
@@ -16835,7 +16868,44 @@ var render = function() {
       _vm._l(_vm.list.cards, function(card) {
         return _c("li", [_c("card", { attrs: { card: card } })], 1)
       })
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "new-card" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+            }
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.name,
+                expression: "name"
+              }
+            ],
+            attrs: { type: "text", placeholder: "New Card name" },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.name = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("button", { on: { click: _vm.createNew } }, [_vm._v("Create")])
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []

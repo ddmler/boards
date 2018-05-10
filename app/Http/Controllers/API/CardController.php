@@ -28,10 +28,10 @@ class CardController extends Controller
     {
         $card = new Card;
         $card->name = $request->name;
-        $card->boardList()->associate($request->boardList);
+        $card->boardList()->associate($request->list_id);
         $card->save();
 
-        return response()->json("OK");
+        return response()->json($card);
     }
 
     /**
