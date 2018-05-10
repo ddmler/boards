@@ -1304,6 +1304,10 @@ module.exports = Cancel;
                 _this.loading = false;
                 _this.error = error.response.data.message || error.message;
             });
+        },
+
+        deleteCard: function deleteCard(card) {
+            this.list.cards.splice(this.list.cards.indexOf(card), 1);
         }
     }
 });
@@ -1313,6 +1317,8 @@ module.exports = Cancel;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 //
 //
 //
@@ -1320,10 +1326,34 @@ module.exports = Cancel;
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'Card',
+    data: function data() {
+        return {
+            loading: false,
+            error: null
+        };
+    },
+
     props: {
         card: { type: Object, required: true }
+    },
+    methods: {
+        deleteThis: function deleteThis() {
+            var _this = this;
+
+            this.error = null;
+            this.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function (response) {
+                _this.loading = false;
+                _this.$emit('delete-card', _this.card);
+            }).catch(function (error) {
+                _this.loading = false;
+                _this.error = error.response.data.message || error.message;
+            });
+        }
     }
 });
 
@@ -16835,7 +16865,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("strong", [_vm._v("Card:")]),
-    _vm._v(" " + _vm._s(_vm.card.name) + "\n    ")
+    _vm._v(" " + _vm._s(_vm.card.name) + "\n    "),
+    _c(
+      "a",
+      {
+        attrs: { href: "#" },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.deleteThis($event)
+          }
+        }
+      },
+      [_vm._v("(X)")]
+    )
   ])
 }
 var staticRenderFns = []
@@ -16866,7 +16909,16 @@ var render = function() {
     _c(
       "ul",
       _vm._l(_vm.list.cards, function(card) {
-        return _c("li", [_c("card", { attrs: { card: card } })], 1)
+        return _c(
+          "li",
+          [
+            _c("card", {
+              attrs: { card: card },
+              on: { "delete-card": _vm.deleteCard }
+            })
+          ],
+          1
+        )
       })
     ),
     _vm._v(" "),

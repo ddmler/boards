@@ -6,7 +6,7 @@
 
     <ul>
         <li v-for="card in list.cards">
-            <card :card="card"></card>
+            <card :card="card" v-on:delete-card="deleteCard"></card>
         </li>
     </ul>
 
@@ -50,6 +50,9 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+    },
+    deleteCard: function (card) {
+        this.list.cards.splice(this.list.cards.indexOf(card), 1);
     }
 }
 }
