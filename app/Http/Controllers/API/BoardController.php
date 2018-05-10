@@ -33,7 +33,7 @@ class BoardController extends Controller
         $board->user()->associate(Auth::id());
         $board->save();
 
-        return response()->json("OK");
+        return response()->json($board);
     }
 
     /**

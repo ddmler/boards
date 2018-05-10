@@ -1101,6 +1101,13 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -1108,7 +1115,8 @@ module.exports = Cancel;
         return {
             loading: false,
             boards: null,
-            error: null
+            error: null,
+            name: ""
         };
     },
     created: function created() {
@@ -1127,6 +1135,19 @@ module.exports = Cancel;
             }).catch(function (error) {
                 _this.loading = false;
                 _this.error = error.response.data.message || error.message;
+            });
+        },
+        createNew: function createNew() {
+            var _this2 = this;
+
+            this.error = null;
+            this.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boards', { name: this.name }).then(function (response) {
+                _this2.loading = false;
+                _this2.boards.push(response.data);
+            }).catch(function (error) {
+                _this2.loading = false;
+                _this2.error = error.response.data.message || error.message;
             });
         }
     }
@@ -1161,6 +1182,13 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1174,7 +1202,8 @@ module.exports = Cancel;
         return {
             loading: false,
             board: null,
-            error: null
+            error: null,
+            name: ""
         };
     },
     created: function created() {
@@ -1196,6 +1225,19 @@ module.exports = Cancel;
             }).catch(function (error) {
                 _this.loading = false;
                 _this.error = error.response.data.message || error.message;
+            });
+        },
+        createNew: function createNew() {
+            var _this2 = this;
+
+            this.error = null;
+            this.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boardlists', { board_id: this.board.id, name: this.name }).then(function (response) {
+                _this2.loading = false;
+                _this2.board.board_lists.push(response.data);
+            }).catch(function (error) {
+                _this2.loading = false;
+                _this2.error = error.response.data.message || error.message;
             });
         }
     }
@@ -16535,7 +16577,44 @@ var render = function() {
             )
           })
         )
-      : _vm._e()
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "new-board" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+            }
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.name,
+                expression: "name"
+              }
+            ],
+            attrs: { type: "text", placeholder: "New Board name" },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.name = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("button", { on: { click: _vm.createNew } }, [_vm._v("Create")])
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -16807,7 +16886,44 @@ var render = function() {
           ],
           2
         )
-      : _vm._e()
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "new-list" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+            }
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.name,
+                expression: "name"
+              }
+            ],
+            attrs: { type: "text", placeholder: "New List name" },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.name = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("button", { on: { click: _vm.createNew } }, [_vm._v("Create")])
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []

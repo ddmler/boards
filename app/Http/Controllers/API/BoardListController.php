@@ -28,10 +28,10 @@ class BoardListController extends Controller
     {
         $boardList = new BoardList;
         $boardList->name = $request->name;
-        $boardList->board()->associate($request->board);
+        $boardList->board()->associate($request->board_id);
         $boardList->save();
 
-        return response()->json("OK");
+        return response()->json($boardList);
     }
 
     /**

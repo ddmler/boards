@@ -17,6 +17,13 @@
                 <list :list="list"></list>
             </li>
         </ul>
+
+        <div class="new-list">
+            <form v-on:submit.prevent>
+                <input type="text" placeholder="New List name" v-model="name">
+                <button v-on:click="createNew">Create</button>
+            </form>
+        </div>
     </div>
 </template>
 <script>
@@ -33,6 +40,7 @@ export default {
             loading: false,
             board: null,
             error: null,
+            name: "",
         };
     },
     created() {
@@ -50,6 +58,19 @@ export default {
             .then(response => {
                 this.loading = false;
                 this.board = response.data;
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
+    },
+    createNew() {
+        this.error = null;
+        this.loading = true;
+        axios
+            .post('/boardlists', { board_id: this.board.id, name: this.name })
+            .then(response => {
+                this.loading = false;
+                this.board.board_lists.push(response.data);
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;

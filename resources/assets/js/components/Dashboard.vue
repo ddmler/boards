@@ -13,6 +13,13 @@
                 <strong>Name:</strong> <router-link :to="{ name: 'board_view', params: { id : id }}">{{ name }}</router-link>
             </li>
         </ul>
+
+        <div class="new-board">
+            <form v-on:submit.prevent>
+                <input type="text" placeholder="New Board name" v-model="name">
+                <button v-on:click="createNew">Create</button>
+            </form>
+        </div>
     </div>
 </template>
 <script>
@@ -23,6 +30,7 @@ export default {
             loading: false,
             boards: null,
             error: null,
+            name: "",
         };
     },
     created() {
@@ -37,6 +45,19 @@ export default {
             .then(response => {
                 this.loading = false;
                 this.boards = response.data;
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
+    },
+    createNew() {
+        this.error = null;
+        this.loading = true;
+        axios
+            .post('/boards', { name: this.name })
+            .then(response => {
+                this.loading = false;
+                this.boards.push(response.data);
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
