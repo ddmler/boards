@@ -1149,6 +1149,20 @@ module.exports = Cancel;
                 _this2.loading = false;
                 _this2.error = error.response.data.message || error.message;
             });
+        },
+
+        deleteThis: function deleteThis(board) {
+            var _this3 = this;
+
+            this.error = null;
+            this.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function (response) {
+                _this3.loading = false;
+                _this3.boards.splice(_this3.boards.indexOf(board), 1);
+            }).catch(function (error) {
+                _this3.loading = false;
+                _this3.error = error.response.data.message || error.message;
+            });
         }
     }
 });
@@ -16638,9 +16652,7 @@ var render = function() {
     _vm.boards
       ? _c(
           "ul",
-          _vm._l(_vm.boards, function(ref) {
-            var id = ref.id
-            var name = ref.name
+          _vm._l(_vm.boards, function(board) {
             return _c(
               "li",
               [
@@ -16648,8 +16660,26 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "router-link",
-                  { attrs: { to: { name: "board_view", params: { id: id } } } },
-                  [_vm._v(_vm._s(name))]
+                  {
+                    attrs: {
+                      to: { name: "board_view", params: { id: board.id } }
+                    }
+                  },
+                  [_vm._v(_vm._s(board.name))]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.deleteThis(board)
+                      }
+                    }
+                  },
+                  [_vm._v("(X)")]
                 )
               ],
               1

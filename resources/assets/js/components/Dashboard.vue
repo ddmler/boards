@@ -9,8 +9,8 @@
         </div>
 
         <ul v-if="boards">
-            <li v-for="{ id, name } in boards">
-                <strong>Name:</strong> <router-link :to="{ name: 'board_view', params: { id : id }}">{{ name }}</router-link>
+            <li v-for="board in boards">
+                <strong>Name:</strong> <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a href="#" v-on:click.prevent="deleteThis(board)">(X)</a>
             </li>
         </ul>
 
@@ -58,6 +58,19 @@ export default {
             .then(response => {
                 this.loading = false;
                 this.boards.push(response.data);
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
+    },
+    deleteThis: function(board) {
+        this.error = null;
+        this.loading = true;
+        axios
+            .delete('/boards/' + board.id, { id: board.id })
+            .then(response => {
+                this.loading = false;
+                this.boards.splice(this.boards.indexOf(board), 1);
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
