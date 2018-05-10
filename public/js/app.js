@@ -1232,13 +1232,17 @@ module.exports = Cancel;
 
             this.error = null;
             this.loading = true;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boardlists', { board_id: this.board.id, name: this.name }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boardLists', { board_id: this.board.id, name: this.name }).then(function (response) {
                 _this2.loading = false;
                 _this2.board.board_lists.push(response.data);
             }).catch(function (error) {
                 _this2.loading = false;
                 _this2.error = error.response.data.message || error.message;
             });
+        },
+
+        deleteList: function deleteList(boardlist) {
+            this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
         }
     }
 });
@@ -1308,6 +1312,19 @@ module.exports = Cancel;
 
         deleteCard: function deleteCard(card) {
             this.list.cards.splice(this.list.cards.indexOf(card), 1);
+        },
+        deleteThis: function deleteThis() {
+            var _this2 = this;
+
+            this.error = null;
+            this.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function (response) {
+                _this2.loading = false;
+                _this2.$emit('delete-list', _this2.list);
+            }).catch(function (error) {
+                _this2.loading = false;
+                _this2.error = error.response.data.message || error.message;
+            });
         }
     }
 });
@@ -1319,7 +1336,6 @@ module.exports = Cancel;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
 //
 //
 //
@@ -16865,7 +16881,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("strong", [_vm._v("Card:")]),
-    _vm._v(" " + _vm._s(_vm.card.name) + "\n    "),
+    _vm._v(" " + _vm._s(_vm.card.name) + " "),
     _c(
       "a",
       {
@@ -16904,7 +16920,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "board-list" }, [
     _c("strong", [_vm._v("List:")]),
-    _vm._v(" " + _vm._s(_vm.list.name) + "\n\n    "),
+    _vm._v(" " + _vm._s(_vm.list.name) + " "),
+    _c(
+      "a",
+      {
+        attrs: { href: "#" },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.deleteThis($event)
+          }
+        }
+      },
+      [_vm._v("(X)")]
+    ),
     _vm._v(" "),
     _c(
       "ul",
@@ -17003,7 +17032,16 @@ var render = function() {
             ),
             _vm._v(" "),
             _vm._l(_vm.board.board_lists, function(list) {
-              return _c("li", [_c("list", { attrs: { list: list } })], 1)
+              return _c(
+                "li",
+                [
+                  _c("list", {
+                    attrs: { list: list },
+                    on: { "delete-list": _vm.deleteList }
+                  })
+                ],
+                1
+              )
             })
           ],
           2

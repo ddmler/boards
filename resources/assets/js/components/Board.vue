@@ -14,7 +14,7 @@
             <!-- Create new List -->
 
             <li v-for="list in board.board_lists">
-                <list :list="list"></list>
+                <list :list="list" v-on:delete-list="deleteList"></list>
             </li>
         </ul>
 
@@ -67,7 +67,7 @@ export default {
         this.error = null;
         this.loading = true;
         axios
-            .post('/boardlists', { board_id: this.board.id, name: this.name })
+            .post('/boardLists', { board_id: this.board.id, name: this.name })
             .then(response => {
                 this.loading = false;
                 this.board.board_lists.push(response.data);
@@ -75,6 +75,9 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+    },
+    deleteList: function (boardlist) {
+        this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
     }
 }
 }

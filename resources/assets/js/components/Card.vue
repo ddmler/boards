@@ -1,7 +1,6 @@
 <template>
     <div class="card">
-        <strong>Card:</strong> {{ card.name }}
-        <a href="#" v-on:click.prevent="deleteThis">(X)</a>
+        <strong>Card:</strong> {{ card.name }} <a href="#" v-on:click.prevent="deleteThis">(X)</a>
     </div>
 </template>
 <script>

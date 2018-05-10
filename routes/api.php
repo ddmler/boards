@@ -29,6 +29,6 @@ Route::group([
 
 Route::apiResources([
   'boards' => 'API\BoardController',
-  'boardlists' => 'API\BoardListController',
+  'boardLists' => 'API\BoardListController',
   'cards' => 'API\CardController'
 ]);

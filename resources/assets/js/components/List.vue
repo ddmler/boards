@@ -1,6 +1,6 @@
 <template>
 <div class="board-list">
-    <strong>List:</strong> {{ list.name }}
+    <strong>List:</strong> {{ list.name }} <a href="#" v-on:click.prevent="deleteThis">(X)</a>
 
     <!-- Create new card, delete list -->
 
@@ -53,6 +53,19 @@ export default {
     },
     deleteCard: function (card) {
         this.list.cards.splice(this.list.cards.indexOf(card), 1);
+    },
+    deleteThis() {
+        this.error = null;
+        this.loading = true;
+        axios
+            .delete('/boardLists/' + this.list.id, { id: this.list.id })
+            .then(response => {
+                this.loading = false;
+                this.$emit('delete-list', this.list);
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
     }
 }
 }
