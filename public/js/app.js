@@ -17347,21 +17347,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.error && !_vm.success
-      ? _c("div", { staticClass: "alert alert-danger" }, [
-          _c("p", [
-            _vm._v("There was an error, unable to complete registration.")
-          ])
-        ])
+      ? _c("div", [_c("p", [_vm._v("There was an error.")])])
       : _vm._e(),
     _vm._v(" "),
     _vm.success
-      ? _c("div", { staticClass: "alert alert-success" }, [
+      ? _c("div", [
           _c(
             "p",
             [
-              _vm._v("Registration completed. You can now "),
+              _vm._v("Registration successful. You can now "),
               _c("router-link", { attrs: { to: { name: "login" } } }, [
-                _vm._v("sign in.")
+                _vm._v("login.")
               ])
             ],
             1
@@ -17384,12 +17380,9 @@ var render = function() {
           [
             _c(
               "div",
-              {
-                staticClass: "form-group",
-                class: { "has-error": _vm.error && _vm.errors.name }
-              },
+              { class: { "has-error": _vm.error && _vm.errors.name } },
               [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                _c("label", { attrs: { for: "name" } }, [_vm._v("Username")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -17400,7 +17393,6 @@ var render = function() {
                       expression: "name"
                     }
                   ],
-                  staticClass: "form-control",
                   attrs: { type: "text", id: "name", required: "" },
                   domProps: { value: _vm.name },
                   on: {
@@ -17414,19 +17406,14 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.error && _vm.errors.name
-                  ? _c("span", { staticClass: "help-block" }, [
-                      _vm._v(_vm._s(_vm.errors.name))
-                    ])
+                  ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
                   : _vm._e()
               ]
             ),
             _vm._v(" "),
             _c(
               "div",
-              {
-                staticClass: "form-group",
-                class: { "has-error": _vm.error && _vm.errors.email }
-              },
+              { class: { "has-error": _vm.error && _vm.errors.email } },
               [
                 _c("label", { attrs: { for: "email" } }, [_vm._v("E-mail")]),
                 _vm._v(" "),
@@ -17439,7 +17426,6 @@ var render = function() {
                       expression: "email"
                     }
                   ],
-                  staticClass: "form-control",
                   attrs: {
                     type: "email",
                     id: "email",
@@ -17458,19 +17444,14 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.error && _vm.errors.email
-                  ? _c("span", { staticClass: "help-block" }, [
-                      _vm._v(_vm._s(_vm.errors.email))
-                    ])
+                  ? _c("span", [_vm._v(_vm._s(_vm.errors.email))])
                   : _vm._e()
               ]
             ),
             _vm._v(" "),
             _c(
               "div",
-              {
-                staticClass: "form-group",
-                class: { "has-error": _vm.error && _vm.errors.password }
-              },
+              { class: { "has-error": _vm.error && _vm.errors.password } },
               [
                 _c("label", { attrs: { for: "password" } }, [
                   _vm._v("Password")
@@ -17485,7 +17466,6 @@ var render = function() {
                       expression: "password"
                     }
                   ],
-                  staticClass: "form-control",
                   attrs: { type: "password", id: "password", required: "" },
                   domProps: { value: _vm.password },
                   on: {
@@ -17499,18 +17479,12 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.error && _vm.errors.password
-                  ? _c("span", { staticClass: "help-block" }, [
-                      _vm._v(_vm._s(_vm.errors.password))
-                    ])
+                  ? _c("span", [_vm._v(_vm._s(_vm.errors.password))])
                   : _vm._e()
               ]
             ),
             _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-default", attrs: { type: "submit" } },
-              [_vm._v("Submit")]
-            )
+            _c("button", { attrs: { type: "submit" } }, [_vm._v("Register")])
           ]
         )
       : _vm._e()
@@ -17637,12 +17611,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.error
-      ? _c("div", { staticClass: "alert alert-danger" }, [
-          _c("p", [
-            _vm._v(
-              "There was an error, unable to sign in with those credentials."
-            )
-          ])
+      ? _c("div", [
+          _c("p", [_vm._v("It looks like those credentials are not working.")])
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -17658,7 +17628,7 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "form-group" }, [
+        _c("div", [
           _c("label", { attrs: { for: "email" } }, [_vm._v("E-mail")]),
           _vm._v(" "),
           _c("input", {
@@ -17670,7 +17640,6 @@ var render = function() {
                 expression: "email"
               }
             ],
-            staticClass: "form-control",
             attrs: {
               type: "email",
               id: "email",
@@ -17689,7 +17658,7 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
+        _c("div", [
           _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
           _vm._v(" "),
           _c("input", {
@@ -17701,7 +17670,6 @@ var render = function() {
                 expression: "password"
               }
             ],
-            staticClass: "form-control",
             attrs: { type: "password", id: "password", required: "" },
             domProps: { value: _vm.password },
             on: {
@@ -17715,11 +17683,7 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-default", attrs: { type: "submit" } },
-          [_vm._v("Sign in")]
-        )
+        _c("button", { attrs: { type: "submit" } }, [_vm._v("Sign in")])
       ]
     )
   ])
