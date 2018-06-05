@@ -16608,6 +16608,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -16621,7 +16622,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             loading: false,
             error: null,
-            name: ""
+            name: "",
+            editing: false
         };
     },
 
@@ -16658,6 +16660,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.loading = false;
                 _this2.error = error.response.data.message || error.message;
             });
+        },
+        updateList: function updateList() {
+            var _this3 = this;
+
+            this.error = null;
+            this.loading = true;
+            this.editing = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.list.name }).then(function (response) {
+                _this3.loading = false;
+            }).catch(function (error) {
+                _this3.loading = false;
+                _this3.error = error.response.data.message || error.message;
+            });
+        },
+        setEditing: function setEditing() {
+            this.editing = true;
         }
     }
 });
@@ -16861,21 +16879,67 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "board-list" }, [
-    _c("strong", [_vm._v("List:")]),
-    _vm._v(" " + _vm._s(_vm.list.name) + " "),
-    _c(
-      "a",
-      {
-        attrs: { href: "#" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.deleteThis($event)
+    _vm.editing
+      ? _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.list.name,
+              expression: "list.name"
+            }
+          ],
+          attrs: { type: "text" },
+          domProps: { value: _vm.list.name },
+          on: {
+            keyup: function($event) {
+              if (
+                !("button" in $event) &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.updateList($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.list, "name", $event.target.value)
+            }
           }
-        }
-      },
-      [_vm._v("(X)")]
-    ),
+        })
+      : _c("span", [
+          _c("strong", [_vm._v("List:")]),
+          _vm._v(" " + _vm._s(_vm.list.name) + " "),
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setEditing($event)
+                }
+              }
+            },
+            [_vm._v("(Edit)")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.deleteThis($event)
+                }
+              }
+            },
+            [_vm._v("(X)")]
+          )
+        ]),
     _vm._v(" "),
     _c(
       "ul",

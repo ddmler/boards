@@ -1,6 +1,7 @@
 <template>
 <div class="board-list">
-    <strong>List:</strong> {{ list.name }} <a href="#" v-on:click.prevent="deleteThis">(X)</a>
+    <input v-if="editing" type="text" v-model="list.name" @keyup.enter="updateList">
+    <span v-else><strong>List:</strong> {{ list.name }} <a href="#" @click.prevent="setEditing">(Edit)</a> <a href="#" v-on:click.prevent="deleteThis">(X)</a></span>
 
     <!-- Create new card, delete list -->
 
@@ -32,6 +33,7 @@ export default {
             loading: false,
             error: null,
             name: "",
+            editing: false,
         };
     },
     props: {
@@ -66,6 +68,22 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+    },
+    updateList() {
+        this.error = null;
+        this.loading = true;
+        this.editing = false;
+        axios
+            .put('/boardLists/' + this.list.id, { name: this.list.name })
+            .then(response => {
+                this.loading = false;
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
+    },
+    setEditing() {
+        this.editing = true;
     }
 }
 }
