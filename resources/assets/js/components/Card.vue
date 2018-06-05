@@ -4,7 +4,7 @@
             <textarea type="text" v-model="card.name"></textarea>
             <button @click="updateCard">Save</button>
         </div>
-        <span v-else><strong>Card:</strong> {{ card.name }} <a href="#" @click.prevent="setEditing">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
+        <span v-else><strong>Card:</strong> {{ card.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
     </div>
 </template>
 <script>
@@ -48,9 +48,6 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
-    },
-    setEditing() {
-        this.editing = true;
     }
 }
 }

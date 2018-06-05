@@ -1,7 +1,7 @@
 <template>
 <div class="board-list">
     <input v-if="editing" type="text" v-model="list.name" @keyup.enter="updateList">
-    <span v-else><strong>List:</strong> {{ list.name }} <a href="#" @click.prevent="setEditing">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
+    <span v-else><strong>List:</strong> {{ list.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
 
     <!-- Create new card, delete list -->
 
@@ -81,9 +81,6 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
-    },
-    setEditing() {
-        this.editing = true;
     }
 }
 }

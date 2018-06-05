@@ -11,7 +11,7 @@
         <ul v-if="board">
             Board:
             <input v-if="editing" type="text" v-model="board.name" @keyup.enter="updateBoard">
-            <span v-else>{{ board.name }} <a href="#" @click.prevent="setEditing">(Edit)</a></span>
+            <span v-else>{{ board.name }} <a href="#" @click.prevent="editing = true">(Edit)</a></span>
 
             <!-- Create new List -->
 
@@ -94,9 +94,6 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
-    },
-    setEditing() {
-        this.editing = true;
     }
 }
 }

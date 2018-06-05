@@ -16544,9 +16544,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this3.loading = false;
                 _this3.error = error.response.data.message || error.message;
             });
-        },
-        setEditing: function setEditing() {
-            this.editing = true;
         }
     }
 });
@@ -16693,9 +16690,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this3.loading = false;
                 _this3.error = error.response.data.message || error.message;
             });
-        },
-        setEditing: function setEditing() {
-            this.editing = true;
         }
     }
 });
@@ -16806,9 +16800,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.loading = false;
                 _this2.error = error.response.data.message || error.message;
             });
-        },
-        setEditing: function setEditing() {
-            this.editing = true;
         }
     }
 });
@@ -16857,7 +16848,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  return _vm.setEditing($event)
+                  _vm.editing = true
                 }
               }
             },
@@ -16939,7 +16930,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  return _vm.setEditing($event)
+                  _vm.editing = true
                 }
               }
             },
@@ -17090,7 +17081,7 @@ var render = function() {
                       on: {
                         click: function($event) {
                           $event.preventDefault()
-                          return _vm.setEditing($event)
+                          _vm.editing = true
                         }
                       }
                     },
