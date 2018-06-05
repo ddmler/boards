@@ -16,14 +16,14 @@
             <!-- Create new List -->
 
             <li v-for="list in board.board_lists">
-                <list :list="list" v-on:delete-list="deleteList"></list>
+                <list :list="list" @delete-list="deleteList"></list>
             </li>
         </ul>
 
         <div class="new-list">
-            <form v-on:submit.prevent>
+            <form @submit.prevent>
                 <input type="text" placeholder="New List name" v-model="name">
-                <button v-on:click="createNew">Create</button>
+                <button @click="createNew">Create</button>
             </form>
         </div>
     </div>

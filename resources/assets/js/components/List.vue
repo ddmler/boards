@@ -1,20 +1,20 @@
 <template>
 <div class="board-list">
     <input v-if="editing" type="text" v-model="list.name" @keyup.enter="updateList">
-    <span v-else><strong>List:</strong> {{ list.name }} <a href="#" @click.prevent="setEditing">(Edit)</a> <a href="#" v-on:click.prevent="deleteThis">(X)</a></span>
+    <span v-else><strong>List:</strong> {{ list.name }} <a href="#" @click.prevent="setEditing">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
 
     <!-- Create new card, delete list -->
 
     <ul>
         <li v-for="card in list.cards">
-            <card :card="card" v-on:delete-card="deleteCard"></card>
+            <card :card="card" @delete-card="deleteCard"></card>
         </li>
     </ul>
 
     <div class="new-card">
-        <form v-on:submit.prevent>
+        <form @submit.prevent>
             <input type="text" placeholder="New Card name" v-model="name">
-            <button v-on:click="createNew">Create</button>
+            <button @click="createNew">Create</button>
         </form>
     </div>
 </div>
