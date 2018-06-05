@@ -11,14 +11,14 @@
         <ul v-if="boards">
             <li v-for="board in boards">
                 <strong>Name:</strong>
-                <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a href="#" @click.prevent="deleteThis(board)">(X)</a>
+                <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a class="delete" @click.prevent="deleteThis(board)"></a>
             </li>
         </ul>
 
         <div class="new-board">
             <form @submit.prevent>
-                <input type="text" placeholder="New Board name" v-model="name">
-                <button @click="createNew">Create</button>
+                <input type="text" class="input" placeholder="New Board name" v-model="name">
+                <button @click="createNew" class="button">Create</button>
             </form>
         </div>
     </div>

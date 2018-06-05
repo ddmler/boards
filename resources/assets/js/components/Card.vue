@@ -1,10 +1,12 @@
 <template>
     <div class="card">
+        <div class="card-content">
         <div v-if="editing">
-            <textarea type="text" v-model="card.name"></textarea>
-            <button @click="updateCard">Save</button>
+            <textarea type="text" class="textarea" v-model="card.name"></textarea>
+            <button @click="updateCard" class="button">Save</button>
         </div>
-        <span v-else><strong>Card:</strong> {{ card.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
+        <span v-else>{{ card.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
+        </div>
     </div>
 </template>
 <script>

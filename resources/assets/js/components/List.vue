@@ -1,10 +1,12 @@
 <template>
-<div class="board-list">
-    <input v-if="editing" type="text" v-model="list.name" @keyup.enter="updateList">
-    <span v-else><strong>List:</strong> {{ list.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a href="#" @click.prevent="deleteThis">(X)</a></span>
-
-    <!-- Create new card, delete list -->
-
+<div class="card">
+    <div class="card-header">
+        <p class="card-header-title">
+    <input v-if="editing" type="text" class="input" v-model="list.name" @keyup.enter="updateList">
+    <span v-else>List: {{ list.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
+</p>
+</div>
+<div class="card-content">
     <ul>
         <li v-for="card in list.cards">
             <card :card="card" @delete-card="deleteCard"></card>
@@ -13,10 +15,11 @@
 
     <div class="new-card">
         <form @submit.prevent>
-            <input type="text" placeholder="New Card name" v-model="name">
-            <button @click="createNew">Create</button>
+            <input type="text" class="input" placeholder="New Card name" v-model="name">
+            <button @click="createNew" class="button">Create</button>
         </form>
     </div>
+</div>
 </div>
 </template>
 <script>

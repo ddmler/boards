@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div v-if="error">
+        <div v-if="error" class="notification is-danger">
             <p>It looks like those credentials are not working.</p>
         </div>
         <form autocomplete="off" @submit.prevent="login" method="post">
-            <div>
-                <label for="email">E-mail</label>
-                <input type="email" id="email" placeholder="user@example.com" v-model="email" required>
+            <div class="field">
+                <label for="email" class="label">E-mail</label>
+                <input type="email" id="email" placeholder="user@example.com" v-model="email" class="input" required>
             </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" v-model="password" required>
+            <div class="field">
+                <label for="password" class="label">Password</label>
+                <input type="password" id="password" v-model="password" class="input" required>
             </div>
-            <button type="submit">Sign in</button>
+            <button type="submit" class="button is-primary">Sign in</button>
         </form>
     </div>
 </template>

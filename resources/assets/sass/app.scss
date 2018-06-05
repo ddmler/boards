@@ -5,8 +5,9 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Bulma
+// change variables before import
+@import './node_modules/bulma/bulma.sass';
 
 .navbar-laravel {
   background-color: #fff;

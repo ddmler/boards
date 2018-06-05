@@ -16039,70 +16039,71 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.$auth.ready()
-      ? _c("div", { staticClass: "panel panel-default" }, [
-          _c("div", { staticClass: "panel-heading" }, [
-            _c("nav", [
-              _c("ul", { staticClass: "list-inline" }, [
-                _c(
-                  "li",
-                  [
-                    _c("router-link", { attrs: { to: { name: "home" } } }, [
-                      _vm._v("Home")
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
+      ? _c("div", [
+          _c("nav", { staticClass: "navbar is-primary" }, [
+            _c(
+              "div",
+              { staticClass: "navbar-brand" },
+              [
                 !_vm.$auth.check()
                   ? _c(
-                      "li",
-                      { staticClass: "pull-right" },
-                      [
-                        _c(
-                          "router-link",
-                          { attrs: { to: { name: "login" } } },
-                          [_vm._v("Login")]
-                        )
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.$auth.check()
-                  ? _c(
-                      "li",
-                      { staticClass: "pull-right" },
-                      [
-                        _c(
-                          "router-link",
-                          { attrs: { to: { name: "register" } } },
-                          [_vm._v("Register")]
-                        )
-                      ],
-                      1
+                      "router-link",
+                      {
+                        staticClass: "navbar-item",
+                        attrs: { to: { name: "home" } }
+                      },
+                      [_vm._v("Boards")]
                     )
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.$auth.check()
                   ? _c(
-                      "li",
-                      { staticClass: "pull-right" },
-                      [
-                        _c(
-                          "router-link",
-                          { attrs: { to: { name: "dashboard" } } },
-                          [_vm._v("Dashboard")]
-                        )
-                      ],
-                      1
+                      "router-link",
+                      {
+                        staticClass: "navbar-item",
+                        attrs: { to: { name: "dashboard" } }
+                      },
+                      [_vm._v("Boards")]
                     )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.$auth.check()
-                  ? _c("li", { staticClass: "pull-right" }, [
-                      _c(
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "navbar-menu" }, [
+              _c("div", { staticClass: "navbar-start" }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "navbar-end" },
+                [
+                  !_vm.$auth.check()
+                    ? _c(
+                        "router-link",
+                        {
+                          staticClass: "navbar-item",
+                          attrs: { to: { name: "login" } }
+                        },
+                        [_vm._v("Login")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$auth.check()
+                    ? _c(
+                        "router-link",
+                        {
+                          staticClass: "navbar-item",
+                          attrs: { to: { name: "register" } }
+                        },
+                        [_vm._v("Register")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.$auth.check()
+                    ? _c(
                         "a",
                         {
+                          staticClass: "navbar-item",
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
@@ -16117,13 +16118,14 @@ var render = function() {
                           )
                         ]
                       )
-                    ])
-                  : _vm._e()
-              ])
+                    : _vm._e()
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [_c("router-view")], 1)
+          _c("div", [_c("router-view")], 1)
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -16321,19 +16323,15 @@ var render = function() {
                   [_vm._v(_vm._s(board.name))]
                 ),
                 _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.deleteThis(board)
-                      }
+                _c("a", {
+                  staticClass: "delete",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.deleteThis(board)
                     }
-                  },
-                  [_vm._v("(X)")]
-                )
+                  }
+                })
               ],
               1
             )
@@ -16361,6 +16359,7 @@ var render = function() {
                 expression: "name"
               }
             ],
+            staticClass: "input",
             attrs: { type: "text", placeholder: "New Board name" },
             domProps: { value: _vm.name },
             on: {
@@ -16373,7 +16372,11 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("button", { on: { click: _vm.createNew } }, [_vm._v("Create")])
+          _c(
+            "button",
+            { staticClass: "button", on: { click: _vm.createNew } },
+            [_vm._v("Create")]
+          )
         ]
       )
     ])
@@ -16446,6 +16449,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__List_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__List_vue__);
+//
 //
 //
 //
@@ -16626,6 +16630,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -16758,6 +16765,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -16813,62 +16822,64 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm.editing
-      ? _c("div", [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.card.name,
-                expression: "card.name"
-              }
-            ],
-            attrs: { type: "text" },
-            domProps: { value: _vm.card.name },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+    _c("div", { staticClass: "card-content" }, [
+      _vm.editing
+        ? _c("div", [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.card.name,
+                  expression: "card.name"
                 }
-                _vm.$set(_vm.card, "name", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("button", { on: { click: _vm.updateCard } }, [_vm._v("Save")])
-        ])
-      : _c("span", [
-          _c("strong", [_vm._v("Card:")]),
-          _vm._v(" " + _vm._s(_vm.card.name) + " "),
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
+              ],
+              staticClass: "textarea",
+              attrs: { type: "text" },
+              domProps: { value: _vm.card.name },
               on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.editing = true
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.card, "name", $event.target.value)
                 }
               }
-            },
-            [_vm._v("(Edit)")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "button", on: { click: _vm.updateCard } },
+              [_vm._v("Save")]
+            )
+          ])
+        : _c("span", [
+            _vm._v(_vm._s(_vm.card.name) + " "),
+            _c(
+              "a",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.editing = true
+                  }
+                }
+              },
+              [_vm._v("(Edit)")]
+            ),
+            _vm._v(" "),
+            _c("a", {
+              staticClass: "delete",
               on: {
                 click: function($event) {
                   $event.preventDefault()
                   return _vm.deleteThis($event)
                 }
               }
-            },
-            [_vm._v("(X)")]
-          )
-        ])
+            })
+          ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -16889,120 +16900,127 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "board-list" }, [
-    _vm.editing
-      ? _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.list.name,
-              expression: "list.name"
-            }
-          ],
-          attrs: { type: "text" },
-          domProps: { value: _vm.list.name },
-          on: {
-            keyup: function($event) {
-              if (
-                !("button" in $event) &&
-                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-              ) {
-                return null
-              }
-              return _vm.updateList($event)
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.list, "name", $event.target.value)
-            }
-          }
-        })
-      : _c("span", [
-          _c("strong", [_vm._v("List:")]),
-          _vm._v(" " + _vm._s(_vm.list.name) + " "),
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _c("p", { staticClass: "card-header-title" }, [
+        _vm.editing
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.list.name,
+                  expression: "list.name"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.list.name },
               on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.editing = true
+                keyup: function($event) {
+                  if (
+                    !("button" in $event) &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.updateList($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.list, "name", $event.target.value)
                 }
               }
-            },
-            [_vm._v("(Edit)")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.deleteThis($event)
-                }
-              }
-            },
-            [_vm._v("(X)")]
-          )
-        ]),
-    _vm._v(" "),
-    _c(
-      "ul",
-      _vm._l(_vm.list.cards, function(card) {
-        return _c(
-          "li",
-          [
-            _c("card", {
-              attrs: { card: card },
-              on: { "delete-card": _vm.deleteCard }
             })
-          ],
-          1
-        )
-      })
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "new-card" }, [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-            }
-          }
-        },
-        [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.name,
-                expression: "name"
-              }
-            ],
-            attrs: { type: "text", placeholder: "New Card name" },
-            domProps: { value: _vm.name },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          : _c("span", [
+              _vm._v("List: " + _vm._s(_vm.list.name) + " "),
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.editing = true
+                    }
+                  }
+                },
+                [_vm._v("(Edit)")]
+              ),
+              _vm._v(" "),
+              _c("a", {
+                staticClass: "delete",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.deleteThis($event)
+                  }
                 }
-                _vm.name = $event.target.value
+              })
+            ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-content" }, [
+      _c(
+        "ul",
+        _vm._l(_vm.list.cards, function(card) {
+          return _c(
+            "li",
+            [
+              _c("card", {
+                attrs: { card: card },
+                on: { "delete-card": _vm.deleteCard }
+              })
+            ],
+            1
+          )
+        })
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "new-card" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
               }
             }
-          }),
-          _vm._v(" "),
-          _c("button", { on: { click: _vm.createNew } }, [_vm._v("Create")])
-        ]
-      )
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.name,
+                  expression: "name"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text", placeholder: "New Card name" },
+              domProps: { value: _vm.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.name = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "button", on: { click: _vm.createNew } },
+              [_vm._v("Create")]
+            )
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -17038,60 +17056,63 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     _vm.board
-      ? _c(
-          "ul",
-          [
-            _vm._v("\n        Board:\n        "),
-            _vm.editing
-              ? _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.board.name,
-                      expression: "board.name"
-                    }
-                  ],
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.board.name },
-                  on: {
-                    keyup: function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
-                      }
-                      return _vm.updateBoard($event)
-                    },
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.board, "name", $event.target.value)
-                    }
+      ? _c("ul", [
+          _vm._v("\n        Board:\n        "),
+          _vm.editing
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.board.name,
+                    expression: "board.name"
                   }
-                })
-              : _c("span", [
-                  _vm._v(_vm._s(_vm.board.name) + " "),
-                  _c(
-                    "a",
-                    {
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.editing = true
-                        }
+                ],
+                staticClass: "input",
+                attrs: { type: "text" },
+                domProps: { value: _vm.board.name },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.updateBoard($event)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.board, "name", $event.target.value)
+                  }
+                }
+              })
+            : _c("span", [
+                _vm._v(_vm._s(_vm.board.name) + " "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.editing = true
                       }
-                    },
-                    [_vm._v("(Edit)")]
-                  )
-                ]),
-            _vm._v(" "),
+                    }
+                  },
+                  [_vm._v("(Edit)")]
+                )
+              ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "columns" },
             _vm._l(_vm.board.board_lists, function(list) {
               return _c(
-                "li",
+                "div",
+                { staticClass: "column" },
                 [
                   _c("list", {
                     attrs: { list: list },
@@ -17101,9 +17122,8 @@ var render = function() {
                 1
               )
             })
-          ],
-          2
-        )
+          )
+        ])
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "new-list" }, [
@@ -17126,6 +17146,7 @@ var render = function() {
                 expression: "name"
               }
             ],
+            staticClass: "input",
             attrs: { type: "text", placeholder: "New List name" },
             domProps: { value: _vm.name },
             on: {
@@ -17138,7 +17159,11 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("button", { on: { click: _vm.createNew } }, [_vm._v("Create")])
+          _c(
+            "button",
+            { staticClass: "button", on: { click: _vm.createNew } },
+            [_vm._v("Create")]
+          )
         ]
       )
     ])
@@ -17347,11 +17372,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.error && !_vm.success
-      ? _c("div", [_c("p", [_vm._v("There was an error.")])])
+      ? _c("div", { staticClass: "notification is-danger" }, [
+          _c("p", [
+            _vm._v("There was an error. Please check the error messages below.")
+          ])
+        ])
       : _vm._e(),
     _vm._v(" "),
     _vm.success
-      ? _c("div", [
+      ? _c("div", { staticClass: "notification is-success" }, [
           _c(
             "p",
             [
@@ -17378,113 +17407,132 @@ var render = function() {
             }
           },
           [
-            _c(
-              "div",
-              { class: { "has-error": _vm.error && _vm.errors.name } },
-              [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Username")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.name,
-                      expression: "name"
-                    }
-                  ],
-                  attrs: { type: "text", id: "name", required: "" },
-                  domProps: { value: _vm.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.name = $event.target.value
-                    }
+            _c("div", { staticClass: "field" }, [
+              _c("label", { staticClass: "label", attrs: { for: "name" } }, [
+                _vm._v("Username")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
                   }
-                }),
-                _vm._v(" "),
-                _vm.error && _vm.errors.name
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
-                  : _vm._e()
-              ]
-            ),
+                ],
+                class: [{ "is-danger": _vm.error && _vm.errors.name }, "input"],
+                attrs: { type: "text", id: "name", required: "" },
+                domProps: { value: _vm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.name = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.error && _vm.errors.name
+                ? _c("div", { staticClass: "message is-danger is-small" }, [
+                    _c("div", { staticClass: "message-body" }, [
+                      _vm._v(_vm._s(_vm.errors.name))
+                    ])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("label", { staticClass: "label", attrs: { for: "email" } }, [
+                _vm._v("E-mail")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
+                class: [
+                  { "is-danger": _vm.error && _vm.errors.email },
+                  "input"
+                ],
+                attrs: {
+                  type: "email",
+                  id: "email",
+                  placeholder: "user@example.com",
+                  required: ""
+                },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.error && _vm.errors.email
+                ? _c("div", { staticClass: "message is-danger is-small" }, [
+                    _c("div", { staticClass: "message-body" }, [
+                      _vm._v(_vm._s(_vm.errors.email))
+                    ])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c(
+                "label",
+                { staticClass: "label", attrs: { for: "password" } },
+                [_vm._v("Password")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.password,
+                    expression: "password"
+                  }
+                ],
+                class: [
+                  { "is-danger": _vm.error && _vm.errors.password },
+                  "input"
+                ],
+                attrs: { type: "password", id: "password", required: "" },
+                domProps: { value: _vm.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.password = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.error && _vm.errors.password
+                ? _c("div", { staticClass: "message is-danger is-small" }, [
+                    _c("div", { staticClass: "message-body" }, [
+                      _vm._v(_vm._s(_vm.errors.password))
+                    ])
+                  ])
+                : _vm._e()
+            ]),
             _vm._v(" "),
             _c(
-              "div",
-              { class: { "has-error": _vm.error && _vm.errors.email } },
-              [
-                _c("label", { attrs: { for: "email" } }, [_vm._v("E-mail")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.email,
-                      expression: "email"
-                    }
-                  ],
-                  attrs: {
-                    type: "email",
-                    id: "email",
-                    placeholder: "user@example.com",
-                    required: ""
-                  },
-                  domProps: { value: _vm.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.email = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.error && _vm.errors.email
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.email))])
-                  : _vm._e()
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { class: { "has-error": _vm.error && _vm.errors.password } },
-              [
-                _c("label", { attrs: { for: "password" } }, [
-                  _vm._v("Password")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password"
-                    }
-                  ],
-                  attrs: { type: "password", id: "password", required: "" },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.error && _vm.errors.password
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.password))])
-                  : _vm._e()
-              ]
-            ),
-            _vm._v(" "),
-            _c("button", { attrs: { type: "submit" } }, [_vm._v("Register")])
+              "button",
+              { staticClass: "button is-primary", attrs: { type: "submit" } },
+              [_vm._v("Register")]
+            )
           ]
         )
       : _vm._e()
@@ -17611,7 +17659,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.error
-      ? _c("div", [
+      ? _c("div", { staticClass: "notification is-danger" }, [
           _c("p", [_vm._v("It looks like those credentials are not working.")])
         ])
       : _vm._e(),
@@ -17628,8 +17676,10 @@ var render = function() {
         }
       },
       [
-        _c("div", [
-          _c("label", { attrs: { for: "email" } }, [_vm._v("E-mail")]),
+        _c("div", { staticClass: "field" }, [
+          _c("label", { staticClass: "label", attrs: { for: "email" } }, [
+            _vm._v("E-mail")
+          ]),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -17640,6 +17690,7 @@ var render = function() {
                 expression: "email"
               }
             ],
+            staticClass: "input",
             attrs: {
               type: "email",
               id: "email",
@@ -17658,8 +17709,10 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("div", [
-          _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
+        _c("div", { staticClass: "field" }, [
+          _c("label", { staticClass: "label", attrs: { for: "password" } }, [
+            _vm._v("Password")
+          ]),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -17670,6 +17723,7 @@ var render = function() {
                 expression: "password"
               }
             ],
+            staticClass: "input",
             attrs: { type: "password", id: "password", required: "" },
             domProps: { value: _vm.password },
             on: {
@@ -17683,7 +17737,11 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("button", { attrs: { type: "submit" } }, [_vm._v("Sign in")])
+        _c(
+          "button",
+          { staticClass: "button is-primary", attrs: { type: "submit" } },
+          [_vm._v("Sign in")]
+        )
       ]
     )
   ])

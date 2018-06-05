@@ -10,20 +10,21 @@
 
         <ul v-if="board">
             Board:
-            <input v-if="editing" type="text" v-model="board.name" @keyup.enter="updateBoard">
+            <input v-if="editing" type="text" class="input" v-model="board.name" @keyup.enter="updateBoard">
             <span v-else>{{ board.name }} <a href="#" @click.prevent="editing = true">(Edit)</a></span>
 
-            <!-- Create new List -->
 
-            <li v-for="list in board.board_lists">
+            <div class="columns">
+            <div class="column" v-for="list in board.board_lists">
                 <list :list="list" @delete-list="deleteList"></list>
-            </li>
+            </div>
+            </div>
         </ul>
 
         <div class="new-list">
             <form @submit.prevent>
-                <input type="text" placeholder="New List name" v-model="name">
-                <button @click="createNew">Create</button>
+                <input type="text" class="input" placeholder="New List name" v-model="name">
+                <button @click="createNew" class="button">Create</button>
             </form>
         </div>
     </div>
