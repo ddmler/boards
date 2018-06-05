@@ -16221,6 +16221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -16473,6 +16474,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -16487,7 +16490,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: false,
             board: null,
             error: null,
-            name: ""
+            name: "",
+            editing: false
         };
     },
     created: function created() {
@@ -16527,6 +16531,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         deleteList: function deleteList(boardlist) {
             this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
+        },
+        updateBoard: function updateBoard() {
+            var _this3 = this;
+
+            this.error = null;
+            this.loading = true;
+            this.editing = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.board.name }).then(function (response) {
+                _this3.loading = false;
+            }).catch(function (error) {
+                _this3.loading = false;
+                _this3.error = error.response.data.message || error.message;
+            });
+        },
+        setEditing: function setEditing() {
+            this.editing = true;
         }
     }
 });
@@ -17030,9 +17050,53 @@ var render = function() {
       ? _c(
           "ul",
           [
-            _vm._v(
-              "\n        Board: " + _vm._s(_vm.board.name) + "\n\n        "
-            ),
+            _vm._v("\n        Board:\n        "),
+            _vm.editing
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.board.name,
+                      expression: "board.name"
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.board.name },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.updateBoard($event)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.board, "name", $event.target.value)
+                    }
+                  }
+                })
+              : _c("span", [
+                  _vm._v(_vm._s(_vm.board.name) + " "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.setEditing($event)
+                        }
+                      }
+                    },
+                    [_vm._v("(Edit)")]
+                  )
+                ]),
             _vm._v(" "),
             _vm._l(_vm.board.board_lists, function(list) {
               return _c(

@@ -9,7 +9,9 @@
         </div>
 
         <ul v-if="board">
-            Board: {{ board.name }}
+            Board:
+            <input v-if="editing" type="text" v-model="board.name" @keyup.enter="updateBoard">
+            <span v-else>{{ board.name }} <a href="#" @click.prevent="setEditing">(Edit)</a></span>
 
             <!-- Create new List -->
 
@@ -41,6 +43,7 @@ export default {
             board: null,
             error: null,
             name: "",
+            editing: false,
         };
     },
     created() {
@@ -78,6 +81,22 @@ export default {
     },
     deleteList: function (boardlist) {
         this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
+    },
+    updateBoard() {
+        this.error = null;
+        this.loading = true;
+        this.editing = false;
+        axios
+            .put('/boards/' + this.board.id, { name: this.board.name })
+            .then(response => {
+                this.loading = false;
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
+    },
+    setEditing() {
+        this.editing = true;
     }
 }
 }
