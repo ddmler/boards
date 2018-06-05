@@ -1,6 +1,10 @@
 <template>
     <div class="card">
-        <strong>Card:</strong> {{ card.name }} <a href="#" v-on:click.prevent="deleteThis">(X)</a>
+        <div v-if="editing">
+            <textarea type="text" v-model="card.name"></textarea>
+            <button @click="updateCard">Save</button>
+        </div>
+        <span v-else><strong>Card:</strong> {{ card.name }} <a href="#" v-on:click.prevent="setEditing">(Edit)</a> <a href="#" v-on:click.prevent="deleteThis">(X)</a></span>
     </div>
 </template>
 <script>
@@ -12,6 +16,7 @@ export default {
         return {
             loading: false,
             error: null,
+            editing: false,
         };
     },
     props: {
@@ -30,6 +35,22 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+    },
+    updateCard() {
+        this.error = null;
+        this.loading = true;
+        this.editing = false;
+        axios
+            .put('/cards/' + this.card.id, { name: this.card.name })
+            .then(response => {
+                this.loading = false;
+            }).catch(error => {
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+            });
+    },
+    setEditing() {
+        this.editing = true;
     }
 }
 }

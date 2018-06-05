@@ -16722,6 +16722,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -16730,7 +16734,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             loading: false,
-            error: null
+            error: null,
+            editing: false
         };
     },
 
@@ -16750,6 +16755,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.loading = false;
                 _this.error = error.response.data.message || error.message;
             });
+        },
+        updateCard: function updateCard() {
+            var _this2 = this;
+
+            this.error = null;
+            this.loading = true;
+            this.editing = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.card.name }).then(function (response) {
+                _this2.loading = false;
+            }).catch(function (error) {
+                _this2.loading = false;
+                _this2.error = error.response.data.message || error.message;
+            });
+        },
+        setEditing: function setEditing() {
+            this.editing = true;
         }
     }
 });
@@ -16763,21 +16784,62 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("strong", [_vm._v("Card:")]),
-    _vm._v(" " + _vm._s(_vm.card.name) + " "),
-    _c(
-      "a",
-      {
-        attrs: { href: "#" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.deleteThis($event)
-          }
-        }
-      },
-      [_vm._v("(X)")]
-    )
+    _vm.editing
+      ? _c("div", [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.card.name,
+                expression: "card.name"
+              }
+            ],
+            attrs: { type: "text" },
+            domProps: { value: _vm.card.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.card, "name", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("button", { on: { click: _vm.updateCard } }, [_vm._v("Save")])
+        ])
+      : _c("span", [
+          _c("strong", [_vm._v("Card:")]),
+          _vm._v(" " + _vm._s(_vm.card.name) + " "),
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setEditing($event)
+                }
+              }
+            },
+            [_vm._v("(Edit)")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.deleteThis($event)
+                }
+              }
+            },
+            [_vm._v("(X)")]
+          )
+        ])
   ])
 }
 var staticRenderFns = []
