@@ -2,8 +2,8 @@
 <div class="card">
     <div class="card-header">
         <p class="card-header-title">
-    <input v-if="editing" type="text" class="input" v-model="list.name" @keyup.enter="updateList">
-    <span v-else>List: {{ list.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
+    <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
+    <span v-else>List: {{ list.name }} <a href="#" @click.prevent="clickEdit">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
 </p>
 </div>
 <div class="card-content">
@@ -37,6 +37,7 @@ export default {
             error: null,
             name: "",
             editing: false,
+            newName: "",
         };
     },
     props: {
@@ -77,13 +78,19 @@ export default {
         this.loading = true;
         this.editing = false;
         axios
-            .put('/boardLists/' + this.list.id, { name: this.list.name })
+            .put('/boardLists/' + this.list.id, { name: this.newName })
             .then(response => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+        this.list.name = this.newName;
+    },
+    clickEdit() {
+        this.editing = true;
+        this.newName = this.list.name;
+        this.$nextTick(() => this.$refs.edit.focus());
     }
 }
 }

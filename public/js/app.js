@@ -16479,7 +16479,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -16495,7 +16494,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             board: null,
             error: null,
             name: "",
-            editing: false
+            editing: false,
+            newName: ""
         };
     },
     created: function created() {
@@ -16542,11 +16542,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.board.name }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function (response) {
                 _this3.loading = false;
             }).catch(function (error) {
                 _this3.loading = false;
                 _this3.error = error.response.data.message || error.message;
+            });
+            this.board.name = this.newName;
+        },
+        editBoard: function editBoard() {
+            var _this4 = this;
+
+            this.editing = true;
+            this.newName = this.board.name;
+            this.$nextTick(function () {
+                return _this4.$refs.edit.focus();
             });
         }
     }
@@ -16647,7 +16657,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: false,
             error: null,
             name: "",
-            editing: false
+            editing: false,
+            newName: ""
         };
     },
 
@@ -16691,11 +16702,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.list.name }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function (response) {
                 _this3.loading = false;
             }).catch(function (error) {
                 _this3.loading = false;
                 _this3.error = error.response.data.message || error.message;
+            });
+            this.list.name = this.newName;
+        },
+        clickEdit: function clickEdit() {
+            var _this4 = this;
+
+            this.editing = true;
+            this.newName = this.list.name;
+            this.$nextTick(function () {
+                return _this4.$refs.edit.focus();
             });
         }
     }
@@ -16764,9 +16785,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -16776,7 +16794,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             loading: false,
             error: null,
-            editing: false
+            editing: false,
+            newName: ""
         };
     },
 
@@ -16803,11 +16822,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.card.name }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function (response) {
                 _this2.loading = false;
             }).catch(function (error) {
                 _this2.loading = false;
                 _this2.error = error.response.data.message || error.message;
+            });
+            this.card.name = this.newName;
+        },
+        editCard: function editCard() {
+            var _this3 = this;
+
+            this.editing = true;
+            this.newName = this.card.name;
+            this.$nextTick(function () {
+                return _this3.$refs.edit.focus();
             });
         }
     }
@@ -16824,35 +16853,40 @@ var render = function() {
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-content" }, [
       _vm.editing
-        ? _c("div", [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.card.name,
-                  expression: "card.name"
-                }
-              ],
-              staticClass: "textarea",
-              attrs: { type: "text" },
-              domProps: { value: _vm.card.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.card, "name", $event.target.value)
-                }
+        ? _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.newName,
+                expression: "newName"
               }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "button", on: { click: _vm.updateCard } },
-              [_vm._v("Save")]
-            )
-          ])
+            ],
+            ref: "edit",
+            staticClass: "textarea",
+            attrs: { type: "text" },
+            domProps: { value: _vm.newName },
+            on: {
+              keyup: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.updateCard($event)
+              },
+              blur: function($event) {
+                _vm.editing = false
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.newName = $event.target.value
+              }
+            }
+          })
         : _c("span", [
             _vm._v(_vm._s(_vm.card.name) + " "),
             _c(
@@ -16862,7 +16896,7 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    _vm.editing = true
+                    return _vm.editCard($event)
                   }
                 }
               },
@@ -16909,13 +16943,14 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.list.name,
-                  expression: "list.name"
+                  value: _vm.newName,
+                  expression: "newName"
                 }
               ],
+              ref: "edit",
               staticClass: "input",
               attrs: { type: "text" },
-              domProps: { value: _vm.list.name },
+              domProps: { value: _vm.newName },
               on: {
                 keyup: function($event) {
                   if (
@@ -16926,11 +16961,14 @@ var render = function() {
                   }
                   return _vm.updateList($event)
                 },
+                blur: function($event) {
+                  _vm.editing = false
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.list, "name", $event.target.value)
+                  _vm.newName = $event.target.value
                 }
               }
             })
@@ -16943,7 +16981,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       $event.preventDefault()
-                      _vm.editing = true
+                      return _vm.clickEdit($event)
                     }
                   }
                 },
@@ -17057,20 +17095,20 @@ var render = function() {
     _vm._v(" "),
     _vm.board
       ? _c("ul", [
-          _vm._v("\n        Board:\n        "),
           _vm.editing
             ? _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.board.name,
-                    expression: "board.name"
+                    value: _vm.newName,
+                    expression: "newName"
                   }
                 ],
+                ref: "edit",
                 staticClass: "input",
                 attrs: { type: "text" },
-                domProps: { value: _vm.board.name },
+                domProps: { value: _vm.newName },
                 on: {
                   keyup: function($event) {
                     if (
@@ -17081,16 +17119,19 @@ var render = function() {
                     }
                     return _vm.updateBoard($event)
                   },
+                  blur: function($event) {
+                    _vm.editing = false
+                  },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.board, "name", $event.target.value)
+                    _vm.newName = $event.target.value
                   }
                 }
               })
             : _c("span", [
-                _vm._v(_vm._s(_vm.board.name) + " "),
+                _vm._v("Board: " + _vm._s(_vm.board.name) + " "),
                 _c(
                   "a",
                   {
@@ -17098,7 +17139,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        _vm.editing = true
+                        return _vm.editBoard($event)
                       }
                     }
                   },
@@ -17109,64 +17150,67 @@ var render = function() {
           _c(
             "div",
             { staticClass: "columns" },
-            _vm._l(_vm.board.board_lists, function(list) {
-              return _c(
-                "div",
-                { staticClass: "column" },
-                [
-                  _c("list", {
-                    attrs: { list: list },
-                    on: { "delete-list": _vm.deleteList }
-                  })
-                ],
-                1
-              )
-            })
+            [
+              _vm._l(_vm.board.board_lists, function(list) {
+                return _c(
+                  "div",
+                  { staticClass: "column" },
+                  [
+                    _c("list", {
+                      attrs: { list: list },
+                      on: { "delete-list": _vm.deleteList }
+                    })
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "column new-list" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                      }
+                    }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.name,
+                          expression: "name"
+                        }
+                      ],
+                      staticClass: "input",
+                      attrs: { type: "text", placeholder: "New List name" },
+                      domProps: { value: _vm.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.name = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "button", on: { click: _vm.createNew } },
+                      [_vm._v("Create")]
+                    )
+                  ]
+                )
+              ])
+            ],
+            2
           )
         ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("div", { staticClass: "new-list" }, [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-            }
-          }
-        },
-        [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.name,
-                expression: "name"
-              }
-            ],
-            staticClass: "input",
-            attrs: { type: "text", placeholder: "New List name" },
-            domProps: { value: _vm.name },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.name = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "button", on: { click: _vm.createNew } },
-            [_vm._v("Create")]
-          )
-        ]
-      )
-    ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

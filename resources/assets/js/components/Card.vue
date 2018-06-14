@@ -1,11 +1,8 @@
 <template>
     <div class="card">
         <div class="card-content">
-        <div v-if="editing">
-            <textarea type="text" class="textarea" v-model="card.name"></textarea>
-            <button @click="updateCard" class="button">Save</button>
-        </div>
-        <span v-else>{{ card.name }} <a href="#" @click.prevent="editing = true">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
+        <textarea v-if="editing" type="text" ref="edit" class="textarea" v-model="newName" @keyup.enter="updateCard" @blur="editing = false"></textarea>
+        <span v-else>{{ card.name }} <a href="#" @click.prevent="editCard">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
         </div>
     </div>
 </template>
@@ -19,6 +16,7 @@ export default {
             loading: false,
             error: null,
             editing: false,
+            newName: "",
         };
     },
     props: {
@@ -43,13 +41,19 @@ export default {
         this.loading = true;
         this.editing = false;
         axios
-            .put('/cards/' + this.card.id, { name: this.card.name })
+            .put('/cards/' + this.card.id, { name: this.newName })
             .then(response => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+        this.card.name = this.newName;
+    },
+    editCard() {
+        this.editing = true;
+        this.newName = this.card.name;
+        this.$nextTick(() => this.$refs.edit.focus());
     }
 }
 }

@@ -9,24 +9,23 @@
         </div>
 
         <ul v-if="board">
-            Board:
-            <input v-if="editing" type="text" class="input" v-model="board.name" @keyup.enter="updateBoard">
-            <span v-else>{{ board.name }} <a href="#" @click.prevent="editing = true">(Edit)</a></span>
+            <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateBoard" @blur="editing = false">
+            <span v-else>Board: {{ board.name }} <a href="#" @click.prevent="editBoard">(Edit)</a></span>
 
 
             <div class="columns">
             <div class="column" v-for="list in board.board_lists">
                 <list :list="list" @delete-list="deleteList"></list>
             </div>
+            <div class="column new-list">
+                <form @submit.prevent>
+                    <input type="text" class="input" placeholder="New List name" v-model="name">
+                    <button @click="createNew" class="button">Create</button>
+                </form>
+            </div>
             </div>
         </ul>
 
-        <div class="new-list">
-            <form @submit.prevent>
-                <input type="text" class="input" placeholder="New List name" v-model="name">
-                <button @click="createNew" class="button">Create</button>
-            </form>
-        </div>
     </div>
 </template>
 <script>
@@ -45,6 +44,7 @@ export default {
             error: null,
             name: "",
             editing: false,
+            newName: "",
         };
     },
     created() {
@@ -88,13 +88,19 @@ export default {
         this.loading = true;
         this.editing = false;
         axios
-            .put('/boards/' + this.board.id, { name: this.board.name })
+            .put('/boards/' + this.board.id, { name: this.newName })
             .then(response => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+        this.board.name = this.newName;
+    },
+    editBoard() {
+        this.editing = true;
+        this.newName = this.board.name
+        this.$nextTick(() => this.$refs.edit.focus());
     }
 }
 }
