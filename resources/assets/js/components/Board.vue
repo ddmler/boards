@@ -13,11 +13,11 @@
             <span v-else>Board: {{ board.name }} <a href="#" @click.prevent="editBoard">(Edit)</a></span>
 
 
-            <div class="columns">
-            <div class="column" v-for="list in board.board_lists">
+            <div class="flex_wrapper">
+            <div class="list" v-for="list in board.board_lists">
                 <list :list="list" @delete-list="deleteList"></list>
             </div>
-            <div class="column new-list">
+            <div class="list new-list">
                 <form @submit.prevent>
                     <input type="text" class="input" placeholder="New List name" v-model="name">
                     <button @click="createNew" class="button">Create</button>
@@ -28,6 +28,18 @@
 
     </div>
 </template>
+<style scoped>
+.flex_wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+.flex_wrapper .list {
+    flex: 0 0 auto;
+    width: 270px;
+    margin: 5px;
+}
+</style>
 <script>
 import axios from 'axios';
 import List from './List.vue';
