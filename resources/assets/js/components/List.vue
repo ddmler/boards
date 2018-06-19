@@ -8,9 +8,11 @@
 </div>
 <div class="card-content">
     <ul>
-        <li v-for="card in list.cards">
-            <card :card="card" @delete-card="deleteCard"></card>
-        </li>
+        <draggable v-model="list.cards" :options="{group:'cards'}">
+            <li v-for="card in list.cards">
+                <card :card="card" @delete-card="deleteCard"></card>
+            </li>
+        </draggable>
     </ul>
 
     <div class="new-card">
@@ -25,11 +27,13 @@
 <script>
 import axios from 'axios';
 import Card from './Card.vue';
+import draggable from 'vuedraggable';
 
 export default {
     name: 'List',
     components: {
-        Card
+        Card,
+        draggable
     },
     data() {
         return {
