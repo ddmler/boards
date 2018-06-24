@@ -1,8 +1,8 @@
 <template>
-    <div class="card">
+    <div class="card board-card">
         <div class="card-content">
         <textarea v-if="editing" type="text" ref="edit" class="textarea" v-model="newName" @keyup.enter="updateCard" @blur="editing = false"></textarea>
-        <span v-else>{{ card.name }} <a href="#" @click.prevent="editCard">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
+        <span v-else>{{ card.name }} <span class="card-navs is-pulled-right"><a @click.prevent="editCard"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
         </div>
     </div>
 </template>

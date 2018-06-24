@@ -16409,6 +16409,11 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
+                  _c("div", { staticClass: "navbar-item" }, [
+                    _c("i", { staticClass: "fas fa-user" }),
+                    _vm._v(" " + _vm._s(_vm.$auth.user().name))
+                  ]),
+                  _vm._v(" "),
                   _vm.$auth.check()
                     ? _c(
                         "a",
@@ -16422,11 +16427,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "Logout (" + _vm._s(_vm.$auth.user().name) + ")"
-                          )
-                        ]
+                        [_vm._v("Logout")]
                       )
                     : _vm._e()
                 ],
@@ -16621,7 +16622,7 @@ var render = function() {
             return _c(
               "li",
               [
-                _c("strong", [_vm._v("Name:")]),
+                _c("strong", [_vm._v("Board: ")]),
                 _vm._v(" "),
                 _c(
                   "router-link",
@@ -16633,15 +16634,18 @@ var render = function() {
                   [_vm._v(_vm._s(board.name))]
                 ),
                 _vm._v(" "),
-                _c("a", {
-                  staticClass: "delete",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.deleteThis(board)
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.deleteThis(board)
+                      }
                     }
-                  }
-                })
+                  },
+                  [_c("i", { staticClass: "fas fa-trash" })]
+                )
               ],
               1
             )
@@ -17381,7 +17385,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
+  return _c("div", { staticClass: "card board-card" }, [
     _c("div", { staticClass: "card-content" }, [
       _vm.editing
         ? _c("textarea", {
@@ -17420,29 +17424,33 @@ var render = function() {
           })
         : _c("span", [
             _vm._v(_vm._s(_vm.card.name) + " "),
-            _c(
-              "a",
-              {
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.editCard($event)
+            _c("span", { staticClass: "card-navs is-pulled-right" }, [
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.editCard($event)
+                    }
                   }
-                }
-              },
-              [_vm._v("(Edit)")]
-            ),
-            _vm._v(" "),
-            _c("a", {
-              staticClass: "delete",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.deleteThis($event)
-                }
-              }
-            })
+                },
+                [_c("i", { staticClass: "fas fa-edit" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteThis($event)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-trash" })]
+              )
+            ])
           ])
     ])
   ])
@@ -36570,7 +36578,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("header", { staticClass: "card-header" }, [
+    _c("header", { staticClass: "card-header board-list" }, [
       _c("p", { staticClass: "card-header-title" }, [
         _vm.editing
           ? _c("input", {
@@ -36609,29 +36617,33 @@ var render = function() {
             })
           : _c("span", [
               _vm._v("List: " + _vm._s(_vm.list.name) + " "),
-              _c(
-                "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.clickEdit($event)
+              _c("span", { staticClass: "list-navs is-pulled-right" }, [
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.clickEdit($event)
+                      }
                     }
-                  }
-                },
-                [_vm._v("(Edit)")]
-              ),
-              _vm._v(" "),
-              _c("a", {
-                staticClass: "delete",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.deleteThis($event)
-                  }
-                }
-              })
+                  },
+                  [_c("i", { staticClass: "fas fa-edit" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deleteThis($event)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-trash" })]
+                )
+              ])
             ])
       ])
     ]),
@@ -36706,7 +36718,6 @@ var render = function() {
             _c(
               "a",
               {
-                attrs: { href: "#" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -36788,21 +36799,8 @@ var render = function() {
                   }
                 }
               })
-            : _c("span", [
-                _vm._v("Board: " + _vm._s(_vm.board.name) + " "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editBoard($event)
-                      }
-                    }
-                  },
-                  [_vm._v("(Edit)")]
-                )
+            : _c("span", { on: { click: _vm.editBoard } }, [
+                _vm._v("Board: " + _vm._s(_vm.board.name))
               ]),
           _vm._v(" "),
           _c(

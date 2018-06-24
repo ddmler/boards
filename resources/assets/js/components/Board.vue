@@ -10,7 +10,7 @@
 
         <ul v-if="board">
             <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateBoard" @blur="editing = false">
-            <span v-else>Board: {{ board.name }} <a href="#" @click.prevent="editBoard">(Edit)</a></span>
+            <span v-else @click="editBoard">Board: {{ board.name }}</span>
 
 
             <div class="flex_wrapper">

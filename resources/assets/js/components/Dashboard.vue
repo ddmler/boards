@@ -10,8 +10,8 @@
 
         <ul v-if="boards">
             <li v-for="board in boards">
-                <strong>Name:</strong>
-                <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a class="delete" @click.prevent="deleteThis(board)"></a>
+                <strong>Board: </strong>
+                <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a @click.prevent="deleteThis(board)"><i class="fas fa-trash"></i></a>
             </li>
         </ul>
 

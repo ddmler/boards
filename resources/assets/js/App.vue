@@ -13,7 +13,8 @@
                         <div class="navbar-end">
                             <router-link :to="{ name: 'login' }" v-if="!$auth.check()" class="navbar-item">Login</router-link>
                             <router-link :to="{ name: 'register' }" v-if="!$auth.check()" class="navbar-item">Register</router-link>
-                            <a href="#" @click.prevent="$auth.logout()" v-if="$auth.check()" class="navbar-item">Logout ({{ $auth.user().name }})</a>
+                            <div class="navbar-item"><i class="fas fa-user"></i> {{ $auth.user().name }}</div>
+                            <a href="#" @click.prevent="$auth.logout()" v-if="$auth.check()" class="navbar-item">Logout</a>
                         </div>
                     </div>
                 </nav>

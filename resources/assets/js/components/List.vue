@@ -1,9 +1,9 @@
 <template>
 <div class="card">
-    <header class="card-header">
+    <header class="card-header board-list">
         <p class="card-header-title">
     <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
-    <span v-else>List: {{ list.name }} <a href="#" @click.prevent="clickEdit">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
+    <span v-else>List: {{ list.name }} <span class="list-navs is-pulled-right"><a @click.prevent="clickEdit"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
 </p>
 </header>
 <div class="card-content">
@@ -13,7 +13,7 @@
 </div>
 <footer class="card-footer">
     <input v-if="showNew" ref="new" type="text" class="input" placeholder="New Card name" v-model="name" @keyup.enter="createNew" @blur="showNew = false">
-    <span v-else><a href="#" @click.prevent="clickNew">Create new Card</a></span>
+    <span v-else><a @click.prevent="clickNew">Create new Card</a></span>
 </footer>
 </div>
 </template>

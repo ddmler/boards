@@ -9,7 +9,29 @@
 // change variables before import
 @import './node_modules/bulma/bulma.sass';
 
+// FontAwesome
+@import './node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import './node_modules/@fortawesome/fontawesome-free/scss/fa-regular.scss';
+@import './node_modules/@fortawesome/fontawesome-free/scss/fa-brands.scss';
+@import './node_modules/@fortawesome/fontawesome-free/scss/fa-solid.scss';
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.card-navs {
+    display:none;
+}
+
+.board-card:hover .card-navs {
+    display:block;
+}
+
+.list-navs {
+    display:none;
+}
+
+.board-list:hover .list-navs {
+    display:block;
 }
