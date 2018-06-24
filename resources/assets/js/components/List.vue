@@ -1,25 +1,20 @@
 <template>
 <div class="card">
-    <div class="card-header">
+    <header class="card-header">
         <p class="card-header-title">
     <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
     <span v-else>List: {{ list.name }} <a href="#" @click.prevent="clickEdit">(Edit)</a> <a class="delete" @click.prevent="deleteThis"></a></span>
 </p>
-</div>
+</header>
 <div class="card-content">
-    <div>
-        <draggable v-model="list.cards" class="dragArea" :options="{group:'cards', ghostClass:'ghost'}" @end="updateOrder">
-                <card v-for="card in orderedList" :card="card" @delete-card="deleteCard" :key="card.order + ',' + list.id + ',' + card.id" :id="card.id"></card>
-        </draggable>
-    </div>
-
-    <div class="new-card">
-        <form @submit.prevent>
-            <input type="text" class="input" placeholder="New Card name" v-model="name">
-            <button @click="createNew" class="button">Create</button>
-        </form>
-    </div>
+    <draggable v-model="list.cards" class="dragArea" :options="{group:'cards', ghostClass:'ghost'}" @end="updateOrder">
+            <card v-for="card in orderedList" :card="card" @delete-card="deleteCard" :key="card.order + ',' + list.id + ',' + card.id" :id="card.id"></card>
+    </draggable>
 </div>
+<footer class="card-footer">
+    <input v-if="showNew" ref="new" type="text" class="input" placeholder="New Card name" v-model="name" @keyup.enter="createNew" @blur="showNew = false">
+    <span v-else><a href="#" @click.prevent="clickNew">Create new Card</a></span>
+</footer>
 </div>
 </template>
 <style scoped>
@@ -45,6 +40,7 @@ export default {
             error: null,
             name: "",
             editing: false,
+            showNew: false,
             newName: "",
         };
     },
@@ -66,6 +62,8 @@ export default {
             .then(response => {
                 this.loading = false;
                 this.list.cards.push(response.data);
+                this.name = "";
+                this.showNew = false;
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
@@ -105,6 +103,10 @@ export default {
         this.editing = true;
         this.newName = this.list.name;
         this.$nextTick(() => this.$refs.edit.focus());
+    },
+    clickNew() {
+        this.showNew = true;
+        this.$nextTick(() => this.$refs.new.focus());
     },
     updateOrder() {
         this.$emit('update-card-order', this);
