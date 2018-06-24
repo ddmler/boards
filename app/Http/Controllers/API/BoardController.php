@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Board;
+use App\Card;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,28 @@ class BoardController extends Controller
     {
         $board->name = $request->name;
         $board->save();
+
+        return response()->json("OK");
+    }
+
+    public function updateOrder(Request $request)
+    {
+
+        $board = Board::findOrFail($request->board["id"]);
+
+        foreach ($request->board["board_lists"] as $boardList) {
+            foreach($boardList["cards"] as $card) {
+                $cardModel = Card::find($card["id"]);
+                $cardModel->board_list_id = $boardList["id"];
+                $cardModel->order = $card["order"];
+                $cardModel->save();
+            }
+        }
+
+        // $board->boardLists()->sync(array_column($request->board["board_lists"], 'id'));
+
+        // $board->save();
+
 
         return response()->json("OK");
     }

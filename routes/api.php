@@ -32,3 +32,5 @@ Route::apiResources([
   'boardLists' => 'API\BoardListController',
   'cards' => 'API\CardController'
 ]);
+
+Route::patch('board/updateOrder', 'API\BoardController@updateOrder');

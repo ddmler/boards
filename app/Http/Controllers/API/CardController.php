@@ -28,6 +28,7 @@ class CardController extends Controller
     {
         $card = new Card;
         $card->name = $request->name;
+        $card->order = $request->order;
         $card->boardList()->associate($request->list_id);
         $card->save();
 

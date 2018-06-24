@@ -7,13 +7,11 @@
 </p>
 </div>
 <div class="card-content">
-    <ul>
-        <draggable v-model="list.cards" :options="{group:'cards'}">
-            <li v-for="card in list.cards">
-                <card :card="card" @delete-card="deleteCard"></card>
-            </li>
+    <div>
+        <draggable v-model="list.cards" class="dragArea" :options="{group:'cards', ghostClass:'ghost'}" @end="updateOrder">
+                <card v-for="card in orderedList" :card="card" @delete-card="deleteCard" :key="card.order + ',' + list.id + ',' + card.id" :id="card.id"></card>
         </draggable>
-    </ul>
+    </div>
 
     <div class="new-card">
         <form @submit.prevent>
@@ -24,10 +22,16 @@
 </div>
 </div>
 </template>
+<style scoped>
+.dragArea {
+    min-height: 15px;
+}
+</style>
 <script>
 import axios from 'axios';
 import Card from './Card.vue';
 import draggable from 'vuedraggable';
+import _ from 'lodash';
 
 export default {
     name: 'List',
@@ -47,12 +51,18 @@ export default {
     props: {
         list: { type: Object, required: true }
     },
+    computed: {
+        orderedList: function() {
+            return _.orderBy(this.list.cards, 'order');
+        }
+    },
     methods: {
     createNew() {
         this.error = null;
         this.loading = true;
+        var order = this.list.cards.length;
         axios
-            .post('/cards', { list_id: this.list.id, name: this.name })
+            .post('/cards', { list_id: this.list.id, name: this.name, order: order })
             .then(response => {
                 this.loading = false;
                 this.list.cards.push(response.data);
@@ -95,6 +105,9 @@ export default {
         this.editing = true;
         this.newName = this.list.name;
         this.$nextTick(() => this.$refs.edit.focus());
+    },
+    updateOrder() {
+        this.$emit('update-card-order', this);
     }
 }
 }

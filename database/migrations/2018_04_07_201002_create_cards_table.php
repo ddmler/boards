@@ -17,6 +17,7 @@ class CreateCardsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('board_list_id')->unsigned();
+            $table->integer('order')->unsigned()->default(0);
             $table->timestamps();
 
             $table->foreign('board_list_id')->references('id')->on('board_lists')->onDelete('cascade');

@@ -14,8 +14,8 @@
 
 
             <div class="flex_wrapper">
-            <div class="list" v-for="list in board.board_lists">
-                <list :list="list" @delete-list="deleteList"></list>
+            <div class="list" v-for="list in board.board_lists" :key="list.id">
+                <list :list="list" @delete-list="deleteList" @update-card-order="updateCardOrder"></list>
             </div>
             <div class="list new-list">
                 <form @submit.prevent>
@@ -113,6 +113,25 @@ export default {
         this.editing = true;
         this.newName = this.board.name
         this.$nextTick(() => this.$refs.edit.focus());
+    },
+    updateCardOrder() {
+        var i = 0;
+        for (let list of this.board.board_lists) {
+            i = 0;
+            for (let c of list.cards) {
+                c.order = i;
+                i++;
+            }
+        }
+
+        this.error = null;
+        axios
+            .patch('/board/updateOrder', { board: this.board })
+            .then(response => {
+                //
+            }).catch(error => {
+                this.error = error.response.data.message || error.message;
+            });
     }
 }
 }
