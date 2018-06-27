@@ -27,10 +27,16 @@ Route::group([
     Route::get('user', 'AuthController@user');
 });
 
-Route::apiResources([
-  'boards' => 'API\BoardController',
-  'boardLists' => 'API\BoardListController',
-  'cards' => 'API\CardController'
-]);
+Route::group([
 
-Route::patch('board/updateOrder', 'API\BoardController@updateOrder');
+    'middleware' => ['api', 'auth:api']
+
+], function($router) {
+    Route::apiResources([
+      'boards' => 'API\BoardController',
+      'boardLists' => 'API\BoardListController',
+      'cards' => 'API\CardController'
+    ]);
+
+    Route::patch('board/updateOrder', 'API\BoardController@updateOrder');
+});

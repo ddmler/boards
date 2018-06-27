@@ -34,7 +34,7 @@ class BoardController extends Controller
         $board->user()->associate(Auth::id());
         $board->save();
 
-        return response()->json($board);
+        return response()->json($board, 201);
     }
 
     /**
@@ -60,7 +60,7 @@ class BoardController extends Controller
         $board->name = $request->name;
         $board->save();
 
-        return response()->json("OK");
+        return response()->json($board);
     }
 
     public function updateOrder(Request $request)
@@ -94,6 +94,6 @@ class BoardController extends Controller
     public function destroy(Board $board)
     {
         $board->delete();
-        return response()->json("OK");
+        return response()->json(null, 204);
     }
 }

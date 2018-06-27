@@ -31,7 +31,7 @@ class BoardListController extends Controller
         $boardList->board()->associate($request->board_id);
         $boardList->save();
 
-        return response()->json($boardList);
+        return response()->json($boardList, 201);
     }
 
     /**
@@ -57,7 +57,7 @@ class BoardListController extends Controller
         $boardList->name = $request->name;
         $boardList->save();
 
-        return response()->json("OK");
+        return response()->json($boardList);
     }
 
     /**
@@ -69,6 +69,6 @@ class BoardListController extends Controller
     public function destroy(BoardList $boardList)
     {
         $boardList->delete();
-        return response()->json("OK");
+        return response()->json(null, 204);
     }
 }

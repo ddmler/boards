@@ -32,7 +32,7 @@ class CardController extends Controller
         $card->boardList()->associate($request->list_id);
         $card->save();
 
-        return response()->json($card);
+        return response()->json($card, 201);
     }
 
     /**
@@ -58,7 +58,7 @@ class CardController extends Controller
         $card->name = $request->name;
         $card->save();
 
-        return response()->json("OK");
+        return response()->json($card);
     }
 
     /**
@@ -70,6 +70,6 @@ class CardController extends Controller
     public function destroy(Card $card)
     {
         $card->delete();
-        return response()->json("OK");
+        return response()->json(null, 204);
     }
 }
