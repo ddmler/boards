@@ -68,5 +68,4 @@ class CardTest extends DatabaseTestCase
             ->assertDontSee($card->name)
             ->assertSee($card2->name);
     }
-
 }

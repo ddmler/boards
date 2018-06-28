@@ -31,7 +31,7 @@ Route::group([
 
     'middleware' => ['api', 'auth:api']
 
-], function($router) {
+], function ($router) {
     Route::apiResources([
       'boards' => 'API\BoardController',
       'boardLists' => 'API\BoardListController',

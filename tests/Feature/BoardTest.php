@@ -81,5 +81,4 @@ class BoardTest extends DatabaseTestCase
             ->json('GET', 'api/boards')
             ->assertJsonCount(0);
     }
-
 }

@@ -61,5 +61,4 @@ class BoardListTest extends DatabaseTestCase
             ->json('GET', 'api/boards/' . $board->id)
             ->assertJsonCount(0, 'board_lists');
     }
-
 }

@@ -65,11 +65,10 @@ class BoardController extends Controller
 
     public function updateOrder(Request $request)
     {
-
         $board = Board::findOrFail($request->board["id"]);
 
         foreach ($request->board["board_lists"] as $boardList) {
-            foreach($boardList["cards"] as $card) {
+            foreach ($boardList["cards"] as $card) {
                 $cardModel = Card::find($card["id"]);
                 $cardModel->board_list_id = $boardList["id"];
                 $cardModel->order = $card["order"];
