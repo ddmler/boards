@@ -17314,6 +17314,8 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Modal_vue__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Modal_vue__);
 //
 //
 //
@@ -17322,6 +17324,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -17332,10 +17336,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: false,
             error: null,
             editing: false,
+            showModal: false,
             newName: ""
         };
     },
 
+    components: {
+        Modal: __WEBPACK_IMPORTED_MODULE_1__Modal_vue___default.a
+    },
     props: {
         card: { type: Object, required: true }
     },
@@ -17387,75 +17395,103 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card board-card" }, [
-    _c("div", { staticClass: "card-content" }, [
-      _vm.editing
-        ? _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.newName,
-                expression: "newName"
-              }
-            ],
-            ref: "edit",
-            staticClass: "textarea",
-            attrs: { type: "text" },
-            domProps: { value: _vm.newName },
+  return _c(
+    "div",
+    { staticClass: "card board-card" },
+    [
+      _vm.showModal
+        ? _c("modal", {
+            attrs: { card: _vm.card },
             on: {
-              keyup: function($event) {
-                if (
-                  !("button" in $event) &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.updateCard($event)
-              },
-              blur: function($event) {
-                _vm.editing = false
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.newName = $event.target.value
+              "close-modal": function($event) {
+                _vm.showModal = false
               }
             }
           })
-        : _c("span", [
-            _vm._v(_vm._s(_vm.card.name) + " "),
-            _c("span", { staticClass: "card-navs is-pulled-right" }, [
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-content" }, [
+        _vm.editing
+          ? _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newName,
+                  expression: "newName"
+                }
+              ],
+              ref: "edit",
+              staticClass: "textarea",
+              attrs: { type: "text" },
+              domProps: { value: _vm.newName },
+              on: {
+                keyup: function($event) {
+                  if (
+                    !("button" in $event) &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.updateCard($event)
+                },
+                blur: function($event) {
+                  _vm.editing = false
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newName = $event.target.value
+                }
+              }
+            })
+          : _c("span", [
               _c(
-                "a",
+                "span",
                 {
                   on: {
                     click: function($event) {
-                      $event.preventDefault()
-                      return _vm.editCard($event)
+                      $event.stopPropagation()
+                      _vm.showModal = true
                     }
                   }
                 },
-                [_c("i", { staticClass: "fas fa-edit" })]
+                [_vm._v(_vm._s(_vm.card.name))]
               ),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.deleteThis($event)
+              _c("span", { staticClass: "card-navs is-pulled-right" }, [
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.editCard($event)
+                      }
                     }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-trash" })]
-              )
+                  },
+                  [_c("i", { staticClass: "fas fa-edit" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deleteThis($event)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-trash" })]
+                )
+              ])
             ])
-          ])
-    ])
-  ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38542,6 +38578,296 @@ module.exports = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(98)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(100)
+/* template */
+var __vue_template__ = __webpack_require__(101)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Modal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6e8d36f4", Component.options)
+  } else {
+    hotAPI.reload("data-v-6e8d36f4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(99);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(12)("18c890c3", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6e8d36f4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Modal.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6e8d36f4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Modal.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(11)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.modal-mask {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, .5);\n  display: table;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n.modal-wrapper {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container {\n  width: 300px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n}\n.modal-body {\n  margin: 20px 0;\n}\n.modal-default-button {\n  float: right;\n}\n.modal-enter {\n  opacity: 0;\n}\n.modal-leave-active {\n  opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'Modal',
+    data: function data() {
+        return {
+            loading: false,
+            error: null,
+            editing: false
+        };
+    },
+
+    props: {
+        card: { type: Object, required: true }
+    },
+    methods: {
+        updateCard: function updateCard() {
+            var _this = this;
+
+            this.error = null;
+            this.loading = true;
+            this.editing = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function (response) {
+                _this.loading = false;
+            }).catch(function (error) {
+                _this.loading = false;
+                _this.error = error.response.data.message || error.message;
+            });
+            this.card.name = this.newName;
+        },
+        closeModal: function closeModal() {
+            this.$emit('close-modal');
+        }
+    }
+});
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "modal" } }, [
+    _c("div", { staticClass: "modal-mask" }, [
+      _c(
+        "div",
+        {
+          staticClass: "modal-wrapper",
+          on: {
+            click: function($event) {
+              if ($event.target !== $event.currentTarget) {
+                return null
+              }
+              return _vm.closeModal($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-container" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _vm._v("\n            " + _vm._s(_vm.card.name) + "\n        ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm._v("\n            body\n        ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _vm._v("\n            footer\n            "),
+              _c(
+                "button",
+                {
+                  staticClass: "modal-default-button",
+                  on: { click: _vm.closeModal }
+                },
+                [_vm._v("\n              OK\n            ")]
+              )
+            ])
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6e8d36f4", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
