@@ -3,7 +3,7 @@
         <div class="card-content">
         <textarea v-if="editing" type="text" ref="edit" class="textarea" v-model="newName" @keyup.enter="updateCard" @blur="editing = false"></textarea>
         <div v-else>
-            <span class="card-navs is-pulled-right"><a @click.prevent="editCard"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span>
+            <span class="card-navs"><a @click.prevent="editCard"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span>
             <div @click="openModal">{{ card.name }}
             <span v-if="card.description"><br><i class="fas fa-comment"></i></span></div>
         </div>

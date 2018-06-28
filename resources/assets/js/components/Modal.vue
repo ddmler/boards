@@ -16,15 +16,11 @@
               <span v-if="!editing">{{ card.description || "No description" }}</span>
               <span v-else>
                   <textarea v-model="newDesc" class="textarea"></textarea>
-                  <a @click="updateCard" class="button is-primary">Save</a>
+                  <a @click="updateCard" class="button is-success">Save</a>
                   <a @click="stopEdit">
                     <i class="fas fa-times fa-lg"></i>
                   </a>
               </span>
-          </div>
-
-          <div class="modal-footer">
-              footer
           </div>
         </div>
       </div>
@@ -54,7 +50,7 @@
   height: 600px;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: #242424;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
@@ -62,6 +58,15 @@
 
 .modal-body {
   margin: 20px 0;
+}
+
+.modal-body textarea {
+    margin-bottom: 15px;
+}
+
+.modal-body i {
+    margin-top: 10px;
+    margin-left: 15px;
 }
 
 .modal-close-button {

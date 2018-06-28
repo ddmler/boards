@@ -5,7 +5,7 @@
         <header class="card-header board-list">
             <p class="card-header-title">
         <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
-        <span v-else>List: {{ list.name }} <span class="list-navs is-pulled-right"><a @click.prevent="clickEdit"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
+        <span v-else>List: {{ list.name }} <span class="list-navs"><a @click.prevent="clickEdit"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
     </p>
     </header>
     <div class="card-content">
@@ -15,7 +15,7 @@
     </div>
     <footer class="card-footer">
         <input v-if="showNew" ref="new" type="text" class="input" placeholder="New Card name" v-model="name" @keyup.enter="createNew" @blur="showNew = false">
-        <span v-else><a @click.prevent="clickNew">Create new Card</a></span>
+        <div v-else><a @click.prevent="clickNew">Create new Card</a></div>
     </footer>
     </div>
 </div>
@@ -63,7 +63,7 @@ export default {
     createNew() {
         this.error = null;
         this.loading = true;
-        var order = this.list.cards.length;
+        var order = (this.list.cards === undefined ? 0 : this.list.cards.length);
         axios
             .post('/cards', { list_id: this.list.id, name: this.name, order: order })
             .then(response => {
@@ -73,7 +73,7 @@ export default {
                 this.showNew = false;
             }).catch(error => {
                 this.loading = false;
-                this.error = error.response.data.message || error.message;
+                this.error = error.response || error.message;
             });
     },
     deleteCard: function (card) {

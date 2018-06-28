@@ -12,7 +12,7 @@
                 <label for="password" class="label">Password</label>
                 <input type="password" id="password" v-model="password" class="input" required>
             </div>
-            <button type="submit" class="button is-primary">Sign in</button>
+            <button type="submit" class="button">Sign in</button>
         </form>
     </div>
 </template>

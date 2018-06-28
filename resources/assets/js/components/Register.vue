@@ -22,7 +22,7 @@
                 <input type="password" id="password" v-model="password" required :class="[{ 'is-danger': error && errors.password }, 'input']">
                 <div v-if="error && errors.password" class="message is-danger is-small"><div class="message-body">{{ errors.password }}</div></div>
             </div>
-            <button type="submit" class="button is-primary">Register</button>
+            <button type="submit" class="button">Register</button>
         </form>
     </div>
 </template>

@@ -15,6 +15,36 @@
 @import './node_modules/@fortawesome/fontawesome-free/scss/fa-brands.scss';
 @import './node_modules/@fortawesome/fontawesome-free/scss/fa-solid.scss';
 
+html {
+    background-color: #121212;
+}
+
+.main-wrapper {
+    padding: 10px;
+}
+
+.label {
+    color: white;
+}
+
+.button:hover, .navbar.is-primary .navbar-end > a.navbar-item:hover, .navbar.is-primary .navbar-brand > a.navbar-item:hover {
+    background-color: #363636;
+}
+
+.card {
+    background-color: #232323;
+    border-radius: 5px;
+}
+
+.card-footer {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.card-footer div {
+    margin: auto;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -22,14 +52,28 @@
 
 .card-navs {
   display: none;
+  position: absolute;
+  right: 12px;
+}
+
+.board-card {
+    background-color: #363636;
+    margin-bottom: 5px;
 }
 
 .board-card:hover .card-navs {
   display: block;
 }
 
+.board-card .card-content {
+    padding: 0.75rem;
+}
+
 .list-navs {
   display: none;
+  position: absolute;
+  right: 12px;
+  top: 12px;
 }
 
 .board-list:hover .list-navs {

@@ -91,6 +91,7 @@ export default {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
+            this.name = "";
     },
     deleteList: function (boardlist) {
         this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
