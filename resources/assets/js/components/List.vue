@@ -1,20 +1,23 @@
 <template>
-<div class="card">
-    <header class="card-header board-list">
-        <p class="card-header-title">
-    <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
-    <span v-else>List: {{ list.name }} <span class="list-navs is-pulled-right"><a @click.prevent="clickEdit"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
-</p>
-</header>
-<div class="card-content">
-    <draggable v-model="list.cards" class="dragArea" :options="{group:'cards', ghostClass:'ghost'}" @end="updateOrder">
-            <card v-for="card in orderedList" :card="card" @delete-card="deleteCard" :key="card.order + ',' + list.id + ',' + card.id" :id="card.id"></card>
-    </draggable>
-</div>
-<footer class="card-footer">
-    <input v-if="showNew" ref="new" type="text" class="input" placeholder="New Card name" v-model="name" @keyup.enter="createNew" @blur="showNew = false">
-    <span v-else><a @click.prevent="clickNew">Create new Card</a></span>
-</footer>
+    <div class="list-wrapper">
+    <modal v-if="showModal" :card="modalCard" @close-modal="showModal = false"></modal>
+    <div class="card">
+        <header class="card-header board-list">
+            <p class="card-header-title">
+        <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
+        <span v-else>List: {{ list.name }} <span class="list-navs is-pulled-right"><a @click.prevent="clickEdit"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
+    </p>
+    </header>
+    <div class="card-content">
+        <draggable v-model="list.cards" class="dragArea" :options="{group:'cards', ghostClass:'ghost'}" @end="updateOrder">
+                <card v-for="card in orderedList" :card="card" @open-modal="openModal" @delete-card="deleteCard" :key="card.order + ',' + list.id + ',' + card.id" :id="card.id"></card>
+        </draggable>
+    </div>
+    <footer class="card-footer">
+        <input v-if="showNew" ref="new" type="text" class="input" placeholder="New Card name" v-model="name" @keyup.enter="createNew" @blur="showNew = false">
+        <span v-else><a @click.prevent="clickNew">Create new Card</a></span>
+    </footer>
+    </div>
 </div>
 </template>
 <style scoped>
@@ -25,6 +28,7 @@
 <script>
 import axios from 'axios';
 import Card from './Card.vue';
+import Modal from './Modal.vue';
 import draggable from 'vuedraggable';
 import _ from 'lodash';
 
@@ -32,6 +36,7 @@ export default {
     name: 'List',
     components: {
         Card,
+        Modal,
         draggable
     },
     data() {
@@ -41,6 +46,8 @@ export default {
             name: "",
             editing: false,
             showNew: false,
+            showModal: false,
+            modalCard: null,
             newName: "",
         };
     },
@@ -110,6 +117,10 @@ export default {
     },
     updateOrder() {
         this.$emit('update-card-order', this);
+    },
+    openModal(card) {
+        this.modalCard = card;
+        this.showModal = true;
     }
 }
 }

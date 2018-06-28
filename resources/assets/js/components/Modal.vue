@@ -5,18 +5,26 @@
         <div class="modal-container">
 
           <div class="modal-header">
-              {{ card.name }}
+              <h2>{{ card.name }}</h2>
+              <a class="modal-close-button" @click="closeModal">
+                <i class="fas fa-times fa-lg"></i>
+              </a>
           </div>
 
           <div class="modal-body">
-              body
+              <h3>Description<small><a @click="startEdit">Edit</a></small></h3>
+              <span v-if="!editing">{{ card.description || "No description" }}</span>
+              <span v-else>
+                  <textarea v-model="newDesc" class="textarea"></textarea>
+                  <a @click="updateCard" class="button is-primary">Save</a>
+                  <a @click="stopEdit">
+                    <i class="fas fa-times fa-lg"></i>
+                  </a>
+              </span>
           </div>
 
           <div class="modal-footer">
               footer
-              <button class="modal-default-button" @click="closeModal">
-                OK
-              </button>
           </div>
         </div>
       </div>
@@ -33,7 +41,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, .5);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity .5s ease;
 }
 
 .modal-wrapper {
@@ -42,7 +50,8 @@
 }
 
 .modal-container {
-  width: 300px;
+  width: 600px;
+  height: 600px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -55,7 +64,7 @@
   margin: 20px 0;
 }
 
-.modal-default-button {
+.modal-close-button {
   float: right;
 }
 
@@ -83,6 +92,7 @@ export default {
             loading: false,
             error: null,
             editing: false,
+            newDesc: "",
         };
     },
     props: {
@@ -94,17 +104,25 @@ export default {
         this.loading = true;
         this.editing = false;
         axios
-            .put('/cards/' + this.card.id, { name: this.newName })
+            .put('/cards/' + this.card.id, { description: this.newDesc })
             .then(response => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
-        this.card.name = this.newName;
+        this.card.description = this.newDesc;
     },
     closeModal() {
         this.$emit('close-modal');
+    },
+    startEdit() {
+        this.newDesc = this.card.description;
+        this.editing = true;
+    },
+    stopEdit() {
+        this.newDesc = "";
+        this.editing = false;
     }
 }
 }

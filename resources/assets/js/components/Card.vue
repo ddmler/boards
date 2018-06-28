@@ -1,15 +1,17 @@
 <template>
     <div class="card board-card">
-        <modal v-if="showModal" :card="card" @close-modal="showModal = false"></modal>
         <div class="card-content">
         <textarea v-if="editing" type="text" ref="edit" class="textarea" v-model="newName" @keyup.enter="updateCard" @blur="editing = false"></textarea>
-        <span v-else><span @click.stop="showModal = true">{{ card.name }}</span> <span class="card-navs is-pulled-right"><a @click.prevent="editCard"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
+        <div v-else>
+            <span class="card-navs is-pulled-right"><a @click.prevent="editCard"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span>
+            <div @click="openModal">{{ card.name }}
+            <span v-if="card.description"><br><i class="fas fa-comment"></i></span></div>
+        </div>
         </div>
     </div>
 </template>
 <script>
 import axios from 'axios';
-import Modal from './Modal.vue';
 
 export default {
     name: 'Card',
@@ -18,12 +20,8 @@ export default {
             loading: false,
             error: null,
             editing: false,
-            showModal: false,
             newName: "",
         };
-    },
-    components: {
-        Modal
     },
     props: {
         card: { type: Object, required: true }
@@ -60,6 +58,9 @@ export default {
         this.editing = true;
         this.newName = this.card.name;
         this.$nextTick(() => this.$refs.edit.focus());
+    },
+    openModal() {
+        this.$emit('open-modal', this.card);
     }
 }
 }

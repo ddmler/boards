@@ -29,6 +29,7 @@ class CardController extends Controller
         $card = new Card;
         $card->name = $request->name;
         $card->order = $request->order;
+        $card->description = "";
         $card->boardList()->associate($request->list_id);
         $card->save();
 
@@ -55,7 +56,8 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
-        $card->name = $request->name;
+        $card->name = $request->name ?: $card->name;
+        $card->description = $request->description ?: $card->description;
         $card->save();
 
         return response()->json($card);

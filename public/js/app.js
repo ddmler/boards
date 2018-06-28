@@ -17129,10 +17129,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Card_vue__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Card_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Card_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Modal_vue__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Modal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuedraggable__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuedraggable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash__);
 //
 //
 //
@@ -17157,6 +17159,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -17167,7 +17173,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     name: 'List',
     components: {
         Card: __WEBPACK_IMPORTED_MODULE_1__Card_vue___default.a,
-        draggable: __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default.a
+        Modal: __WEBPACK_IMPORTED_MODULE_2__Modal_vue___default.a,
+        draggable: __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default.a
     },
     data: function data() {
         return {
@@ -17176,6 +17183,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             name: "",
             editing: false,
             showNew: false,
+            showModal: false,
+            modalCard: null,
             newName: ""
         };
     },
@@ -17185,7 +17194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         orderedList: function orderedList() {
-            return __WEBPACK_IMPORTED_MODULE_3_lodash___default.a.orderBy(this.list.cards, 'order');
+            return __WEBPACK_IMPORTED_MODULE_4_lodash___default.a.orderBy(this.list.cards, 'order');
         }
     },
     methods: {
@@ -17255,6 +17264,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         updateOrder: function updateOrder() {
             this.$emit('update-card-order', this);
+        },
+        openModal: function openModal(card) {
+            this.modalCard = card;
+            this.showModal = true;
         }
     }
 });
@@ -17314,8 +17327,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Modal_vue__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Modal_vue__);
 //
 //
 //
@@ -17325,7 +17336,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
+//
+//
+//
 
 
 
@@ -17336,14 +17349,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: false,
             error: null,
             editing: false,
-            showModal: false,
             newName: ""
         };
     },
 
-    components: {
-        Modal: __WEBPACK_IMPORTED_MODULE_1__Modal_vue___default.a
-    },
     props: {
         card: { type: Object, required: true }
     },
@@ -17383,6 +17392,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$nextTick(function () {
                 return _this3.$refs.edit.focus();
             });
+        },
+        openModal: function openModal() {
+            this.$emit('open-modal', this.card);
         }
     }
 });
@@ -17395,103 +17407,84 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "card board-card" },
-    [
-      _vm.showModal
-        ? _c("modal", {
-            attrs: { card: _vm.card },
+  return _c("div", { staticClass: "card board-card" }, [
+    _c("div", { staticClass: "card-content" }, [
+      _vm.editing
+        ? _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.newName,
+                expression: "newName"
+              }
+            ],
+            ref: "edit",
+            staticClass: "textarea",
+            attrs: { type: "text" },
+            domProps: { value: _vm.newName },
             on: {
-              "close-modal": function($event) {
-                _vm.showModal = false
+              keyup: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.updateCard($event)
+              },
+              blur: function($event) {
+                _vm.editing = false
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.newName = $event.target.value
               }
             }
           })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-content" }, [
-        _vm.editing
-          ? _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newName,
-                  expression: "newName"
-                }
-              ],
-              ref: "edit",
-              staticClass: "textarea",
-              attrs: { type: "text" },
-              domProps: { value: _vm.newName },
-              on: {
-                keyup: function($event) {
-                  if (
-                    !("button" in $event) &&
-                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                  ) {
-                    return null
-                  }
-                  return _vm.updateCard($event)
-                },
-                blur: function($event) {
-                  _vm.editing = false
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newName = $event.target.value
-                }
-              }
-            })
-          : _c("span", [
+        : _c("div", [
+            _c("span", { staticClass: "card-navs is-pulled-right" }, [
               _c(
-                "span",
+                "a",
                 {
                   on: {
                     click: function($event) {
-                      $event.stopPropagation()
-                      _vm.showModal = true
+                      $event.preventDefault()
+                      return _vm.editCard($event)
                     }
                   }
                 },
-                [_vm._v(_vm._s(_vm.card.name))]
+                [_c("i", { staticClass: "fas fa-edit" })]
               ),
               _vm._v(" "),
-              _c("span", { staticClass: "card-navs is-pulled-right" }, [
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editCard($event)
-                      }
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteThis($event)
                     }
-                  },
-                  [_c("i", { staticClass: "fas fa-edit" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deleteThis($event)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-trash" })]
-                )
-              ])
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-trash" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { on: { click: _vm.openModal } }, [
+              _vm._v(_vm._s(_vm.card.name) + "\n        "),
+              _vm.card.description
+                ? _c("span", [
+                    _c("br"),
+                    _c("i", { staticClass: "fas fa-comment" })
+                  ])
+                : _vm._e()
             ])
-      ])
-    ],
-    1
-  )
+          ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -36615,159 +36608,180 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _c("header", { staticClass: "card-header board-list" }, [
-      _c("p", { staticClass: "card-header-title" }, [
-        _vm.editing
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newName,
-                  expression: "newName"
-                }
-              ],
-              ref: "edit",
-              staticClass: "input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.newName },
-              on: {
-                keyup: function($event) {
-                  if (
-                    !("button" in $event) &&
-                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                  ) {
-                    return null
-                  }
-                  return _vm.updateList($event)
-                },
-                blur: function($event) {
-                  _vm.editing = false
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newName = $event.target.value
-                }
+  return _c(
+    "div",
+    { staticClass: "list-wrapper" },
+    [
+      _vm.showModal
+        ? _c("modal", {
+            attrs: { card: _vm.modalCard },
+            on: {
+              "close-modal": function($event) {
+                _vm.showModal = false
               }
-            })
-          : _c("span", [
-              _vm._v("List: " + _vm._s(_vm.list.name) + " "),
-              _c("span", { staticClass: "list-navs is-pulled-right" }, [
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "card" }, [
+        _c("header", { staticClass: "card-header board-list" }, [
+          _c("p", { staticClass: "card-header-title" }, [
+            _vm.editing
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newName,
+                      expression: "newName"
+                    }
+                  ],
+                  ref: "edit",
+                  staticClass: "input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.newName },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.updateList($event)
+                    },
+                    blur: function($event) {
+                      _vm.editing = false
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.newName = $event.target.value
+                    }
+                  }
+                })
+              : _c("span", [
+                  _vm._v("List: " + _vm._s(_vm.list.name) + " "),
+                  _c("span", { staticClass: "list-navs is-pulled-right" }, [
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.clickEdit($event)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-edit" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.deleteThis($event)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-trash" })]
+                    )
+                  ])
+                ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "card-content" },
+          [
+            _c(
+              "draggable",
+              {
+                staticClass: "dragArea",
+                attrs: { options: { group: "cards", ghostClass: "ghost" } },
+                on: { end: _vm.updateOrder },
+                model: {
+                  value: _vm.list.cards,
+                  callback: function($$v) {
+                    _vm.$set(_vm.list, "cards", $$v)
+                  },
+                  expression: "list.cards"
+                }
+              },
+              _vm._l(_vm.orderedList, function(card) {
+                return _c("card", {
+                  key: card.order + "," + _vm.list.id + "," + card.id,
+                  attrs: { card: card, id: card.id },
+                  on: {
+                    "open-modal": _vm.openModal,
+                    "delete-card": _vm.deleteCard
+                  }
+                })
+              })
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("footer", { staticClass: "card-footer" }, [
+          _vm.showNew
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
+                  }
+                ],
+                ref: "new",
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "New Card name" },
+                domProps: { value: _vm.name },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.createNew($event)
+                  },
+                  blur: function($event) {
+                    _vm.showNew = false
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.name = $event.target.value
+                  }
+                }
+              })
+            : _c("span", [
                 _c(
                   "a",
                   {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.clickEdit($event)
+                        return _vm.clickNew($event)
                       }
                     }
                   },
-                  [_c("i", { staticClass: "fas fa-edit" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deleteThis($event)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-trash" })]
+                  [_vm._v("Create new Card")]
                 )
               ])
-            ])
+        ])
       ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-content" },
-      [
-        _c(
-          "draggable",
-          {
-            staticClass: "dragArea",
-            attrs: { options: { group: "cards", ghostClass: "ghost" } },
-            on: { end: _vm.updateOrder },
-            model: {
-              value: _vm.list.cards,
-              callback: function($$v) {
-                _vm.$set(_vm.list, "cards", $$v)
-              },
-              expression: "list.cards"
-            }
-          },
-          _vm._l(_vm.orderedList, function(card) {
-            return _c("card", {
-              key: card.order + "," + _vm.list.id + "," + card.id,
-              attrs: { card: card, id: card.id },
-              on: { "delete-card": _vm.deleteCard }
-            })
-          })
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("footer", { staticClass: "card-footer" }, [
-      _vm.showNew
-        ? _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.name,
-                expression: "name"
-              }
-            ],
-            ref: "new",
-            staticClass: "input",
-            attrs: { type: "text", placeholder: "New Card name" },
-            domProps: { value: _vm.name },
-            on: {
-              keyup: function($event) {
-                if (
-                  !("button" in $event) &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.createNew($event)
-              },
-              blur: function($event) {
-                _vm.showNew = false
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.name = $event.target.value
-              }
-            }
-          })
-        : _c("span", [
-            _c(
-              "a",
-              {
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.clickNew($event)
-                  }
-                }
-              },
-              [_vm._v("Create new Card")]
-            )
-          ])
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38684,7 +38698,7 @@ exports = module.exports = __webpack_require__(11)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-mask {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, .5);\n  display: table;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n.modal-wrapper {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container {\n  width: 300px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n}\n.modal-body {\n  margin: 20px 0;\n}\n.modal-default-button {\n  float: right;\n}\n.modal-enter {\n  opacity: 0;\n}\n.modal-leave-active {\n  opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
+exports.push([module.i, "\n.modal-mask {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, .5);\n  display: table;\n  -webkit-transition: opacity .5s ease;\n  transition: opacity .5s ease;\n}\n.modal-wrapper {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container {\n  width: 600px;\n  height: 600px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n}\n.modal-body {\n  margin: 20px 0;\n}\n.modal-close-button {\n  float: right;\n}\n.modal-enter {\n  opacity: 0;\n}\n.modal-leave-active {\n  opacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
 
 // exports
 
@@ -38772,6 +38786,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -38781,7 +38804,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             loading: false,
             error: null,
-            editing: false
+            editing: false,
+            newDesc: ""
         };
     },
 
@@ -38795,16 +38819,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function (response) {
                 _this.loading = false;
             }).catch(function (error) {
                 _this.loading = false;
                 _this.error = error.response.data.message || error.message;
             });
-            this.card.name = this.newName;
+            this.card.description = this.newDesc;
         },
         closeModal: function closeModal() {
             this.$emit('close-modal');
+        },
+        startEdit: function startEdit() {
+            this.newDesc = this.card.description;
+            this.editing = true;
+        },
+        stopEdit: function stopEdit() {
+            this.newDesc = "";
+            this.editing = false;
         }
     }
 });
@@ -38835,23 +38867,69 @@ var render = function() {
         [
           _c("div", { staticClass: "modal-container" }, [
             _c("div", { staticClass: "modal-header" }, [
-              _vm._v("\n            " + _vm._s(_vm.card.name) + "\n        ")
+              _c("h2", [_vm._v(_vm._s(_vm.card.name))]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "modal-close-button",
+                  on: { click: _vm.closeModal }
+                },
+                [_c("i", { staticClass: "fas fa-times fa-lg" })]
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _vm._v("\n            body\n        ")
+              _c("h3", [
+                _vm._v("Description"),
+                _c("small", [
+                  _c("a", { on: { click: _vm.startEdit } }, [_vm._v("Edit")])
+                ])
+              ]),
+              _vm._v(" "),
+              !_vm.editing
+                ? _c("span", [
+                    _vm._v(_vm._s(_vm.card.description || "No description"))
+                  ])
+                : _c("span", [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newDesc,
+                          expression: "newDesc"
+                        }
+                      ],
+                      staticClass: "textarea",
+                      domProps: { value: _vm.newDesc },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.newDesc = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "button is-primary",
+                        on: { click: _vm.updateCard }
+                      },
+                      [_vm._v("Save")]
+                    ),
+                    _vm._v(" "),
+                    _c("a", { on: { click: _vm.stopEdit } }, [
+                      _c("i", { staticClass: "fas fa-times fa-lg" })
+                    ])
+                  ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
-              _vm._v("\n            footer\n            "),
-              _c(
-                "button",
-                {
-                  staticClass: "modal-default-button",
-                  on: { click: _vm.closeModal }
-                },
-                [_vm._v("\n              OK\n            ")]
-              )
+              _vm._v("\n            footer\n        ")
             ])
           ])
         ]
