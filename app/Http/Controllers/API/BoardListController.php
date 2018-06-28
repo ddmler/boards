@@ -31,7 +31,7 @@ class BoardListController extends Controller
         $boardList->board()->associate($request->board_id);
         $boardList->save();
 
-        return response()->json($boardList, 201);
+        return response()->json($boardList->load('cards'), 201);
     }
 
     /**
