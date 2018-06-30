@@ -1541,7 +1541,22 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__webpack_require__(75), {
     router: __webpack_require__(81)
 });
 __WEBPACK_IMPORTED_MODULE_4__App_vue___default.a.router = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.router;
-new __WEBPACK_IMPORTED_MODULE_0_vue___default.a(__WEBPACK_IMPORTED_MODULE_4__App_vue___default.a).$mount('#app');
+__WEBPACK_IMPORTED_MODULE_4__App_vue___default.a.data = {
+    loading: false,
+    error: false,
+    errors: {}
+};
+var vueApp = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a(__WEBPACK_IMPORTED_MODULE_4__App_vue___default.a).$mount('#app');
+
+__WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.request.use(function (config) {
+    vueApp.loading = true;
+    return config;
+});
+
+__WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(function (config) {
+    vueApp.loading = false;
+    return config;
+});
 
 /***/ }),
 /* 16 */
@@ -16387,6 +16402,24 @@ var render = function() {
                 "div",
                 { staticClass: "navbar-end" },
                 [
+                  _vm.$root.loading
+                    ? _c("div", { staticClass: "navbar-item" }, [
+                        _c("i", {
+                          staticClass: "fas fa-spinner fa-spin fa-lg",
+                          attrs: { title: "Loading/Saving" }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$root.loading
+                    ? _c("div", { staticClass: "navbar-item" }, [
+                        _c("i", {
+                          staticClass: "fas fa-cloud fa-lg",
+                          attrs: { title: "Everything is saved" }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   !_vm.$auth.check()
                     ? _c(
                         "router-link",
@@ -16442,12 +16475,27 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$auth.ready()
-      ? _c("div", [_vm._v("\n    Site loading...\n  ")])
-      : _vm._e()
+    !_vm.$auth.ready() ? _c("div", [_vm._m(0)]) : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "hero is-fullheight" }, [
+      _c("div", { staticClass: "hero-head" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "hero-body" }, [
+        _c("div", { staticClass: "container has-text-centered" }, [
+          _c("i", { staticClass: "fas fa-spinner fa-spin fa-3x" })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "hero-foot" })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -16543,18 +16591,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            loading: false,
             boards: null,
             error: null,
             name: ""
@@ -16569,12 +16610,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.error = this.users = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/boards').then(function (response) {
-                _this.loading = false;
                 _this.boards = response.data;
             }).catch(function (error) {
-                _this.loading = false;
                 _this.error = error.response.data.message || error.message;
             });
         },
@@ -16582,12 +16620,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.error = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boards', { name: this.name }).then(function (response) {
-                _this2.loading = false;
                 _this2.boards.push(response.data);
             }).catch(function (error) {
-                _this2.loading = false;
                 _this2.error = error.response.data.errors.name[0] || error.message;
             });
         },
@@ -16596,12 +16631,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.error = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function () {
-                _this3.loading = false;
                 _this3.boards.splice(_this3.boards.indexOf(board), 1);
             }).catch(function (error) {
-                _this3.loading = false;
                 _this3.error = error.response.data.message || error.message;
             });
         }
@@ -16617,10 +16649,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "boards" }, [
-    _vm.loading
-      ? _c("div", { staticClass: "loading" }, [_vm._v("\n    Loading...\n  ")])
-      : _vm._e(),
-    _vm._v(" "),
     _vm.error
       ? _c("div", { staticClass: "error" }, [
           _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
@@ -16914,12 +16942,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -16931,7 +16953,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            loading: false,
             board: null,
             error: null,
             name: "",
@@ -16952,12 +16973,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.error = this.users = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/boards/' + this.$route.params.id).then(function (response) {
-                _this.loading = false;
                 _this.board = response.data;
             }).catch(function (error) {
-                _this.loading = false;
                 _this.error = error.response.data.message || error.message;
             });
         },
@@ -16965,12 +16983,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.error = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boardLists', { board_id: this.board.id, name: this.name }).then(function (response) {
-                _this2.loading = false;
                 _this2.board.board_lists.push(response.data);
             }).catch(function (error) {
-                _this2.loading = false;
                 _this2.error = error.response.data.errors.name[0] || error.message;
             });
             this.name = "";
@@ -16983,12 +16998,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.error = null;
-            this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {
-                _this3.loading = false;
-            }).catch(function (error) {
-                _this3.loading = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {}).catch(function (error) {
                 _this3.error = error.response.data.message || error.message;
             });
             this.board.name = this.newName;
@@ -17247,7 +17258,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            loading: false,
             error: null,
             name: "",
             editing: false,
@@ -17268,15 +17278,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.error = null;
-            this.loading = true;
             var order = this.list.cards === undefined ? 0 : this.list.cards.length;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/cards', { list_id: this.list.id, name: this.name, order: order }).then(function (response) {
-                _this.loading = false;
                 _this.list.cards.push(response.data);
                 _this.name = "";
                 _this.showNew = false;
             }).catch(function (error) {
-                _this.loading = false;
                 _this.error = error.response || error.message;
             });
         },
@@ -17288,12 +17295,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.error = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function () {
-                _this2.loading = false;
                 _this2.$emit('delete-list', _this2.list);
             }).catch(function (error) {
-                _this2.loading = false;
                 _this2.error = error.response.data.message || error.message;
             });
         },
@@ -17301,12 +17305,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.error = null;
-            this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {
-                _this3.loading = false;
-            }).catch(function (error) {
-                _this3.loading = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {}).catch(function (error) {
                 _this3.error = error.response.data.message || error.message;
             });
             this.list.name = this.newName;
@@ -17422,7 +17422,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            loading: false,
             error: null,
             editing: false,
             newName: ""
@@ -17434,12 +17433,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.error = null;
-            this.loading = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function () {
-                _this.loading = false;
                 _this.$emit('delete-card', _this.card);
             }).catch(function (error) {
-                _this.loading = false;
                 _this.error = error.response.data.message || error.message;
             });
         },
@@ -17447,12 +17443,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.error = null;
-            this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {
-                _this2.loading = false;
-            }).catch(function (error) {
-                _this2.loading = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {}).catch(function (error) {
                 _this2.error = error.response.data.message || error.message;
             });
             this.card.name = this.newName;
@@ -17780,7 +17772,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            loading: false,
             error: null,
             editing: false,
             newDesc: ""
@@ -17792,12 +17783,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.error = null;
-            this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {
-                _this.loading = false;
-            }).catch(function (error) {
-                _this.loading = false;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {}).catch(function (error) {
                 _this.error = error.response.data.message || error.message;
             });
             this.card.description = this.newDesc;
@@ -37224,10 +37211,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "boards" }, [
-    _vm.loading
-      ? _c("div", { staticClass: "loading" }, [_vm._v("\n    Loading...\n  ")])
-      : _vm._e(),
-    _vm._v(" "),
     _vm.error
       ? _c("div", { staticClass: "error" }, [
           _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")

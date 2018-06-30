@@ -72,7 +72,6 @@ export default {
     },
     data() {
         return {
-            loading: false,
             error: null,
             name: "",
             editing: false,
@@ -90,17 +89,14 @@ export default {
     methods: {
     createNew() {
         this.error = null;
-        this.loading = true;
         var order = (this.list.cards === undefined ? 0 : this.list.cards.length);
         axios
             .post('/cards', { list_id: this.list.id, name: this.name, order: order })
             .then(response => {
-                this.loading = false;
                 this.list.cards.push(response.data);
                 this.name = "";
                 this.showNew = false;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response || error.message;
             });
     },
@@ -109,27 +105,21 @@ export default {
     },
     deleteThis() {
         this.error = null;
-        this.loading = true;
         axios
             .delete('/boardLists/' + this.list.id, { id: this.list.id })
             .then(() => {
-                this.loading = false;
                 this.$emit('delete-list', this.list);
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
     },
     updateList() {
         this.error = null;
-        this.loading = true;
         this.editing = false;
         axios
             .put('/boardLists/' + this.list.id, { name: this.newName })
             .then(() => {
-                this.loading = false;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
         this.list.name = this.newName;

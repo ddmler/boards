@@ -15,6 +15,20 @@
         <div class="navbar-menu">
           <div class="navbar-start"/>
           <div class="navbar-end">
+            <div 
+              v-if="$root.loading" 
+              class="navbar-item">
+              <i 
+                class="fas fa-spinner fa-spin fa-lg" 
+                title="Loading/Saving"/>
+            </div>
+            <div 
+              v-if="!$root.loading" 
+              class="navbar-item">
+              <i 
+                class="fas fa-cloud fa-lg" 
+                title="Everything is saved"/>
+            </div>
             <router-link 
               v-if="!$auth.check()" 
               :to="{ name: 'login' }" 
@@ -39,7 +53,15 @@
       </div>
     </div>
     <div v-if="!$auth.ready()">
-      Site loading...
+      <section class="hero is-fullheight">
+        <div class="hero-head"/>
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <i class="fas fa-spinner fa-spin fa-3x"/>
+          </div>
+        </div>
+        <div class="hero-foot"/>
+      </section>
     </div>
   </div>
 </template>

@@ -105,7 +105,6 @@ export default {
     },
     data() {
         return {
-            loading: false,
             error: null,
             editing: false,
             newDesc: "",
@@ -114,14 +113,11 @@ export default {
     methods: {
     updateCard() {
         this.error = null;
-        this.loading = true;
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { description: this.newDesc })
             .then(() => {
-                this.loading = false;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
         this.card.description = this.newDesc;

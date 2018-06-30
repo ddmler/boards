@@ -1,12 +1,6 @@
 <template>
   <div class="boards">
     <div 
-      v-if="loading" 
-      class="loading">
-      Loading...
-    </div>
-
-    <div 
       v-if="error" 
       class="error">
       {{ error }}
@@ -40,7 +34,6 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            loading: false,
             boards: null,
             error: null,
             name: "",
@@ -52,40 +45,31 @@ export default {
     methods: {
     fetchData() {
         this.error = this.users = null;
-        this.loading = true;
         axios
             .get('/boards')
             .then(response => {
-                this.loading = false;
                 this.boards = response.data;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
     },
     createNew() {
         this.error = null;
-        this.loading = true;
         axios
             .post('/boards', { name: this.name })
             .then(response => {
-                this.loading = false;
                 this.boards.push(response.data);
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.errors.name[0] || error.message;
             });
     },
     deleteThis: function(board) {
         this.error = null;
-        this.loading = true;
         axios
             .delete('/boards/' + board.id, { id: board.id })
             .then(() => {
-                this.loading = false;
                 this.boards.splice(this.boards.indexOf(board), 1);
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
     }

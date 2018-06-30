@@ -58,4 +58,19 @@ Vue.use(require('@websanova/vue-auth'), {
    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
 });
 App.router = Vue.router
-new Vue(App).$mount('#app');
+App.data = {
+    loading: false,
+    error: false,
+    errors: {},
+}
+const vueApp = new Vue(App).$mount('#app');
+
+axios.interceptors.request.use(config => {
+    vueApp.loading = true;
+    return config;
+});
+
+axios.interceptors.response.use(config => {
+    vueApp.loading = false;
+    return config;
+});

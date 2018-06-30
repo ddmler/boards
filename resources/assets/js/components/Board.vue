@@ -1,12 +1,6 @@
 <template>
   <div class="boards">
     <div 
-      v-if="loading" 
-      class="loading">
-      Loading...
-    </div>
-
-    <div 
       v-if="error" 
       class="error">
       {{ error }}
@@ -76,7 +70,6 @@ export default {
     },
     data() {
         return {
-            loading: false,
             board: null,
             error: null,
             name: "",
@@ -93,27 +86,21 @@ export default {
     methods: {
     fetchData() {
         this.error = this.users = null;
-        this.loading = true;
         axios
             .get('/boards/' + this.$route.params.id)
             .then(response => {
-                this.loading = false;
                 this.board = response.data;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
     },
     createNew() {
         this.error = null;
-        this.loading = true;
         axios
             .post('/boardLists', { board_id: this.board.id, name: this.name })
             .then(response => {
-                this.loading = false;
                 this.board.board_lists.push(response.data);
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.errors.name[0] || error.message;
             });
             this.name = "";
@@ -123,14 +110,11 @@ export default {
     },
     updateBoard() {
         this.error = null;
-        this.loading = true;
         this.editing = false;
         axios
             .put('/boards/' + this.board.id, { name: this.newName })
             .then(() => {
-                this.loading = false;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
         this.board.name = this.newName;

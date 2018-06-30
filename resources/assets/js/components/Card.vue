@@ -27,7 +27,6 @@ export default {
     },
     data() {
         return {
-            loading: false,
             error: null,
             editing: false,
             newName: "",
@@ -36,27 +35,21 @@ export default {
     methods: {
     deleteThis() {
         this.error = null;
-        this.loading = true;
         axios
             .delete('/cards/' + this.card.id, { id: this.card.id })
             .then(() => {
-                this.loading = false;
                 this.$emit('delete-card', this.card);
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
     },
     updateCard() {
         this.error = null;
-        this.loading = true;
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { name: this.newName })
             .then(() => {
-                this.loading = false;
             }).catch(error => {
-                this.loading = false;
                 this.error = error.response.data.message || error.message;
             });
         this.card.name = this.newName;
