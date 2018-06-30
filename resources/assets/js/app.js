@@ -86,11 +86,3 @@ axios.interceptors.response.use(config => {
     vueApp.error = true;
     return Promise.reject(error);
 });
-
-/*
-{"message": "No query results for model [App\\Board].",
-
-oder:
-
-{"message":"The given data was invalid.","errors":{"name":["The name field is required."]}}
-*/

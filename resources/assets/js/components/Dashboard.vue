@@ -1,11 +1,5 @@
 <template>
   <div class="boards">
-    <div 
-      v-if="error" 
-      class="error">
-      {{ error }}
-    </div>
-
     <ul v-if="boards">
       <li 
         v-for="board in boards" 
@@ -31,6 +25,7 @@
 </template>
 <script>
 import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -47,21 +42,21 @@ export default {
             .get('/boards')
             .then(response => {
                 this.boards = response.data;
-            });
+            }).catch(() => {});
     },
     createNew() {
         axios
             .post('/boards', { name: this.name })
             .then(response => {
                 this.boards.push(response.data);
-            });
+            }).catch(() => {});
     },
     deleteThis: function(board) {
         axios
             .delete('/boards/' + board.id, { id: board.id })
             .then(() => {
                 this.boards.splice(this.boards.indexOf(board), 1);
-            });
+            }).catch(() => {});
     }
 }
 }

@@ -1,11 +1,5 @@
 <template>
   <div class="boards">
-    <div 
-      v-if="error" 
-      class="error">
-      {{ error }}
-    </div>
-
     <ul v-if="board">
       <input 
         v-if="editing" 
@@ -88,14 +82,14 @@ export default {
             .get('/boards/' + this.$route.params.id)
             .then(response => {
                 this.board = response.data;
-            });
+            }).catch(() => {});
     },
     createNew() {
         axios
             .post('/boardLists', { board_id: this.board.id, name: this.name })
             .then(response => {
                 this.board.board_lists.push(response.data);
-            });
+            }).catch(() => {});
             this.name = "";
     },
     deleteList: function (boardlist) {
@@ -106,7 +100,7 @@ export default {
         axios
             .put('/boards/' + this.board.id, { name: this.newName })
             .then(() => {
-            });
+            }).catch(() => {});
         this.board.name = this.newName;
     },
     editBoard() {
@@ -128,7 +122,7 @@ export default {
             .patch('/board/updateOrder', { board: this.board })
             .then(() => {
                 //
-            });
+            }).catch(() => {});
     }
 }
 }

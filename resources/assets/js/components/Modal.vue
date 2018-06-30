@@ -115,7 +115,7 @@ export default {
         axios
             .put('/cards/' + this.card.id, { description: this.newDesc })
             .then(() => {
-            });
+            }).catch(() => {});
         this.card.description = this.newDesc;
     },
     closeModal() {

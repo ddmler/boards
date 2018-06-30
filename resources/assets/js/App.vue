@@ -58,8 +58,8 @@
             </span>
             Oops we have some errors: <ul>
               <li 
-                v-for="e in $root.errors" 
-                :key="e">
+                v-for="(e,index) in $root.errors" 
+                :key="index">
                 <span 
                   v-for="message in e" 
                   :key="message">{{ message }}</span>

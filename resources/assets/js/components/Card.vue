@@ -37,14 +37,14 @@ export default {
             .delete('/cards/' + this.card.id, { id: this.card.id })
             .then(() => {
                 this.$emit('delete-card', this.card);
-            });
+            }).catch(() => {});
     },
     updateCard() {
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { name: this.newName })
             .then(() => {
-            });
+            }).catch(() => {});
         this.card.name = this.newName;
     },
     editCard() {

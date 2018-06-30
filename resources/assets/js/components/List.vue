@@ -94,7 +94,7 @@ export default {
                 this.list.cards.push(response.data);
                 this.name = "";
                 this.showNew = false;
-            });
+            }).catch(() => {});
     },
     deleteCard: function (card) {
         this.list.cards.splice(this.list.cards.indexOf(card), 1);
@@ -104,14 +104,14 @@ export default {
             .delete('/boardLists/' + this.list.id, { id: this.list.id })
             .then(() => {
                 this.$emit('delete-list', this.list);
-            });
+            }).catch(() => {});
     },
     updateList() {
         this.editing = false;
         axios
             .put('/boardLists/' + this.list.id, { name: this.newName })
             .then(() => {
-            });
+            }).catch(() => {});
         this.list.name = this.newName;
     },
     clickEdit() {

@@ -1,11 +1,6 @@
 <template>
   <div>
     <div 
-      v-if="error && !success" 
-      class="notification is-danger">
-      <p>There was an error. Please check the error messages below.</p>
-    </div>
-    <div 
       v-if="success" 
       class="notification is-success">
       <p>Registration successful. You can now <router-link :to="{name:'login'}">login.</router-link></p>
@@ -22,12 +17,9 @@
         <input 
           id="name" 
           v-model="name" 
-          :class="[{ 'is-danger': error && errors.name }, 'input']" 
+          :class="[{ 'is-danger': $root.error && $root.errors.name }, 'input']" 
           type="text" 
           required>
-        <div 
-          v-if="error && errors.name" 
-          class="message is-danger is-small"><div class="message-body">{{ errors.name }}</div></div>
       </div>
       <div class="field">
         <label 
@@ -36,13 +28,10 @@
         <input 
           id="email" 
           v-model="email" 
-          :class="[{ 'is-danger': error && errors.email }, 'input']" 
+          :class="[{ 'is-danger': $root.error && $root.errors.email }, 'input']" 
           type="email" 
           placeholder="user@example.com" 
           required>
-        <div 
-          v-if="error && errors.email" 
-          class="message is-danger is-small"><div class="message-body">{{ errors.email }}</div></div>
       </div>
       <div class="field">
         <label 
@@ -51,12 +40,9 @@
         <input 
           id="password" 
           v-model="password" 
-          :class="[{ 'is-danger': error && errors.password }, 'input']" 
+          :class="[{ 'is-danger': $root.error && $root.errors.password }, 'input']" 
           type="password" 
           required>
-        <div 
-          v-if="error && errors.password" 
-          class="message is-danger is-small"><div class="message-body">{{ errors.password }}</div></div>
       </div>
       <button 
         type="submit" 
@@ -71,8 +57,6 @@
                 name: '',
                 email: '',
                 password: '',
-                error: false,
-                errors: {},
                 success: false
             };
         },
@@ -88,10 +72,7 @@
                     success: function () {
                         app.success = true
                     },
-                    error: function (resp) {
-                        app.error = true;
-                        app.errors = resp.response.data.errors;
-                    },
+                    error: function () {},
                     redirect: null
                 });
             }

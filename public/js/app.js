@@ -1570,14 +1570,6 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(function
     return Promise.reject(error);
 });
 
-/*
-{"message": "No query results for model [App\\Board].",
-
-oder:
-
-{"message":"The given data was invalid.","errors":{"name":["The name field is required."]}}
-*/
-
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -16515,10 +16507,10 @@ var render = function() {
                       _vm._v("\n          Oops we have some errors: "),
                       _c(
                         "ul",
-                        _vm._l(_vm.$root.errors, function(e) {
+                        _vm._l(_vm.$root.errors, function(e, index) {
                           return _c(
                             "li",
-                            { key: e },
+                            { key: index },
                             _vm._l(e, function(message) {
                               return _c("span", { key: message }, [
                                 _vm._v(_vm._s(message))
@@ -16648,12 +16640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -16673,14 +16660,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/boards').then(function (response) {
                 _this.boards = response.data;
-            });
+            }).catch(function () {});
         },
         createNew: function createNew() {
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boards', { name: this.name }).then(function (response) {
                 _this2.boards.push(response.data);
-            });
+            }).catch(function () {});
         },
 
         deleteThis: function deleteThis(board) {
@@ -16688,7 +16675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function () {
                 _this3.boards.splice(_this3.boards.indexOf(board), 1);
-            });
+            }).catch(function () {});
         }
     }
 });
@@ -16702,12 +16689,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "boards" }, [
-    _vm.error
-      ? _c("div", { staticClass: "error" }, [
-          _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
-        ])
-      : _vm._e(),
-    _vm._v(" "),
     _vm.boards
       ? _c(
           "ul",
@@ -16989,12 +16970,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -17026,14 +17001,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/boards/' + this.$route.params.id).then(function (response) {
                 _this.board = response.data;
-            });
+            }).catch(function () {});
         },
         createNew: function createNew() {
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boardLists', { board_id: this.board.id, name: this.name }).then(function (response) {
                 _this2.board.board_lists.push(response.data);
-            });
+            }).catch(function () {});
             this.name = "";
         },
 
@@ -17042,7 +17017,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         updateBoard: function updateBoard() {
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {});
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {}).catch(function () {});
             this.board.name = this.newName;
         },
         editBoard: function editBoard() {
@@ -17108,7 +17083,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch('/board/updateOrder', { board: this.board }).then(function () {
                 //
-            });
+            }).catch(function () {});
         }
     }
 });
@@ -17317,7 +17292,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.list.cards.push(response.data);
                 _this.name = "";
                 _this.showNew = false;
-            });
+            }).catch(function () {});
         },
 
         deleteCard: function deleteCard(card) {
@@ -17328,11 +17303,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function () {
                 _this2.$emit('delete-list', _this2.list);
-            });
+            }).catch(function () {});
         },
         updateList: function updateList() {
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {});
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {}).catch(function () {});
             this.list.name = this.newName;
         },
         clickEdit: function clickEdit() {
@@ -17457,11 +17432,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function () {
                 _this.$emit('delete-card', _this.card);
-            });
+            }).catch(function () {});
         },
         updateCard: function updateCard() {
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {});
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {}).catch(function () {});
             this.card.name = this.newName;
         },
         editCard: function editCard() {
@@ -17795,7 +17770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         updateCard: function updateCard() {
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {});
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {}).catch(function () {});
             this.card.description = this.newDesc;
         },
         closeModal: function closeModal() {
@@ -37220,12 +37195,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "boards" }, [
-    _vm.error
-      ? _c("div", { staticClass: "error" }, [
-          _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
-        ])
-      : _vm._e(),
-    _vm._v(" "),
     _vm.board
       ? _c("ul", [
           _vm.editing
@@ -37518,20 +37487,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -37539,8 +37494,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             name: '',
             email: '',
             password: '',
-            error: false,
-            errors: {},
             success: false
         };
     },
@@ -37557,10 +37510,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 success: function success() {
                     app.success = true;
                 },
-                error: function error(resp) {
-                    app.error = true;
-                    app.errors = resp.response.data.errors;
-                },
+                error: function error() {},
                 redirect: null
             });
         }
@@ -37576,14 +37526,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.error && !_vm.success
-      ? _c("div", { staticClass: "notification is-danger" }, [
-          _c("p", [
-            _vm._v("There was an error. Please check the error messages below.")
-          ])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
     _vm.success
       ? _c("div", { staticClass: "notification is-success" }, [
           _c(
@@ -37626,7 +37568,10 @@ var render = function() {
                     expression: "name"
                   }
                 ],
-                class: [{ "is-danger": _vm.error && _vm.errors.name }, "input"],
+                class: [
+                  { "is-danger": _vm.$root.error && _vm.$root.errors.name },
+                  "input"
+                ],
                 attrs: { id: "name", type: "text", required: "" },
                 domProps: { value: _vm.name },
                 on: {
@@ -37637,15 +37582,7 @@ var render = function() {
                     _vm.name = $event.target.value
                   }
                 }
-              }),
-              _vm._v(" "),
-              _vm.error && _vm.errors.name
-                ? _c("div", { staticClass: "message is-danger is-small" }, [
-                    _c("div", { staticClass: "message-body" }, [
-                      _vm._v(_vm._s(_vm.errors.name))
-                    ])
-                  ])
-                : _vm._e()
+              })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "field" }, [
@@ -37663,7 +37600,7 @@ var render = function() {
                   }
                 ],
                 class: [
-                  { "is-danger": _vm.error && _vm.errors.email },
+                  { "is-danger": _vm.$root.error && _vm.$root.errors.email },
                   "input"
                 ],
                 attrs: {
@@ -37681,15 +37618,7 @@ var render = function() {
                     _vm.email = $event.target.value
                   }
                 }
-              }),
-              _vm._v(" "),
-              _vm.error && _vm.errors.email
-                ? _c("div", { staticClass: "message is-danger is-small" }, [
-                    _c("div", { staticClass: "message-body" }, [
-                      _vm._v(_vm._s(_vm.errors.email))
-                    ])
-                  ])
-                : _vm._e()
+              })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "field" }, [
@@ -37709,7 +37638,7 @@ var render = function() {
                   }
                 ],
                 class: [
-                  { "is-danger": _vm.error && _vm.errors.password },
+                  { "is-danger": _vm.$root.error && _vm.$root.errors.password },
                   "input"
                 ],
                 attrs: { id: "password", type: "password", required: "" },
@@ -37722,15 +37651,7 @@ var render = function() {
                     _vm.password = $event.target.value
                   }
                 }
-              }),
-              _vm._v(" "),
-              _vm.error && _vm.errors.password
-                ? _c("div", { staticClass: "message is-danger is-small" }, [
-                    _c("div", { staticClass: "message-body" }, [
-                      _vm._v(_vm._s(_vm.errors.password))
-                    ])
-                  ])
-                : _vm._e()
+              })
             ]),
             _vm._v(" "),
             _c("button", { staticClass: "button", attrs: { type: "submit" } }, [
