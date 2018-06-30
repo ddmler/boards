@@ -1,20 +1,30 @@
 <template>
-    <div class="card board-card">
-        <div class="card-content">
-        <textarea v-if="editing" type="text" ref="edit" class="textarea" v-model="newName" @keyup.enter="updateCard" @blur="editing = false"></textarea>
-        <div v-else>
-            <span class="card-navs"><a @click.prevent="editCard"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span>
-            <div @click="openModal">{{ card.name }}
-            <span v-if="card.description"><br><i class="fas fa-comment"></i></span></div>
-        </div>
-        </div>
+  <div class="card board-card">
+    <div class="card-content">
+      <textarea 
+        v-if="editing" 
+        ref="edit" 
+        v-model="newName" 
+        type="text" 
+        class="textarea" 
+        @keyup.enter="updateCard" 
+        @blur="editing = false"/>
+      <div v-else>
+        <span class="card-navs"><a @click.prevent="editCard"><i class="fas fa-edit"/></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"/></a></span>
+        <div @click="openModal">{{ card.name }}
+        <span v-if="card.description"><br><i class="fas fa-comment"/></span></div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import axios from 'axios';
 
 export default {
     name: 'Card',
+    props: {
+        card: { type: Object, required: true }
+    },
     data() {
         return {
             loading: false,
@@ -23,16 +33,13 @@ export default {
             newName: "",
         };
     },
-    props: {
-        card: { type: Object, required: true }
-    },
     methods: {
     deleteThis() {
         this.error = null;
         this.loading = true;
         axios
             .delete('/cards/' + this.card.id, { id: this.card.id })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
                 this.$emit('delete-card', this.card);
             }).catch(error => {
@@ -46,7 +53,7 @@ export default {
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { name: this.newName })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;

@@ -1,6 +1,7 @@
 {
   "extends": "stylelint-config-sass-guidelines",
   "rules": {
-      "scss/at-import-partial-extension-blacklist": null
+      "scss/at-import-partial-extension-blacklist": null,
+      "selector-no-qualifying-type": null
       }
 }

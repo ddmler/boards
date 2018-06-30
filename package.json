@@ -8,7 +8,7 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "stylefix": "./node_modules/.bin/stylelint \"resources/assets/sass/*.scss\" --fix && ./node_modules/.bin/eslint resources/assets/js/ --fix && ./vendor/bin/php-cs-fixer fix"
+    "stylefix": "./node_modules/.bin/stylelint \"resources/assets/sass/*.scss\" --fix && ./node_modules/.bin/eslint resources/assets/js/ --fix --ext .vue && ./vendor/bin/php-cs-fixer fix"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.1.0",

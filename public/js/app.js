@@ -16443,7 +16443,7 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     !_vm.$auth.ready()
-      ? _c("div", [_vm._v("\n        Site loading...\n    ")])
+      ? _c("div", [_vm._v("\n    Site loading...\n  ")])
       : _vm._e()
   ])
 }
@@ -16537,6 +16537,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -16585,7 +16597,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.error = null;
             this.loading = true;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function () {
                 _this3.loading = false;
                 _this3.boards.splice(_this3.boards.indexOf(board), 1);
             }).catch(function (error) {
@@ -16606,14 +16618,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "boards" }, [
     _vm.loading
-      ? _c("div", { staticClass: "loading" }, [
-          _vm._v("\n        Loading...\n    ")
-        ])
+      ? _c("div", { staticClass: "loading" }, [_vm._v("\n    Loading...\n  ")])
       : _vm._e(),
     _vm._v(" "),
     _vm.error
       ? _c("div", { staticClass: "error" }, [
-          _vm._v("\n        " + _vm._s(_vm.error) + "\n    ")
+          _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -16623,6 +16633,7 @@ var render = function() {
           _vm._l(_vm.boards, function(board) {
             return _c(
               "li",
+              { key: board.id },
               [
                 _c("strong", [_vm._v("Board: ")]),
                 _vm._v(" "),
@@ -16884,6 +16895,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -16903,13 +16939,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             newName: ""
         };
     },
-    created: function created() {
-        this.fetchData();
-    },
 
     watch: {
         '$route': 'fetchData'
     },
+    created: function created() {
+        this.fetchData();
+    },
+
     methods: {
         fetchData: function fetchData() {
             var _this = this;
@@ -16948,7 +16985,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {
                 _this3.loading = false;
             }).catch(function (error) {
                 _this3.loading = false;
@@ -17020,7 +17057,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             this.error = null;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch('/board/updateOrder', { board: this.board }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch('/board/updateOrder', { board: this.board }).then(function () {
                 //
             }).catch(function (error) {
                 _this5.error = error.response.data.message || error.message;
@@ -17163,6 +17200,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17177,6 +17242,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Modal: __WEBPACK_IMPORTED_MODULE_2__Modal_vue___default.a,
         draggable: __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default.a
     },
+    props: {
+        list: { type: Object, required: true }
+    },
     data: function data() {
         return {
             loading: false,
@@ -17190,9 +17258,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: {
-        list: { type: Object, required: true }
-    },
     computed: {
         orderedList: function orderedList() {
             return __WEBPACK_IMPORTED_MODULE_4_lodash___default.a.orderBy(this.list.cards, 'order');
@@ -17224,7 +17289,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.error = null;
             this.loading = true;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function () {
                 _this2.loading = false;
                 _this2.$emit('delete-list', _this2.list);
             }).catch(function (error) {
@@ -17238,7 +17303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {
                 _this3.loading = false;
             }).catch(function (error) {
                 _this3.loading = false;
@@ -17340,11 +17405,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Card',
+    props: {
+        card: { type: Object, required: true }
+    },
     data: function data() {
         return {
             loading: false,
@@ -17354,16 +17429,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: {
-        card: { type: Object, required: true }
-    },
     methods: {
         deleteThis: function deleteThis() {
             var _this = this;
 
             this.error = null;
             this.loading = true;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function () {
                 _this.loading = false;
                 _this.$emit('delete-card', _this.card);
             }).catch(function (error) {
@@ -17377,7 +17449,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {
                 _this2.loading = false;
             }).catch(function (error) {
                 _this2.loading = false;
@@ -17475,7 +17547,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { on: { click: _vm.openModal } }, [
-              _vm._v(_vm._s(_vm.card.name) + "\n        "),
+              _vm._v(_vm._s(_vm.card.name) + "\n      "),
               _vm.card.description
                 ? _c("span", [
                     _c("br"),
@@ -17685,11 +17757,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Modal',
+    props: {
+        card: { type: Object, required: true }
+    },
     data: function data() {
         return {
             loading: false,
@@ -17699,9 +17782,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: {
-        card: { type: Object, required: true }
-    },
     methods: {
         updateCard: function updateCard() {
             var _this = this;
@@ -17709,7 +17789,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = null;
             this.loading = true;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {
                 _this.loading = false;
             }).catch(function (error) {
                 _this.loading = false;
@@ -37140,14 +37220,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "boards" }, [
     _vm.loading
-      ? _c("div", { staticClass: "loading" }, [
-          _vm._v("\n        Loading...\n    ")
-        ])
+      ? _c("div", { staticClass: "loading" }, [_vm._v("\n    Loading...\n  ")])
       : _vm._e(),
     _vm._v(" "),
     _vm.error
       ? _c("div", { staticClass: "error" }, [
-          _vm._v("\n        " + _vm._s(_vm.error) + "\n    ")
+          _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -37419,6 +37497,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -37514,7 +37630,7 @@ var render = function() {
                   }
                 ],
                 class: [{ "is-danger": _vm.error && _vm.errors.name }, "input"],
-                attrs: { type: "text", id: "name", required: "" },
+                attrs: { id: "name", type: "text", required: "" },
                 domProps: { value: _vm.name },
                 on: {
                   input: function($event) {
@@ -37554,8 +37670,8 @@ var render = function() {
                   "input"
                 ],
                 attrs: {
-                  type: "email",
                   id: "email",
+                  type: "email",
                   placeholder: "user@example.com",
                   required: ""
                 },
@@ -37599,7 +37715,7 @@ var render = function() {
                   { "is-danger": _vm.error && _vm.errors.password },
                   "input"
                 ],
-                attrs: { type: "password", id: "password", required: "" },
+                attrs: { id: "password", type: "password", required: "" },
                 domProps: { value: _vm.password },
                 on: {
                   input: function($event) {
@@ -37709,6 +37825,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -37782,8 +37920,8 @@ var render = function() {
             ],
             staticClass: "input",
             attrs: {
-              type: "email",
               id: "email",
+              type: "email",
               placeholder: "user@example.com",
               required: ""
             },
@@ -37814,7 +37952,7 @@ var render = function() {
               }
             ],
             staticClass: "input",
-            attrs: { type: "password", id: "password", required: "" },
+            attrs: { id: "password", type: "password", required: "" },
             domProps: { value: _vm.password },
             on: {
               input: function($event) {

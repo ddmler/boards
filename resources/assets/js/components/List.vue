@@ -1,24 +1,52 @@
 <template>
-    <div class="list-wrapper">
-    <modal v-if="showModal" :card="modalCard" @close-modal="showModal = false"></modal>
+  <div class="list-wrapper">
+    <modal 
+      v-if="showModal" 
+      :card="modalCard" 
+      @close-modal="showModal = false"/>
     <div class="card">
-        <header class="card-header board-list">
-            <p class="card-header-title">
-        <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateList" @blur="editing = false">
-        <span v-else>List: {{ list.name }} <span class="list-navs"><a @click.prevent="clickEdit"><i class="fas fa-edit"></i></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"></i></a></span></span>
-    </p>
-    </header>
-    <div class="card-content">
-        <draggable v-model="list.cards" class="dragArea" :options="{group:'cards', ghostClass:'ghost'}" @end="updateOrder">
-                <card v-for="card in orderedList" :card="card" @open-modal="openModal" @delete-card="deleteCard" :key="card.order + ',' + list.id + ',' + card.id" :id="card.id"></card>
+      <header class="card-header board-list">
+        <p class="card-header-title">
+          <input 
+            v-if="editing" 
+            ref="edit" 
+            v-model="newName" 
+            type="text" 
+            class="input" 
+            @keyup.enter="updateList" 
+            @blur="editing = false">
+          <span v-else>List: {{ list.name }} <span class="list-navs"><a @click.prevent="clickEdit"><i class="fas fa-edit"/></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"/></a></span></span>
+        </p>
+      </header>
+      <div class="card-content">
+        <draggable 
+          v-model="list.cards" 
+          :options="{group:'cards', ghostClass:'ghost'}" 
+          class="dragArea" 
+          @end="updateOrder">
+          <card 
+            v-for="card in orderedList" 
+            :card="card" 
+            :key="card.order + ',' + list.id + ',' + card.id" 
+            :id="card.id" 
+            @open-modal="openModal" 
+            @delete-card="deleteCard"/>
         </draggable>
-    </div>
-    <footer class="card-footer">
-        <input v-if="showNew" ref="new" type="text" class="input" placeholder="New Card name" v-model="name" @keyup.enter="createNew" @blur="showNew = false">
+      </div>
+      <footer class="card-footer">
+        <input 
+          v-if="showNew" 
+          ref="new" 
+          v-model="name" 
+          type="text" 
+          class="input" 
+          placeholder="New Card name" 
+          @keyup.enter="createNew" 
+          @blur="showNew = false">
         <div v-else><a @click.prevent="clickNew">Create new Card</a></div>
-    </footer>
+      </footer>
     </div>
-</div>
+  </div>
 </template>
 <style scoped>
 .dragArea {
@@ -39,6 +67,9 @@ export default {
         Modal,
         draggable
     },
+    props: {
+        list: { type: Object, required: true }
+    },
     data() {
         return {
             loading: false,
@@ -50,9 +81,6 @@ export default {
             modalCard: null,
             newName: "",
         };
-    },
-    props: {
-        list: { type: Object, required: true }
     },
     computed: {
         orderedList: function() {
@@ -84,7 +112,7 @@ export default {
         this.loading = true;
         axios
             .delete('/boardLists/' + this.list.id, { id: this.list.id })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
                 this.$emit('delete-list', this.list);
             }).catch(error => {
@@ -98,7 +126,7 @@ export default {
         this.editing = false;
         axios
             .put('/boardLists/' + this.list.id, { name: this.newName })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;

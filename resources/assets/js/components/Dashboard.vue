@@ -1,27 +1,39 @@
 <template>
-    <div class="boards">
-        <div class="loading" v-if="loading">
-            Loading...
-        </div>
-
-        <div v-if="error" class="error">
-            {{ error }}
-        </div>
-
-        <ul v-if="boards">
-            <li v-for="board in boards">
-                <strong>Board: </strong>
-                <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a @click.prevent="deleteThis(board)"><i class="fas fa-trash"></i></a>
-            </li>
-        </ul>
-
-        <div class="new-board">
-            <form @submit.prevent>
-                <input type="text" class="input" placeholder="New Board name" v-model="name">
-                <button @click="createNew" class="button">Create</button>
-            </form>
-        </div>
+  <div class="boards">
+    <div 
+      v-if="loading" 
+      class="loading">
+      Loading...
     </div>
+
+    <div 
+      v-if="error" 
+      class="error">
+      {{ error }}
+    </div>
+
+    <ul v-if="boards">
+      <li 
+        v-for="board in boards" 
+        :key="board.id">
+        <strong>Board: </strong>
+        <router-link :to="{ name: 'board_view', params: { id : board.id }}">{{ board.name }}</router-link> <a @click.prevent="deleteThis(board)"><i class="fas fa-trash"/></a>
+      </li>
+    </ul>
+
+    <div class="new-board">
+      <form @submit.prevent>
+        <input 
+          v-model="name" 
+          type="text" 
+          class="input" 
+          placeholder="New Board name">
+        <button 
+          class="button" 
+          @click="createNew">Create</button>
+      </form>
+    </div>
+  </div>
 </template>
 <script>
 import axios from 'axios';
@@ -69,7 +81,7 @@ export default {
         this.loading = true;
         axios
             .delete('/boards/' + board.id, { id: board.id })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
                 this.boards.splice(this.boards.indexOf(board), 1);
             }).catch(error => {

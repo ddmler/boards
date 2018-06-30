@@ -16,33 +16,35 @@
 @import './node_modules/@fortawesome/fontawesome-free/scss/fa-solid.scss';
 
 html {
-    background-color: #121212;
+  background-color: #121212;
 }
 
 .main-wrapper {
-    padding: 10px;
+  padding: 10px;
 }
 
 .label {
-    color: white;
+  color: #fff;
 }
 
-.button:hover, .navbar.is-primary .navbar-end > a.navbar-item:hover, .navbar.is-primary .navbar-brand > a.navbar-item:hover {
-    background-color: #363636;
+.button:hover,
+.navbar.is-primary .navbar-end > a.navbar-item:hover,
+.navbar.is-primary .navbar-brand > a.navbar-item:hover {
+  background-color: #363636;
 }
 
 .card {
-    background-color: #232323;
-    border-radius: 5px;
+  background-color: #232323;
+  border-radius: 5px;
 }
 
 .card-footer {
-    padding-top: 7px;
-    padding-bottom: 7px;
+  padding-bottom: 7px;
+  padding-top: 7px;
 }
 
 .card-footer div {
-    margin: auto;
+  margin: auto;
 }
 
 .navbar-laravel {
@@ -57,8 +59,8 @@ html {
 }
 
 .board-card {
-    background-color: #363636;
-    margin-bottom: 5px;
+  background-color: #363636;
+  margin-bottom: 5px;
 }
 
 .board-card:hover .card-navs {
@@ -66,7 +68,7 @@ html {
 }
 
 .board-card .card-content {
-    padding: 0.75rem;
+  padding: 0.75rem;
 }
 
 .list-navs {

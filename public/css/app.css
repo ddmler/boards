@@ -1703,16 +1703,16 @@ a.box:active {
 .button {
   background-color: #242424;
   border-color: #dbdbdb;
-  border-width: 0px;
-  color: white;
+  border-width: 0;
+  color: #fff;
   cursor: pointer;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding-bottom: calc(0.375em - 0px);
+  padding-bottom: calc(0.375em - 0);
   padding-left: 0.75em;
   padding-right: 0.75em;
-  padding-top: calc(0.375em - 0px);
+  padding-top: calc(0.375em - 0);
   text-align: center;
   white-space: nowrap;
 }
@@ -1730,30 +1730,30 @@ a.box:active {
 }
 
 .button .icon:first-child:not(:last-child) {
-  margin-left: calc(-0.375em - 0px);
+  margin-left: calc(-0.375em - 0);
   margin-right: 0.1875em;
 }
 
 .button .icon:last-child:not(:first-child) {
   margin-left: 0.1875em;
-  margin-right: calc(-0.375em - 0px);
+  margin-right: calc(-0.375em - 0);
 }
 
 .button .icon:first-child:last-child {
-  margin-left: calc(-0.375em - 0px);
-  margin-right: calc(-0.375em - 0px);
+  margin-left: calc(-0.375em - 0);
+  margin-right: calc(-0.375em - 0);
 }
 
 .button:hover,
 .button.is-hovered {
   border-color: #b5b5b5;
-  color: white;
+  color: #fff;
 }
 
 .button:focus,
 .button.is-focused {
   border-color: #3273dc;
-  color: white;
+  color: #fff;
 }
 
 .button:focus:not(:active),
@@ -1765,7 +1765,7 @@ a.box:active {
 .button:active,
 .button.is-active {
   border-color: #4a4a4a;
-  color: white;
+  color: #fff;
 }
 
 .button.is-text {
@@ -3215,7 +3215,7 @@ a.box:active {
 .textarea {
   background-color: #363636;
   border-color: #242424;
-  color: white;
+  color: #fff;
   -webkit-box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
           box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
   max-width: 100%;
@@ -3584,7 +3584,7 @@ a.box:active {
 .select select {
   background-color: #363636;
   border-color: #242424;
-  color: white;
+  color: #fff;
   cursor: pointer;
   display: block;
   font-size: 1em;
@@ -16265,7 +16265,7 @@ html {
 }
 
 .label {
-  color: white;
+  color: #fff;
 }
 
 .button:hover,
@@ -16280,8 +16280,8 @@ html {
 }
 
 .card-footer {
-  padding-top: 7px;
   padding-bottom: 7px;
+  padding-top: 7px;
 }
 
 .card-footer div {

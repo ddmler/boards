@@ -1,26 +1,34 @@
 <template>
-    <transition name="modal">
+  <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-wrapper" @click.self="closeModal">
+      <div 
+        class="modal-wrapper" 
+        @click.self="closeModal">
         <div class="modal-container">
 
           <div class="modal-header">
-              <h2>{{ card.name }}</h2>
-              <a class="modal-close-button" @click="closeModal">
-                <i class="fas fa-times fa-lg"></i>
-              </a>
+            <h2>{{ card.name }}</h2>
+            <a 
+              class="modal-close-button" 
+              @click="closeModal">
+              <i class="fas fa-times fa-lg"/>
+            </a>
           </div>
 
           <div class="modal-body">
-              <h3>Description<small><a @click="startEdit">Edit</a></small></h3>
-              <span v-if="!editing">{{ card.description || "No description" }}</span>
-              <span v-else>
-                  <textarea v-model="newDesc" class="textarea"></textarea>
-                  <a @click="updateCard" class="button is-success">Save</a>
-                  <a @click="stopEdit">
-                    <i class="fas fa-times fa-lg"></i>
-                  </a>
-              </span>
+            <h3>Description<small><a @click="startEdit">Edit</a></small></h3>
+            <span v-if="!editing">{{ card.description || "No description" }}</span>
+            <span v-else>
+              <textarea 
+                v-model="newDesc" 
+                class="textarea"/>
+              <a 
+                class="button is-success" 
+                @click="updateCard">Save</a>
+              <a @click="stopEdit">
+                <i class="fas fa-times fa-lg"/>
+              </a>
+            </span>
           </div>
         </div>
       </div>
@@ -92,6 +100,9 @@ import axios from 'axios';
 
 export default {
     name: 'Modal',
+    props: {
+        card: { type: Object, required: true }
+    },
     data() {
         return {
             loading: false,
@@ -100,9 +111,6 @@ export default {
             newDesc: "",
         };
     },
-    props: {
-        card: { type: Object, required: true }
-    },
     methods: {
     updateCard() {
         this.error = null;
@@ -110,7 +118,7 @@ export default {
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { description: this.newDesc })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;

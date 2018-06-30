@@ -1,30 +1,68 @@
 <template>
-    <div>
-        <div v-if="error && !success" class="notification is-danger">
-            <p>There was an error. Please check the error messages below.</p>
-        </div>
-        <div v-if="success" class="notification is-success">
-            <p>Registration successful. You can now <router-link :to="{name:'login'}">login.</router-link></p>
-        </div>
-        <form autocomplete="off" @submit.prevent="register" v-if="!success" method="post">
-            <div class="field">
-                <label for="name" class="label">Username</label>
-                <input type="text" id="name" v-model="name" required :class="[{ 'is-danger': error && errors.name }, 'input']">
-                <div v-if="error && errors.name" class="message is-danger is-small"><div class="message-body">{{ errors.name }}</div></div>
-            </div>
-            <div class="field">
-                <label for="email" class="label">E-mail</label>
-                <input type="email" id="email" placeholder="user@example.com" v-model="email" required :class="[{ 'is-danger': error && errors.email }, 'input']">
-                <div v-if="error && errors.email" class="message is-danger is-small"><div class="message-body">{{ errors.email }}</div></div>
-            </div>
-            <div class="field">
-                <label for="password" class="label">Password</label>
-                <input type="password" id="password" v-model="password" required :class="[{ 'is-danger': error && errors.password }, 'input']">
-                <div v-if="error && errors.password" class="message is-danger is-small"><div class="message-body">{{ errors.password }}</div></div>
-            </div>
-            <button type="submit" class="button">Register</button>
-        </form>
+  <div>
+    <div 
+      v-if="error && !success" 
+      class="notification is-danger">
+      <p>There was an error. Please check the error messages below.</p>
     </div>
+    <div 
+      v-if="success" 
+      class="notification is-success">
+      <p>Registration successful. You can now <router-link :to="{name:'login'}">login.</router-link></p>
+    </div>
+    <form 
+      v-if="!success" 
+      autocomplete="off" 
+      method="post" 
+      @submit.prevent="register">
+      <div class="field">
+        <label 
+          for="name" 
+          class="label">Username</label>
+        <input 
+          id="name" 
+          v-model="name" 
+          :class="[{ 'is-danger': error && errors.name }, 'input']" 
+          type="text" 
+          required>
+        <div 
+          v-if="error && errors.name" 
+          class="message is-danger is-small"><div class="message-body">{{ errors.name }}</div></div>
+      </div>
+      <div class="field">
+        <label 
+          for="email" 
+          class="label">E-mail</label>
+        <input 
+          id="email" 
+          v-model="email" 
+          :class="[{ 'is-danger': error && errors.email }, 'input']" 
+          type="email" 
+          placeholder="user@example.com" 
+          required>
+        <div 
+          v-if="error && errors.email" 
+          class="message is-danger is-small"><div class="message-body">{{ errors.email }}</div></div>
+      </div>
+      <div class="field">
+        <label 
+          for="password" 
+          class="label">Password</label>
+        <input 
+          id="password" 
+          v-model="password" 
+          :class="[{ 'is-danger': error && errors.password }, 'input']" 
+          type="password" 
+          required>
+        <div 
+          v-if="error && errors.password" 
+          class="message is-danger is-small"><div class="message-body">{{ errors.password }}</div></div>
+      </div>
+      <button 
+        type="submit" 
+        class="button">Register</button>
+    </form>
+  </div>
 </template>
 <script>
     export default {

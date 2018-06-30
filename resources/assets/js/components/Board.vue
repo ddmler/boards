@@ -1,32 +1,57 @@
 <template>
-    <div class="boards">
-        <div class="loading" v-if="loading">
-            Loading...
-        </div>
-
-        <div v-if="error" class="error">
-            {{ error }}
-        </div>
-
-        <ul v-if="board">
-            <input v-if="editing" ref="edit" type="text" class="input" v-model="newName" @keyup.enter="updateBoard" @blur="editing = false">
-            <span v-else @click="editBoard">Board: {{ board.name }}</span>
-
-
-            <div class="flex_wrapper">
-            <div class="list" v-for="list in board.board_lists" :key="list.id">
-                <list :list="list" @delete-list="deleteList" @update-card-order="updateCardOrder"></list>
-            </div>
-            <div class="list new-list">
-                <form @submit.prevent>
-                    <input type="text" class="input" placeholder="New List name" v-model="name">
-                    <button @click="createNew" class="button">Create</button>
-                </form>
-            </div>
-            </div>
-        </ul>
-
+  <div class="boards">
+    <div 
+      v-if="loading" 
+      class="loading">
+      Loading...
     </div>
+
+    <div 
+      v-if="error" 
+      class="error">
+      {{ error }}
+    </div>
+
+    <ul v-if="board">
+      <input 
+        v-if="editing" 
+        ref="edit" 
+        v-model="newName" 
+        type="text" 
+        class="input" 
+        @keyup.enter="updateBoard" 
+        @blur="editing = false">
+      <span 
+        v-else 
+        @click="editBoard">Board: {{ board.name }}</span>
+
+
+      <div class="flex_wrapper">
+        <div 
+          v-for="list in board.board_lists" 
+          :key="list.id" 
+          class="list">
+          <list 
+            :list="list" 
+            @delete-list="deleteList" 
+            @update-card-order="updateCardOrder"/>
+        </div>
+        <div class="list new-list">
+          <form @submit.prevent>
+            <input 
+              v-model="name" 
+              type="text" 
+              class="input" 
+              placeholder="New List name">
+            <button 
+              class="button" 
+              @click="createNew">Create</button>
+          </form>
+        </div>
+      </div>
+    </ul>
+
+  </div>
 </template>
 <style scoped>
 .flex_wrapper {
@@ -59,11 +84,11 @@ export default {
             newName: "",
         };
     },
-    created() {
-        this.fetchData();
-    },
     watch: {
         '$route': 'fetchData'
+    },
+    created() {
+        this.fetchData();
     },
     methods: {
     fetchData() {
@@ -102,7 +127,7 @@ export default {
         this.editing = false;
         axios
             .put('/boards/' + this.board.id, { name: this.newName })
-            .then(response => {
+            .then(() => {
                 this.loading = false;
             }).catch(error => {
                 this.loading = false;
@@ -128,7 +153,7 @@ export default {
         this.error = null;
         axios
             .patch('/board/updateOrder', { board: this.board })
-            .then(response => {
+            .then(() => {
                 //
             }).catch(error => {
                 this.error = error.response.data.message || error.message;
