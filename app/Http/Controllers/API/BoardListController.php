@@ -28,16 +28,16 @@ class BoardListController extends Controller
      */
     public function store(Request $request)
     {
-        $board = BoardList::findOrFail($request->board_id);
-
-        if (Auth::id() !== $board->user->id) {
-            abort(403, 'Unauthorized for this action.');
-        }
-
         $request->validate([
             'name' => 'required',
             'board_id' => 'required|integer',
         ]);
+
+        $board = Board::findOrFail($request->board_id);
+
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
 
         $boardList = new BoardList;
         $boardList->name = $request->name;

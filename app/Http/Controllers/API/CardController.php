@@ -28,17 +28,17 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        $boardList = BoardList::findOrFail($request->list_id);
-
-        if (Auth::id() !== $boardList->board->user->id) {
-            abort(403, 'Unauthorized for this action.');
-        }
-
         $request->validate([
             'name' => 'required',
             'order' => 'required|integer',
             'list_id' => 'required|integer',
         ]);
+
+        $boardList = BoardList::findOrFail($request->list_id);
+
+        if (Auth::id() !== $boardList->board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
 
         $card = new Card;
         $card->name = $request->name;
