@@ -28,7 +28,7 @@
             v-for="card in orderedList" 
             :card="card" 
             :key="card.order + ',' + list.id + ',' + card.id" 
-            :id="card.id" 
+            :id="card.order" 
             @open-modal="openModal" 
             @delete-card="deleteCard"/>
         </draggable>

@@ -49,7 +49,13 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        return response()->json($board->load('boardLists.cards'));
+        $board->load(['boardLists' => function ($query) {
+            $query->with(['cards' => function ($query) {
+                $query->orderBy('order');
+            }]);
+        }]);
+
+        return response()->json($board);
     }
 
     /**

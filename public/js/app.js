@@ -37137,7 +37137,7 @@ var render = function() {
               _vm._l(_vm.orderedList, function(card) {
                 return _c("card", {
                   key: card.order + "," + _vm.list.id + "," + card.id,
-                  attrs: { card: card, id: card.id },
+                  attrs: { card: card, id: card.order },
                   on: {
                     "open-modal": _vm.openModal,
                     "delete-card": _vm.deleteCard
