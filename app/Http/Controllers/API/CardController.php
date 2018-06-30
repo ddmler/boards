@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Card;
+use App\BoardList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
 {
@@ -26,6 +28,12 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
+        $boardList = BoardList::findOrFail($request->list_id);
+
+        if (Auth::id() !== $boardList->board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $request->validate([
             'name' => 'required',
             'order' => 'required|integer',
@@ -62,6 +70,10 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
+        if (Auth::id() !== $card->boardList->board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $request->validate([
             'name' => 'required_without:description',
             'description' => 'required_without:name',
@@ -82,6 +94,10 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
+        if (Auth::id() !== $card->boardList->board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $card->delete();
         return response()->json(null, 204);
     }

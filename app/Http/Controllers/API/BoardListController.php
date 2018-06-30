@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\BoardList;
+use App\Board;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BoardListController extends Controller
 {
@@ -26,6 +28,12 @@ class BoardListController extends Controller
      */
     public function store(Request $request)
     {
+        $board = BoardList::findOrFail($request->board_id);
+
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $request->validate([
             'name' => 'required',
             'board_id' => 'required|integer',
@@ -59,6 +67,10 @@ class BoardListController extends Controller
      */
     public function update(Request $request, BoardList $boardList)
     {
+        if (Auth::id() !== $boardList->board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $request->validate([
             'name' => 'required',
         ]);
@@ -77,6 +89,10 @@ class BoardListController extends Controller
      */
     public function destroy(BoardList $boardList)
     {
+        if (Auth::id() !== $boardList->board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $boardList->delete();
         return response()->json(null, 204);
     }

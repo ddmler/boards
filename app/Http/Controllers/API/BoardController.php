@@ -49,6 +49,10 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $board->load(['boardLists' => function ($query) {
             $query->with(['cards' => function ($query) {
                 $query->orderBy('order');
@@ -67,6 +71,10 @@ class BoardController extends Controller
      */
     public function update(Request $request, Board $board)
     {
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $request->validate([
             'name' => 'required',
         ]);
@@ -80,6 +88,10 @@ class BoardController extends Controller
     public function updateOrder(Request $request)
     {
         $board = Board::findOrFail($request->board["id"]);
+
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
 
         foreach ($request->board["board_lists"] as $boardList) {
             foreach ($boardList["cards"] as $card) {
@@ -101,6 +113,10 @@ class BoardController extends Controller
      */
     public function destroy(Board $board)
     {
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
         $board->delete();
         return response()->json(null, 204);
     }
