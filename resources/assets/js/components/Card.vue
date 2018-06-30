@@ -11,7 +11,7 @@
         @blur="editing = false"/>
       <div v-else>
         <span class="card-navs"><a @click.prevent="editCard"><i class="fas fa-edit"/></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"/></a></span>
-        <div @click="openModal">{{ card.name }}
+        <div @click="openModal">{{ card.name }} ({{ card.order }})
         <span v-if="card.description"><br><i class="fas fa-comment"/></span></div>
       </div>
     </div>

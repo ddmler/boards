@@ -26,6 +26,12 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'order' => 'required|integer',
+            'list_id' => 'required|integer',
+        ]);
+
         $card = new Card;
         $card->name = $request->name;
         $card->order = $request->order;
@@ -56,6 +62,11 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
+        $request->validate([
+            'name' => 'required_without:description',
+            'description' => 'required_without:name',
+        ]);
+
         $card->name = $request->name ?: $card->name;
         $card->description = $request->description ?: $card->description;
         $card->save();

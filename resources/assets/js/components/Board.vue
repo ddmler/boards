@@ -114,7 +114,7 @@ export default {
                 this.board.board_lists.push(response.data);
             }).catch(error => {
                 this.loading = false;
-                this.error = error.response.data.message || error.message;
+                this.error = error.response.data.errors.name[0] || error.message;
             });
             this.name = "";
     },

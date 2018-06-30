@@ -29,6 +29,10 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $board = new Board;
         $board->name = $request->name;
         $board->user()->associate(Auth::id());
@@ -57,6 +61,10 @@ class BoardController extends Controller
      */
     public function update(Request $request, Board $board)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $board->name = $request->name;
         $board->save();
 
@@ -75,11 +83,6 @@ class BoardController extends Controller
                 $cardModel->save();
             }
         }
-
-        // $board->boardLists()->sync(array_column($request->board["board_lists"], 'id'));
-
-        // $board->save();
-
 
         return response()->json("OK");
     }

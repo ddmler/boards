@@ -26,6 +26,11 @@ class BoardListController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'board_id' => 'required|integer',
+        ]);
+
         $boardList = new BoardList;
         $boardList->name = $request->name;
         $boardList->board()->associate($request->board_id);
@@ -54,6 +59,10 @@ class BoardListController extends Controller
      */
     public function update(Request $request, BoardList $boardList)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $boardList->name = $request->name;
         $boardList->save();
 

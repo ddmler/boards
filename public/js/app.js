@@ -16588,7 +16588,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.boards.push(response.data);
             }).catch(function (error) {
                 _this2.loading = false;
-                _this2.error = error.response.data.message || error.message;
+                _this2.error = error.response.data.errors.name[0] || error.message;
             });
         },
 
@@ -16971,7 +16971,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.board.board_lists.push(response.data);
             }).catch(function (error) {
                 _this2.loading = false;
-                _this2.error = error.response.data.message || error.message;
+                _this2.error = error.response.data.errors.name[0] || error.message;
             });
             this.name = "";
         },
@@ -17547,7 +17547,12 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { on: { click: _vm.openModal } }, [
-              _vm._v(_vm._s(_vm.card.name) + "\n      "),
+              _vm._v(
+                _vm._s(_vm.card.name) +
+                  " (" +
+                  _vm._s(_vm.card.order) +
+                  ")\n      "
+              ),
               _vm.card.description
                 ? _c("span", [
                     _c("br"),

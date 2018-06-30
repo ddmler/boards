@@ -73,7 +73,7 @@ export default {
                 this.boards.push(response.data);
             }).catch(error => {
                 this.loading = false;
-                this.error = error.response.data.message || error.message;
+                this.error = error.response.data.errors.name[0] || error.message;
             });
     },
     deleteThis: function(board) {
