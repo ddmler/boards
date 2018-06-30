@@ -63,6 +63,12 @@ App.data = {
     error: false,
     errors: {},
 }
+App.methods = {
+    closeErrors() {
+        this.error = false;
+        this.errors = {};
+    }
+}
 const vueApp = new Vue(App).$mount('#app');
 
 axios.interceptors.request.use(config => {
@@ -72,5 +78,19 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(config => {
     vueApp.loading = false;
+    vueApp.error = false;
     return config;
+}, error => {
+    vueApp.loading = false;
+    vueApp.errors = error.response.data.errors || { "none": [error.response.data.message] };
+    vueApp.error = true;
+    return Promise.reject(error);
 });
+
+/*
+{"message": "No query results for model [App\\Board].",
+
+oder:
+
+{"message":"The given data was invalid.","errors":{"name":["The name field is required."]}}
+*/

@@ -71,7 +71,6 @@ export default {
     data() {
         return {
             board: null,
-            error: null,
             name: "",
             editing: false,
             newName: "",
@@ -85,23 +84,17 @@ export default {
     },
     methods: {
     fetchData() {
-        this.error = this.users = null;
         axios
             .get('/boards/' + this.$route.params.id)
             .then(response => {
                 this.board = response.data;
-            }).catch(error => {
-                this.error = error.response.data.message || error.message;
             });
     },
     createNew() {
-        this.error = null;
         axios
             .post('/boardLists', { board_id: this.board.id, name: this.name })
             .then(response => {
                 this.board.board_lists.push(response.data);
-            }).catch(error => {
-                this.error = error.response.data.errors.name[0] || error.message;
             });
             this.name = "";
     },
@@ -109,13 +102,10 @@ export default {
         this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
     },
     updateBoard() {
-        this.error = null;
         this.editing = false;
         axios
             .put('/boards/' + this.board.id, { name: this.newName })
             .then(() => {
-            }).catch(error => {
-                this.error = error.response.data.message || error.message;
             });
         this.board.name = this.newName;
     },
@@ -134,13 +124,10 @@ export default {
             }
         }
 
-        this.error = null;
         axios
             .patch('/board/updateOrder', { board: this.board })
             .then(() => {
                 //
-            }).catch(error => {
-                this.error = error.response.data.message || error.message;
             });
     }
 }

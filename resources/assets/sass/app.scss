@@ -33,6 +33,10 @@ html {
   background-color: #363636;
 }
 
+.message.is-danger {
+  background-color: #242424;
+}
+
 .card {
   background-color: #232323;
   border-radius: 5px;
@@ -56,6 +60,15 @@ html {
   display: none;
   position: absolute;
   right: 12px;
+}
+
+.error-close {
+  position: absolute;
+  right: 25px;
+}
+
+.error-close i {
+  font-size: 1.75rem;
 }
 
 .board-card {

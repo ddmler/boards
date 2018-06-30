@@ -49,6 +49,24 @@
         </div>
       </nav>
       <div class="main-wrapper">
+        <div 
+          v-if="$root.error" 
+          class="message is-danger">
+          <div class="message-body">
+            <span class="error-close">
+              <a @click.prevent="closeErrors"><i class="fas fa-times"/></a>
+            </span>
+            Oops we have some errors: <ul>
+              <li 
+                v-for="e in $root.errors" 
+                :key="e">
+                <span 
+                  v-for="message in e" 
+                  :key="message">{{ message }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
         <router-view/>
       </div>
     </div>

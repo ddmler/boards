@@ -27,30 +27,23 @@ export default {
     },
     data() {
         return {
-            error: null,
             editing: false,
             newName: "",
         };
     },
     methods: {
     deleteThis() {
-        this.error = null;
         axios
             .delete('/cards/' + this.card.id, { id: this.card.id })
             .then(() => {
                 this.$emit('delete-card', this.card);
-            }).catch(error => {
-                this.error = error.response.data.message || error.message;
             });
     },
     updateCard() {
-        this.error = null;
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { name: this.newName })
             .then(() => {
-            }).catch(error => {
-                this.error = error.response.data.message || error.message;
             });
         this.card.name = this.newName;
     },

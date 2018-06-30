@@ -105,20 +105,16 @@ export default {
     },
     data() {
         return {
-            error: null,
             editing: false,
             newDesc: "",
         };
     },
     methods: {
     updateCard() {
-        this.error = null;
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { description: this.newDesc })
             .then(() => {
-            }).catch(error => {
-                this.error = error.response.data.message || error.message;
             });
         this.card.description = this.newDesc;
     },

@@ -1546,6 +1546,12 @@ __WEBPACK_IMPORTED_MODULE_4__App_vue___default.a.data = {
     error: false,
     errors: {}
 };
+__WEBPACK_IMPORTED_MODULE_4__App_vue___default.a.methods = {
+    closeErrors: function closeErrors() {
+        this.error = false;
+        this.errors = {};
+    }
+};
 var vueApp = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a(__WEBPACK_IMPORTED_MODULE_4__App_vue___default.a).$mount('#app');
 
 __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.request.use(function (config) {
@@ -1555,8 +1561,22 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.request.use(function 
 
 __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(function (config) {
     vueApp.loading = false;
+    vueApp.error = false;
     return config;
+}, function (error) {
+    vueApp.loading = false;
+    vueApp.errors = error.response.data.errors || { "none": [error.response.data.message] };
+    vueApp.error = true;
+    return Promise.reject(error);
 });
+
+/*
+{"message": "No query results for model [App\\Board].",
+
+oder:
+
+{"message":"The given data was invalid.","errors":{"name":["The name field is required."]}}
+*/
 
 /***/ }),
 /* 16 */
@@ -16471,7 +16491,50 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "main-wrapper" }, [_c("router-view")], 1)
+          _c(
+            "div",
+            { staticClass: "main-wrapper" },
+            [
+              _vm.$root.error
+                ? _c("div", { staticClass: "message is-danger" }, [
+                    _c("div", { staticClass: "message-body" }, [
+                      _c("span", { staticClass: "error-close" }, [
+                        _c(
+                          "a",
+                          {
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.closeErrors($event)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fas fa-times" })]
+                        )
+                      ]),
+                      _vm._v("\n          Oops we have some errors: "),
+                      _c(
+                        "ul",
+                        _vm._l(_vm.$root.errors, function(e) {
+                          return _c(
+                            "li",
+                            { key: e },
+                            _vm._l(e, function(message) {
+                              return _c("span", { key: message }, [
+                                _vm._v(_vm._s(message))
+                              ])
+                            })
+                          )
+                        })
+                      )
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("router-view")
+            ],
+            1
+          )
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -16597,7 +16660,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             boards: null,
-            error: null,
             name: ""
         };
     },
@@ -16609,32 +16671,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             var _this = this;
 
-            this.error = this.users = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/boards').then(function (response) {
                 _this.boards = response.data;
-            }).catch(function (error) {
-                _this.error = error.response.data.message || error.message;
             });
         },
         createNew: function createNew() {
             var _this2 = this;
 
-            this.error = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boards', { name: this.name }).then(function (response) {
                 _this2.boards.push(response.data);
-            }).catch(function (error) {
-                _this2.error = error.response.data.errors.name[0] || error.message;
             });
         },
 
         deleteThis: function deleteThis(board) {
             var _this3 = this;
 
-            this.error = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function () {
                 _this3.boards.splice(_this3.boards.indexOf(board), 1);
-            }).catch(function (error) {
-                _this3.error = error.response.data.message || error.message;
             });
         }
     }
@@ -16954,7 +17007,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             board: null,
-            error: null,
             name: "",
             editing: false,
             newName: ""
@@ -16972,21 +17024,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             var _this = this;
 
-            this.error = this.users = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/boards/' + this.$route.params.id).then(function (response) {
                 _this.board = response.data;
-            }).catch(function (error) {
-                _this.error = error.response.data.message || error.message;
             });
         },
         createNew: function createNew() {
             var _this2 = this;
 
-            this.error = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/boardLists', { board_id: this.board.id, name: this.name }).then(function (response) {
                 _this2.board.board_lists.push(response.data);
-            }).catch(function (error) {
-                _this2.error = error.response.data.errors.name[0] || error.message;
             });
             this.name = "";
         },
@@ -16995,27 +17041,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
         },
         updateBoard: function updateBoard() {
-            var _this3 = this;
-
-            this.error = null;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {}).catch(function (error) {
-                _this3.error = error.response.data.message || error.message;
-            });
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {});
             this.board.name = this.newName;
         },
         editBoard: function editBoard() {
-            var _this4 = this;
+            var _this3 = this;
 
             this.editing = true;
             this.newName = this.board.name;
             this.$nextTick(function () {
-                return _this4.$refs.edit.focus();
+                return _this3.$refs.edit.focus();
             });
         },
         updateCardOrder: function updateCardOrder() {
-            var _this5 = this;
-
             var i = 0;
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -17067,11 +17106,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }
 
-            this.error = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch('/board/updateOrder', { board: this.board }).then(function () {
                 //
-            }).catch(function (error) {
-                _this5.error = error.response.data.message || error.message;
             });
         }
     }
@@ -17258,7 +17294,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            error: null,
             name: "",
             editing: false,
             showNew: false,
@@ -17277,14 +17312,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createNew: function createNew() {
             var _this = this;
 
-            this.error = null;
             var order = this.list.cards === undefined ? 0 : this.list.cards.length;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/cards', { list_id: this.list.id, name: this.name, order: order }).then(function (response) {
                 _this.list.cards.push(response.data);
                 _this.name = "";
                 _this.showNew = false;
-            }).catch(function (error) {
-                _this.error = error.response || error.message;
             });
         },
 
@@ -17294,38 +17326,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteThis: function deleteThis() {
             var _this2 = this;
 
-            this.error = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function () {
                 _this2.$emit('delete-list', _this2.list);
-            }).catch(function (error) {
-                _this2.error = error.response.data.message || error.message;
             });
         },
         updateList: function updateList() {
-            var _this3 = this;
-
-            this.error = null;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {}).catch(function (error) {
-                _this3.error = error.response.data.message || error.message;
-            });
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {});
             this.list.name = this.newName;
         },
         clickEdit: function clickEdit() {
-            var _this4 = this;
+            var _this3 = this;
 
             this.editing = true;
             this.newName = this.list.name;
             this.$nextTick(function () {
-                return _this4.$refs.edit.focus();
+                return _this3.$refs.edit.focus();
             });
         },
         clickNew: function clickNew() {
-            var _this5 = this;
+            var _this4 = this;
 
             this.showNew = true;
             this.$nextTick(function () {
-                return _this5.$refs.new.focus();
+                return _this4.$refs.new.focus();
             });
         },
         updateOrder: function updateOrder() {
@@ -17422,7 +17446,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            error: null,
             editing: false,
             newName: ""
         };
@@ -17432,30 +17455,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteThis: function deleteThis() {
             var _this = this;
 
-            this.error = null;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function () {
                 _this.$emit('delete-card', _this.card);
-            }).catch(function (error) {
-                _this.error = error.response.data.message || error.message;
             });
         },
         updateCard: function updateCard() {
-            var _this2 = this;
-
-            this.error = null;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {}).catch(function (error) {
-                _this2.error = error.response.data.message || error.message;
-            });
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {});
             this.card.name = this.newName;
         },
         editCard: function editCard() {
-            var _this3 = this;
+            var _this2 = this;
 
             this.editing = true;
             this.newName = this.card.name;
             this.$nextTick(function () {
-                return _this3.$refs.edit.focus();
+                return _this2.$refs.edit.focus();
             });
         },
         openModal: function openModal() {
@@ -17772,7 +17787,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            error: null,
             editing: false,
             newDesc: ""
         };
@@ -17780,13 +17794,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         updateCard: function updateCard() {
-            var _this = this;
-
-            this.error = null;
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {}).catch(function (error) {
-                _this.error = error.response.data.message || error.message;
-            });
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {});
             this.card.description = this.newDesc;
         },
         closeModal: function closeModal() {
@@ -37830,18 +37839,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       email: null,
-      password: null,
-      error: false
+      password: null
     };
   },
 
@@ -37854,9 +37857,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           password: app.password
         },
         success: function success() {},
-        error: function error() {
-          this.error = true;
-        },
+        error: function error() {},
         rememberMe: true,
         redirect: '/dashboard',
         fetchUser: true
@@ -37874,12 +37875,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.error
-      ? _c("div", { staticClass: "notification is-danger" }, [
-          _c("p", [_vm._v("It looks like those credentials are not working.")])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
     _c(
       "form",
       {

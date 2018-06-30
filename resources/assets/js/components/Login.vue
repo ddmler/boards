@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div 
-      v-if="error" 
-      class="notification is-danger">
-      <p>It looks like those credentials are not working.</p>
-    </div>
     <form 
       autocomplete="off" 
       method="post" 
@@ -44,7 +39,6 @@
       return {
         email: null,
         password: null,
-        error: false
       }
     },
     methods: {
@@ -56,7 +50,7 @@
               password: app.password
             },
             success: function () {},
-            error: function () { this.error = true; },
+            error: function () {},
             rememberMe: true,
             redirect: '/dashboard',
             fetchUser: true,
