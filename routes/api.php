@@ -39,4 +39,5 @@ Route::group([
     ]);
 
     Route::patch('board/updateOrder', 'API\BoardController@updateOrder');
+    Route::patch('board/updateListOrder', 'API\BoardController@updateListOrder');
 });

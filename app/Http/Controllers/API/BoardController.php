@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Board;
 use App\Card;
+use App\BoardList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,7 @@ class BoardController extends Controller
         $board->load(['boardLists' => function ($query) {
             $query->with(['cards' => function ($query) {
                 $query->orderBy('order');
-            }]);
+            }])->orderBy('order');
         }]);
 
         return response()->json($board);
@@ -100,6 +101,23 @@ class BoardController extends Controller
                 $cardModel->order = $card["order"];
                 $cardModel->save();
             }
+        }
+
+        return response()->json("OK");
+    }
+
+    public function updateListOrder(Request $request)
+    {
+        $board = Board::findOrFail($request->board["id"]);
+
+        if (Auth::id() !== $board->user->id) {
+            abort(403, 'Unauthorized for this action.');
+        }
+
+        foreach ($request->board["board_lists"] as $boardList) {
+            $listModel = BoardList::find($boardList["id"]);
+            $listModel->order = $boardList["order"];
+            $listModel->save();
         }
 
         return response()->json("OK");

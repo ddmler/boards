@@ -30,6 +30,7 @@ class BoardListController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'order' => 'required|integer',
             'board_id' => 'required|integer',
         ]);
 
@@ -41,6 +42,7 @@ class BoardListController extends Controller
 
         $boardList = new BoardList;
         $boardList->name = $request->name;
+        $boardList->order = $request->order;
         $boardList->board()->associate($request->board_id);
         $boardList->save();
 

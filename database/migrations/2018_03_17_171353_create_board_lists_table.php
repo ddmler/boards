@@ -17,6 +17,7 @@ class CreateBoardListsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('board_id')->unsigned();
+            $table->integer('order')->unsigned()->default(0);
             $table->timestamps();
 
             $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');

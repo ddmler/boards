@@ -14,28 +14,32 @@
         @click="editBoard">Board: {{ board.name }}</span>
 
 
-      <div class="flex_wrapper">
-        <div 
-          v-for="list in board.board_lists" 
-          :key="list.id" 
-          class="list">
+      <div>
+        <draggable 
+          v-model="board.board_lists" 
+          :options="{group:'lists', ghostClass:'ghost'}" 
+          class="dragArea flex_wrapper" 
+          @end="updateListOrder">
           <list 
+            v-for="list in orderedList" 
             :list="list" 
+            :key="list.order + ',' + board.id + ',' + list.id" 
+            :id="list.order"
             @delete-list="deleteList" 
             @update-card-order="updateCardOrder"/>
-        </div>
-        <div class="list new-list">
-          <form @submit.prevent>
-            <input 
-              v-model="name" 
-              type="text" 
-              class="input" 
-              placeholder="New List name">
-            <button 
-              class="button" 
-              @click="createNew">Create</button>
-          </form>
-        </div>
+          <div class="list new-list">
+            <form @submit.prevent>
+              <input 
+                v-model="name" 
+                type="text" 
+                class="input" 
+                placeholder="New List name">
+              <button 
+                class="button" 
+                @click="createNew">Create</button>
+            </form>
+          </div>
+        </draggable>
       </div>
     </ul>
 
@@ -47,20 +51,28 @@
     flex-wrap: nowrap;
     overflow-x: auto;
 }
+
 .flex_wrapper .list {
     flex: 0 0 auto;
     width: 270px;
     margin: 5px;
 }
+
+.dragArea {
+    min-height: 15px;
+}
 </style>
 <script>
 import axios from 'axios';
 import List from './List.vue';
+import draggable from 'vuedraggable';
+import _ from 'lodash';
 
 export default {
     name: 'Board',
     components: {
-        List
+        List,
+        draggable
     },
     data() {
         return {
@@ -69,6 +81,11 @@ export default {
             editing: false,
             newName: "",
         };
+    },
+    computed: {
+        orderedList: function() {
+            return _.orderBy(this.board.board_lists, 'order');
+        }
     },
     watch: {
         '$route': 'fetchData'
@@ -85,8 +102,9 @@ export default {
             }).catch(() => {});
     },
     createNew() {
+      var order = (this.board.board_lists === undefined ? 0 : this.board.board_lists.length);
         axios
-            .post('/boardLists', { board_id: this.board.id, name: this.name })
+            .post('/boardLists', { board_id: this.board.id, name: this.name, order: order })
             .then(response => {
                 this.board.board_lists.push(response.data);
             }).catch(() => {});
@@ -107,6 +125,19 @@ export default {
         this.editing = true;
         this.newName = this.board.name
         this.$nextTick(() => this.$refs.edit.focus());
+    },
+    updateListOrder() {
+        var i = 0;
+        for (let list of this.board.board_lists) {
+          list.order = i;
+          i++;
+        }
+
+        axios
+            .patch('/board/updateListOrder', { board: this.board })
+            .then(() => {
+                //
+            }).catch(() => {});
     },
     updateCardOrder() {
         var i = 0;

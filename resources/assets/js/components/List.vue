@@ -4,7 +4,7 @@
       v-if="showModal" 
       :card="modalCard" 
       @close-modal="showModal = false"/>
-    <div class="card">
+    <div class="card list">
       <header class="card-header board-list">
         <p class="card-header-title">
           <input 
@@ -71,6 +71,16 @@
 
 .card-footer div {
   margin: auto;
+}
+
+.list-wrapper {
+    flex: 0 0 auto;
+    width: 270px;
+    margin: 5px;
+}
+
+.list-wrapper .card.list {
+    min-width: 270px;
 }
 </style>
 <script>
