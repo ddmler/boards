@@ -12,7 +12,7 @@ import Login from './components/Login.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-axios.defaults.baseURL = 'http://localhost/api';
+axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content + '/api';
 
 const router = new VueRouter({
     routes: [{

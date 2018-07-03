@@ -1,0 +1,32 @@
+language: php
+
+php:
+- 7.1
+- 7.2
+
+before_script:
+- phpenv config-rm xdebug.ini
+- cp .env.example .env
+- rm phpunit.xml
+- cp phpunit.xml.travis phpunit.xml
+- mysql -e 'create database boards_test;' -u root
+- composer install --no-interaction
+- php artisan key:generate
+- npm install
+- npm run production
+
+script:
+- vendor/bin/phpunit
+
+services:
+- mysql
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: LF7+Viu6rjrt84eXNPJOqEwJW3i8omDRFZoAUwrxUDBC+7G3+AFXV+Rn+BXm+XnniWdpy9N0k0LNyuDaSajrBNtETYcgnadzR/u29g1+iZJuQyOScmtQ44OeEPBxXP8ZbOhAWFDGI0yM8cWOGayAfcxvtu9YJFremZ0K6ZXCQC1l5FBHShvG7w5m2G+WXkFBSk2VNaJndnfIH8XrgRBJTgTXFHZT64wXh7UEevoZWW/Y+rwmCDhOEzbrBxVXlvyZoGmhKMSyWOPe2oJ0dtRuH440ZJsVES01YBqaFNJpnPKX14JkSxz1oHBi7KnRzdnFO2GUIxaPG3ZCPlsZ8xIYG7mwuU5pzo2KwsB37k9L76Tw4ZIQbQOQnJ5/M3H7jsdFS0/2rMaGKw8ONm7ckRRsMSRGWcABc/r30ImjQAS+s9Y9IVej6TettOUNFGZ3USR26AIhQMgyTkn1t/mhCsnXroWfccLzlVnn1SYjjmWrEIzNHm0aNsSnzOP+e2JloratrZ6km/fSTJYIDooLBKLl/7VnsOP7Fjk7FmU/pxd0PsMb39M1304FyfTvCEJ//J1RYHOLnR827HKaIXfKWfHZVWL9Ukf1+n4SBIaQ6OMXUC2U1ZftzcMY4wXIZTfNzUhnsKtWSXIUoEgyxP6uD4/HgupbemO2yQi9gEfnuuN+9G8=
+  app: ddmler-boards
+  skip_cleanup: true
+  on:
+    repo: ddmler/boards
+    php: 7.1
