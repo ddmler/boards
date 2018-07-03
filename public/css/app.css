@@ -16268,9 +16268,7 @@ html {
   color: #fff;
 }
 
-.button:hover,
-.navbar.is-primary .navbar-end > a.navbar-item:hover,
-.navbar.is-primary .navbar-brand > a.navbar-item:hover {
+.button:hover {
   background-color: #363636;
 }
 
@@ -16281,63 +16279,5 @@ html {
 .card {
   background-color: #232323;
   border-radius: 5px;
-}
-
-.card-footer {
-  padding-bottom: 7px;
-  padding-top: 7px;
-}
-
-.card-footer div {
-  margin: auto;
-}
-
-.navbar-laravel {
-  background-color: #fff;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.card-navs {
-  display: none;
-  position: absolute;
-  right: 12px;
-}
-
-.error-close {
-  position: absolute;
-  right: 25px;
-}
-
-.error-close i {
-  font-size: 1.75rem;
-}
-
-.board-card {
-  background-color: #363636;
-  margin-bottom: 5px;
-}
-
-.board-card:hover .card-navs {
-  display: block;
-}
-
-.board-card .card-content {
-  padding: 0.75rem;
-}
-
-.list-navs {
-  display: none;
-  position: absolute;
-  right: 12px;
-  top: 12px;
-}
-
-.board-list:hover .list-navs {
-  display: block;
-}
-
-.fa-user {
-  margin-right: 5px;
 }
 

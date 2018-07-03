@@ -52,6 +52,26 @@
 .dragArea {
     min-height: 15px;
 }
+
+.list-navs {
+  display: none;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.board-list:hover .list-navs {
+  display: block;
+}
+
+.card-footer {
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
+
+.card-footer div {
+  margin: auto;
+}
 </style>
 <script>
 import axios from 'axios';

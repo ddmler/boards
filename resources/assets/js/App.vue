@@ -83,3 +83,27 @@
     </div>
   </div>
 </template>
+<style>
+.navbar.is-primary .navbar-end > a.navbar-item:hover,
+.navbar.is-primary .navbar-brand > a.navbar-item:hover {
+  background-color: #363636;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.fa-user {
+  margin-right: 5px;
+}
+
+.error-close {
+  position: absolute;
+  right: 25px;
+}
+
+.error-close i {
+  font-size: 1.75rem;
+}
+</style>

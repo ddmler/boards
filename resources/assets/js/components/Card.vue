@@ -11,12 +11,32 @@
         @blur="editing = false"/>
       <div v-else>
         <span class="card-navs"><a @click.prevent="editCard"><i class="fas fa-edit"/></a> <a @click.prevent="deleteThis"><i class="fas fa-trash"/></a></span>
-        <div @click="openModal">{{ card.name }} ({{ card.order }})
+        <div @click="openModal">{{ card.name }}
         <span v-if="card.description"><br><i class="fas fa-comment"/></span></div>
       </div>
     </div>
   </div>
 </template>
+<style>
+.card-navs {
+  display: none;
+  position: absolute;
+  right: 12px;
+}
+
+.board-card {
+  background-color: #363636;
+  margin-bottom: 5px;
+}
+
+.board-card:hover .card-navs {
+  display: block;
+}
+
+.board-card .card-content {
+  padding: 0.75rem;
+}
+</style>
 <script>
 import axios from 'axios';
 
