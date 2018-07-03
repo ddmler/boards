@@ -14,7 +14,7 @@ class BoardListTest extends DatabaseTestCase
     {
         $user = factory(User::class)->create();
         $board = factory(Board::class)->create(['user_id' => $user->id]);
-        $payload = ['name' => 'My List', 'board_id' => $board->id];
+        $payload = ['name' => 'My List', 'order' => 1, 'board_id' => $board->id];
 
         $this->json('POST', 'api/boardLists', $payload)
             ->assertStatus(401);
@@ -24,7 +24,7 @@ class BoardListTest extends DatabaseTestCase
     {
         $user = factory(User::class)->create();
         $board = factory(Board::class)->create(['user_id' => $user->id]);
-        $payload = ['name' => 'My List', 'board_id' => $board->id];
+        $payload = ['name' => 'My List', 'order' => 1, 'board_id' => $board->id];
 
         $this->actingAs($user)
             ->json('POST', 'api/boardLists', $payload)
