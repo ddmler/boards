@@ -8,16 +8,16 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "stylefix": "./node_modules/.bin/stylelint \"resources/assets/sass/*.scss\" --fix && ./node_modules/.bin/eslint resources/assets/js/ --fix --ext .vue && ./vendor/bin/php-cs-fixer fix"
+    "stylefix": "./node_modules/.bin/stylelint \"resources/assets/sass/*.scss\" --fix && ./node_modules/.bin/eslint resources/assets/js/ --fix --ext .vue,.js && ./vendor/bin/php-cs-fixer fix"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.1.0",
+    "@websanova/vue-auth": "^2.21.6-beta",
     "axios": "^0.18",
     "bulma": "^0.7.1",
     "cross-env": "^5.2.0",
     "eslint": "^4.19.1",
     "eslint-plugin-vue": "^4.5.0",
-    "jquery": "^3.2",
     "laravel-mix": "^2.1.11",
     "lodash": "^4.17.10",
     "popper.js": "^1.14.3",
@@ -26,10 +26,6 @@
     "vue": "^2.5.16",
     "vue-axios": "^2.1.1",
     "vue-router": "^3.0.1",
-    "vuedraggable": "^2.16.0",
-    "vuex": "^3.0.1"
-  },
-  "dependencies": {
-    "@websanova/vue-auth": "^2.21.6-beta"
+    "vuedraggable": "^2.16.0"
   }
 }
