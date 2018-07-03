@@ -11,6 +11,7 @@
         @blur="editing = false">
       <span 
         v-else 
+        class="board-name"
         @click="editBoard">Board: {{ board.name }}</span>
 
 
@@ -18,7 +19,7 @@
         <draggable 
           v-model="board.board_lists" 
           :options="{group:'lists', ghostClass:'ghost'}" 
-          class="dragArea flex_wrapper" 
+          class="dragArea flex-wrapper" 
           @end="updateListOrder">
           <list 
             v-for="list in orderedList" 
@@ -33,7 +34,8 @@
                 v-model="name" 
                 type="text" 
                 class="input" 
-                placeholder="New List name">
+                placeholder="New List name"
+                required>
               <button 
                 class="button" 
                 @click="createNew">Create</button>
@@ -46,13 +48,18 @@
   </div>
 </template>
 <style scoped>
-.flex_wrapper {
+.board-name {
+    font-size: 1.5rem;
+    padding-left: 10px;
+}
+
+.flex-wrapper {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
 }
 
-.flex_wrapper .list {
+.flex-wrapper .list {
     flex: 0 0 auto;
     width: 270px;
     margin: 5px;

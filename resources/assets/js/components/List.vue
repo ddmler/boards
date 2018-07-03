@@ -40,8 +40,8 @@
           v-model="name" 
           type="text" 
           class="input" 
-          placeholder="New Card name" 
-          @keyup.enter="createNew" 
+          placeholder="New Card name"
+          @keyup.enter="createNew"
           @blur="showNew = false">
         <div v-else><a @click.prevent="clickNew">Create new Card</a></div>
       </footer>
