@@ -13,10 +13,10 @@ before_script:
 - composer install --no-interaction
 - php artisan key:generate
 - npm install
-- npm run production
 
 script:
 - vendor/bin/phpunit
+- npm run production
 
 services:
 - mysql
