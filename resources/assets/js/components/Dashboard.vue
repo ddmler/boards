@@ -1,9 +1,7 @@
 <template>
   <div>
     <h1>Your Boards</h1>
-    <div 
-      v-if="boards" 
-      class="flex-wrapper">
+    <div class="flex-wrapper">
       <div 
         v-for="board in boards"
         :key="board.id" 

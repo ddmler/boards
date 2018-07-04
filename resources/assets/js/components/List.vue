@@ -1,9 +1,5 @@
 <template>
   <div class="list-wrapper">
-    <modal 
-      v-if="showModal" 
-      :card="modalCard" 
-      @close-modal="showModal = false"/>
     <div class="card list">
       <header class="card-header board-list">
         <p class="card-header-title">
@@ -28,8 +24,7 @@
             v-for="card in orderedList" 
             :card="card" 
             :key="card.order + ',' + list.id + ',' + card.id" 
-            :id="card.order" 
-            @open-modal="openModal" 
+            :id="card.order"
             @delete-card="deleteCard"/>
         </draggable>
       </div>
@@ -86,7 +81,6 @@
 <script>
 import axios from 'axios';
 import Card from './Card.vue';
-import Modal from './Modal.vue';
 import draggable from 'vuedraggable';
 import _ from 'lodash';
 
@@ -94,7 +88,6 @@ export default {
     name: 'List',
     components: {
         Card,
-        Modal,
         draggable
     },
     props: {
@@ -105,8 +98,6 @@ export default {
             name: "",
             editing: false,
             showNew: false,
-            showModal: false,
-            modalCard: null,
             newName: "",
         };
     },
@@ -155,10 +146,6 @@ export default {
     },
     updateOrder() {
         this.$emit('update-card-order', this);
-    },
-    openModal(card) {
-        this.modalCard = card;
-        this.showModal = true;
     }
 }
 }

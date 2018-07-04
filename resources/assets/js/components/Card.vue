@@ -39,6 +39,7 @@
 </style>
 <script>
 import axios from 'axios';
+import { EventBus } from '../EventBus.js';
 
 export default {
     name: 'Card',
@@ -73,7 +74,7 @@ export default {
         this.$nextTick(() => this.$refs.edit.focus());
     },
     openModal() {
-        this.$emit('open-modal', this.card);
+        EventBus.$emit('open-modal', this.card);
     }
 }
 }

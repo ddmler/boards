@@ -1,5 +1,9 @@
 <template>
   <div class="boards">
+    <modal 
+      v-if="showModal" 
+      :card="modalCard" 
+      @close-modal="showModal = false"/>
     <ul v-if="board">
       <input 
         v-if="editing" 
@@ -72,6 +76,8 @@
 <script>
 import axios from 'axios';
 import List from './List.vue';
+import Modal from './Modal.vue';
+import { EventBus } from '../EventBus.js';
 import draggable from 'vuedraggable';
 import _ from 'lodash';
 
@@ -79,12 +85,15 @@ export default {
     name: 'Board',
     components: {
         List,
+        Modal,
         draggable
     },
     data() {
         return {
             board: null,
             name: "",
+            showModal: false,
+            modalCard: null,
             editing: false,
             newName: "",
         };
@@ -99,6 +108,12 @@ export default {
     },
     created() {
         this.fetchData();
+    },
+    mounted() {
+        EventBus.$on('open-modal', card => {
+            this.modalCard = card;
+            this.showModal = true;
+        });
     },
     methods: {
     fetchData() {

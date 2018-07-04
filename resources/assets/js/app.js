@@ -59,7 +59,6 @@ Vue.use(require('@websanova/vue-auth'), {
 });
 App.router = Vue.router
 App.data = {
-    heading: "",
     loading: false,
     error: false,
     errors: {},
