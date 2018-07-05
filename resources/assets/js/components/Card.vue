@@ -55,7 +55,7 @@ export default {
     methods: {
     deleteThis() {
         axios
-            .delete('/cards/' + this.card.id, { id: this.card.id })
+            .delete('/cards/' + this.card.id)
             .then(() => {
                 this.$emit('delete-card', this.card);
             }).catch(() => {});
@@ -64,9 +64,9 @@ export default {
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { name: this.newName })
-            .then(() => {
+            .then((response) => {
+                this.card.name = response.data.name;
             }).catch(() => {});
-        this.card.name = this.newName;
     },
     editCard() {
         this.editing = true;
@@ -75,6 +75,7 @@ export default {
     },
     openModal() {
         EventBus.$emit('open-modal', this.card);
+        return EventBus;
     }
 }
 }

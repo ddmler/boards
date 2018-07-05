@@ -91,7 +91,7 @@ export default {
     },
     deleteThis: function(board) {
         axios
-            .delete('/boards/' + board.id, { id: board.id })
+            .delete('/boards/' + board.id)
             .then(() => {
                 this.boards.splice(this.boards.indexOf(board), 1);
             }).catch(() => {});

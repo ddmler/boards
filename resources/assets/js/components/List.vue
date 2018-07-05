@@ -131,9 +131,9 @@ export default {
         this.editing = false;
         axios
             .put('/boardLists/' + this.list.id, { name: this.newName })
-            .then(() => {
+            .then((response) => {
+                this.list.name = response.data.name;
             }).catch(() => {});
-        this.list.name = this.newName;
     },
     clickEdit() {
         this.editing = true;

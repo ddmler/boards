@@ -139,9 +139,9 @@ export default {
         this.editing = false;
         axios
             .put('/boards/' + this.board.id, { name: this.newName })
-            .then(() => {
+            .then((response) => {
+                this.board.name = response.data.name;
             }).catch(() => {});
-        this.board.name = this.newName;
     },
     editBoard() {
         this.editing = true;

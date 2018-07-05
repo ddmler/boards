@@ -122,9 +122,9 @@ export default {
         this.editing = false;
         axios
             .put('/cards/' + this.card.id, { description: this.newDesc })
-            .then(() => {
+            .then((response) => {
+              this.card.description = response.data.description;
             }).catch(() => {});
-        this.card.description = this.newDesc;
     },
     closeModal() {
         this.$emit('close-modal');
