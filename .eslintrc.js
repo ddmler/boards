@@ -10,5 +10,8 @@ module.exports = {
   env: {
     amd: true,
     jest: true
+  },
+  parserOptions: {
+    ecmaVersion: 8
   }
 }
