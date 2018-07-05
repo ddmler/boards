@@ -8,6 +8,7 @@ module.exports = {
     // 'vue/no-unused-vars': 'error'
   },
   env: {
-    amd: true
+    amd: true,
+    jest: true
   }
 }
