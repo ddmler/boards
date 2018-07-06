@@ -34370,7 +34370,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteThis: function deleteThis(board) {
             var _this3 = this;
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id, { id: board.id }).then(function () {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boards/' + board.id).then(function () {
                 _this3.boards.splice(_this3.boards.indexOf(board), 1);
             }).catch(function () {});
         }
@@ -34741,17 +34741,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.board.board_lists.splice(this.board.board_lists.indexOf(boardlist), 1);
         },
         updateBoard: function updateBoard() {
+            var _this4 = this;
+
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function () {}).catch(function () {});
-            this.board.name = this.newName;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boards/' + this.board.id, { name: this.newName }).then(function (response) {
+                _this4.board.name = response.data.name;
+            }).catch(function () {});
         },
         editBoard: function editBoard() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.editing = true;
             this.newName = this.board.name;
             this.$nextTick(function () {
-                return _this4.$refs.edit.focus();
+                return _this5.$refs.edit.focus();
             });
         },
         updateListOrder: function updateListOrder() {
@@ -35077,30 +35080,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteThis: function deleteThis() {
             var _this2 = this;
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id, { id: this.list.id }).then(function () {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/boardLists/' + this.list.id).then(function () {
                 _this2.$emit('delete-list', _this2.list);
             }).catch(function () {});
         },
         updateList: function updateList() {
+            var _this3 = this;
+
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function () {}).catch(function () {});
-            this.list.name = this.newName;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/boardLists/' + this.list.id, { name: this.newName }).then(function (response) {
+                _this3.list.name = response.data.name;
+            }).catch(function () {});
         },
         clickEdit: function clickEdit() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.editing = true;
             this.newName = this.list.name;
             this.$nextTick(function () {
-                return _this3.$refs.edit.focus();
+                return _this4.$refs.edit.focus();
             });
         },
         clickNew: function clickNew() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.showNew = true;
             this.$nextTick(function () {
-                return _this4.$refs.new.focus();
+                return _this5.$refs.new.focus();
             });
         },
         updateOrder: function updateOrder() {
@@ -35268,22 +35274,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteThis: function deleteThis() {
             var _this = this;
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id, { id: this.card.id }).then(function () {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cards/' + this.card.id).then(function () {
                 _this.$emit('delete-card', _this.card);
             }).catch(function () {});
         },
         updateCard: function updateCard() {
+            var _this2 = this;
+
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function () {}).catch(function () {});
-            this.card.name = this.newName;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { name: this.newName }).then(function (response) {
+                _this2.card.name = response.data.name;
+            }).catch(function () {});
         },
         editCard: function editCard() {
-            var _this2 = this;
+            var _this3 = this;
 
             this.editing = true;
             this.newName = this.card.name;
             this.$nextTick(function () {
-                return _this2.$refs.edit.focus();
+                return _this3.$refs.edit.focus();
             });
         },
         openModal: function openModal() {
@@ -37362,9 +37371,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         updateCard: function updateCard() {
+            var _this = this;
+
             this.editing = false;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function () {}).catch(function () {});
-            this.card.description = this.newDesc;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cards/' + this.card.id, { description: this.newDesc }).then(function (response) {
+                _this.card.description = response.data.description;
+            }).catch(function () {});
         },
         closeModal: function closeModal() {
             this.$emit('close-modal');
