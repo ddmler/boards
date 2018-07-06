@@ -122,7 +122,7 @@ export default {
     },
     deleteThis() {
         axios
-            .delete('/boardLists/' + this.list.id, { id: this.list.id })
+            .delete('/boardLists/' + this.list.id)
             .then(() => {
                 this.$emit('delete-list', this.list);
             }).catch(() => {});
