@@ -1,6 +1,6 @@
 jest.mock('axios', () => ({
     put: jest.fn(() => Promise.resolve({ 
-        data: {"id":33,"name":"new name","board_list_id":18,"order":0,"description":"Thedescription.","created_at":"2018-07-05 13:51:54","updated_at":"2018-07-05 13:52:14"}
+        data: {"id":33,"name":"new name","board_list_id":18,"order":0,"description":"The description.","created_at":"2018-07-05 13:51:54","updated_at":"2018-07-05 13:52:14"}
     })),
     delete: jest.fn(() => Promise.resolve())
 }));

@@ -75,7 +75,6 @@ export default {
     },
     openModal() {
         EventBus.$emit('open-modal', this.card);
-        return EventBus;
     }
 }
 }
