@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login.vue matches the snapshot 1`] = `
+<div>
+  <form autocomplete="off" method="post">
+    <div class="field">
+      <label for="email" class="label">E-mail</label>
+      <input id="email" type="email" placeholder="user@example.com" required="required" class="input">
+    </div>
+    <div class="field">
+      <label for="password" class="label">Password</label>
+      <input id="password" type="password" required="required" class="input">
+    </div>
+    <button type="submit" class="button">Sign in</button>
+  </form>
+</div>
+`;
