@@ -12,6 +12,7 @@ abstract class DatabaseTestCase extends TestCase
     public function setUp()
     {
         parent::setUp();
-        Artisan::call('db:seed');
+        // Deactivated - right now we create all objects ourselves
+        // Artisan::call('db:seed');
     }
 }
