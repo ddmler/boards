@@ -69,19 +69,6 @@ class CardTest extends DatabaseTestCase
             ->assertJsonMissing(['name' => $this->card->name]);
     }
 
-    public function testUpdateValidation()
-    {
-        $this->actingAs($this->user)
-            ->json('PATCH', 'api/cards/' . $this->card->id)
-            ->assertStatus(422)
-            ->assertJson([
-                "message" => "The given data was invalid.",
-                "errors" => [
-                    "name" => ["The name field is required when description is not present."]
-                ]
-            ]);
-    }
-
     public function testUserCanDeleteCards()
     {
         $card2 = factory(Card::class)->create(['board_list_id' => $this->boardList->id]);
@@ -108,7 +95,7 @@ class CardTest extends DatabaseTestCase
 
         $this->actingAs($user2)
             ->json('PATCH', 'api/cards/' . $this->card->id, $payload)
-            ->assertStatus(403);        
+            ->assertStatus(403);
 
         $this->actingAs($user2)
             ->json('DELETE', 'api/cards/' . $this->card->id)
