@@ -74,11 +74,6 @@ class CardController extends Controller
             abort(403, 'Unauthorized for this action.');
         }
 
-        $request->validate([
-            'name' => 'required_without:description',
-            'description' => 'required_without:name',
-        ]);
-
         $card->name = $request->name ?: $card->name;
         $card->description = $request->description ?: $card->description;
         $card->save();
