@@ -2,8 +2,8 @@
   <div>
     <h1>Laravel Boards</h1>
     <p>
-      This is a demo for <a 
-        href="https://github.com/ddmler/boards/" 
+      This is a demo for <a
+        href="https://github.com/ddmler/boards/"
         target="_blank">ddmler/boards</a>, a small Trello clone built as a Vue.js SPA with a Laravel backend.
     </p>
     <p>
@@ -11,6 +11,7 @@
       email: admin@example.com<br>
       password: admin
     </p>
+    <img src="/img/pusheen.gif" alt="Funny image">
   </div>
 </template>
 <style scoped>
