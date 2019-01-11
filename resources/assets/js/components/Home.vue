@@ -11,6 +11,7 @@
       email: admin@example.com<br>
       password: admin
     </p>
+    <img src="/img/pusheen.gif" alt="Funny image">
   </div>
 </template>
 <style scoped>
